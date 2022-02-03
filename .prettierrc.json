@@ -1,0 +1,21 @@
+{
+    "tabWidth": 4,
+    "semi": true,
+    "endOfLine": "auto",
+    "arrowParens": "avoid",
+    "printWidth": 95,
+    "importOrder": [
+        "^@typings(.*)$",
+        "^@middleware(.*)$",
+        "^@mongo(.*)$",
+        "^@types(.*)$",
+        "^@config(.*)$",
+        "^@components(.*)$",
+        "^@hooks(.*)$",
+        "^@utils(.*)$",
+        "^@routes/(.*)$",
+        "^[./]"
+    ],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
+}

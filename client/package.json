@@ -1,0 +1,19 @@
+{
+    "name": "client",
+    "dependencies": {
+        "@mantine/core": "^3.6.5",
+        "@mantine/hooks": "^3.6.5",
+        "@mantine/next": "^3.6.5",
+        "next": "^12.0.10",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "redaxios": "^0.4.1",
+        "swr": "^1.2.1"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.14",
+        "@types/react": "^17.0.39",
+        "@types/react-dom": "^17.0.11",
+        "typescript": "^4.5.5"
+    }
+}
