@@ -4,6 +4,8 @@ import Head from "next/head";
 import axios from "redaxios";
 import { SWRConfig } from "swr";
 
+import { Layout } from "@components";
+
 axios.defaults.baseURL = "/api";
 
 const fetcher = (url: string) => axios.get(url).then(x => x.data);
@@ -27,7 +29,9 @@ export default function App(props: AppProps) {
 
             <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
                 <SWRConfig value={{ fetcher }}>
-                    <Component {...pageProps} />
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
                 </SWRConfig>
             </MantineProvider>
         </>
