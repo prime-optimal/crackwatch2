@@ -9,9 +9,9 @@ const handler = async () => {
         new Date(date.setMonth(new Date(date).getMonth() + by));
 
     const dates =
-        setMonth(new Date(), -2).toLocaleDateString("lt-LT") +
+        setMonth(new Date(), -6).toLocaleDateString("lt-LT") +
         "," +
-        setMonth(new Date(), 12).toLocaleDateString("lt-LT");
+        setMonth(new Date(), 0).toLocaleDateString("lt-LT");
 
     const { data } = await axios.get(
         urlCat(RAWG_BASE, "/games", {
