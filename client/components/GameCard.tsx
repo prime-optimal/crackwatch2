@@ -10,6 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import { memo, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 import { ResponsiveImage } from "@components";
 
@@ -58,10 +59,14 @@ export const GameCard = memo(
         const [hovering, setHovering] = useState(false);
         const [loading, setLoading] = useState(true);
 
+        const { ref, inView } = useInView({ delay: 300 });
+
         return (
             <Card
+                ref={ref}
                 sx={{
                     transition: "all 0.2s ease-out",
+                    transform: !inView ? "scale(0.8)" : "scale(1)",
                     "&:hover": {
                         transform: "scale(1.05)",
                     },
