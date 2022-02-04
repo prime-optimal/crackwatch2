@@ -1,22 +1,14 @@
-import { Box, BoxProps } from "@mantine/core";
+import { Box, BoxProps } from "@mui/material";
 import Image from "next/image";
 
 interface ResponsiveImageProps {
     src: string;
-    sx?: BoxProps<any>["sx"];
+    props?: BoxProps;
 }
 
-export function ResponsiveImage({ src, sx = {} }: ResponsiveImageProps) {
+export function ResponsiveImage({ src, props = {} }: ResponsiveImageProps) {
     return (
-        <Box
-            sx={{
-                overflow: "hidden",
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                ...sx,
-            }}
-        >
+        <Box overflow="hidden" position="relative" width="100%" height="100%" {...props}>
             <Image src={src} layout="fill" objectFit="cover" />
         </Box>
     );

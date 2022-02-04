@@ -1,5 +1,4 @@
-import { Card, Container, Text } from "@mantine/core";
-import { Grid } from "@mantine/core";
+import { Card, CardMedia, Container, Grid, Typography } from "@mui/material";
 import useSWR from "swr";
 
 import { AxiosGamesPopular } from "@types";
@@ -10,17 +9,17 @@ export default function Popular() {
     const { data } = useSWR<AxiosGamesPopular>("/games/popular");
 
     return (
-        <Container size="xl">
-            <Grid grow>
+        <Container>
+            <Grid container>
                 {data?.results.map(({ id, name, background_image }) => (
-                    <Grid.Col xs={12} md={6} key={id}>
-                        <Card shadow="md" padding="lg">
-                            <Card.Section sx={{ height: 150 }}>
+                    <Grid item xs={12} md={6} key={id}>
+                        <Card>
+                            <CardMedia sx={{ height: 160 }}>
                                 <ResponsiveImage src={background_image} />
-                            </Card.Section>
-                            <Text>{name}</Text>
+                            </CardMedia>
+                            <Typography>{name}</Typography>
                         </Card>
-                    </Grid.Col>
+                    </Grid>
                 ))}
             </Grid>
         </Container>
