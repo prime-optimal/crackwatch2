@@ -8,6 +8,9 @@ import { AxiosGamesPopular } from "@types";
 
 import { GameCard, IconTypography } from "@components";
 
+import BackToTop from "./BackToTop";
+import Filters from "./Filters";
+
 const getKey: SWRInfiniteKeyLoader = (index, previous) => {
     if (previous && !previous.next) return null;
     return `/games?page=${index + 1}`;
@@ -24,13 +27,17 @@ export default function Popular() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
-            <IconTypography
-                sx={{ mb: 2 }}
-                props={{ variant: "h4" }}
-                icon={<SportsEsportsIcon fontSize="large" />}
-            >
-                Games
-            </IconTypography>
+            <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
+                <IconTypography
+                    sx={{ mb: 2 }}
+                    props={{ variant: "h4" }}
+                    icon={<SportsEsportsIcon fontSize="large" />}
+                >
+                    Games
+                </IconTypography>
+
+                <Filters />
+            </Stack>
 
             <Grid container spacing={6}>
                 {data?.map(({ results }) =>
@@ -48,6 +55,7 @@ export default function Popular() {
                 )}
             </Grid>
 
+            <BackToTop />
             <Stack
                 p={3}
                 justifyContent="center"

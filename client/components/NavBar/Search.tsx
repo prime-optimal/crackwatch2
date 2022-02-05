@@ -2,7 +2,7 @@ import { Autocomplete, Box, TextField } from "@mui/material";
 
 export default function Search() {
     return (
-        <Box minWidth={150} flex={1}>
+        <Box minWidth={200} flex={1} maxWidth={600}>
             <Autocomplete
                 options={[]}
                 placeholder="Search"

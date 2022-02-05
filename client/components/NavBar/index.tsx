@@ -8,7 +8,7 @@ const Search = dynamic(() => import("./Search"));
 export function NavBar() {
     return (
         <AppBar position="relative">
-            <Container maxWidth="lg">
+            <Container maxWidth="xl">
                 <Stack p={1} flexDirection="row" alignItems="center">
                     <SidePanel />
 
