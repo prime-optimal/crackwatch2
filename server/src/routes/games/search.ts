@@ -2,7 +2,11 @@ import axios from "axios";
 import { FastifySchema, RouteHandlerMethod, RouteOptions } from "fastify";
 import urlCat from "urlcat";
 
+import { AxiosGames } from "@types";
+
 import { RAWG_BASE } from "@config";
+
+import { minifyImageSrc } from "@utils";
 
 const schema: FastifySchema = {
     querystring: {
@@ -17,7 +21,7 @@ const schema: FastifySchema = {
 const handler: RouteHandlerMethod = async request => {
     const { q } = request.query as { [key: string]: string };
 
-    const { data } = await axios.get(
+    const { data } = await axios.get<AxiosGames>(
         urlCat(RAWG_BASE, "/games", {
             key: process.env.RAWG_KEY,
             platforms: "4",
@@ -25,7 +29,13 @@ const handler: RouteHandlerMethod = async request => {
         })
     );
 
-    return data;
+    // minify images
+    const results = data.results.map(({ background_image, ...rest }) => ({
+        background_image: minifyImageSrc(background_image),
+        ...rest,
+    }));
+
+    return { ...data, results, next: !!data.next, previous: !!data.previous };
 };
 
 export default {

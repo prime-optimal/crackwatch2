@@ -11,7 +11,7 @@
         "paths": {
             "@routes/*": ["./routes/*"],
             "@components": ["./components"],
-            "@utils/*": ["./utils/*"],
+            "@utils": ["./utils"],
             "@hooks/*": ["./hooks/*"],
             "@types": ["./types"],
             "@config": ["./config"]

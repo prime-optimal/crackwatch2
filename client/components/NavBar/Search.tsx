@@ -1,9 +1,11 @@
-import { Autocomplete, Box, TextField } from "@mui/material";
+import { Autocomplete, Box, Stack, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import useSWR from "swr";
 import { useDebounce } from "use-debounce";
 
 import { AxiosGames } from "@types";
+
+import { ResponsiveImage } from "@components";
 
 export default function Search() {
     const [inputValue, setInputValue] = useState("");
@@ -24,6 +26,31 @@ export default function Search() {
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 placeholder="Search"
                 renderInput={props => <TextField {...props} label="Search" />}
+                renderOption={(props, { name, released, background_image }) => (
+                    <Stack
+                        justifyContent="flex-start"
+                        alignItems="flex-start"
+                        component="li"
+                        flexDirection="row"
+                        {...props}
+                    >
+                        <Box height={60} flex="1 1 30px">
+                            <ResponsiveImage
+                                props={{
+                                    borderRadius: theme => `${theme.shape.borderRadius}px`,
+                                    overflow: "hidden",
+                                }}
+                                src={background_image}
+                            />
+                        </Box>
+                        <Box flex={7} ml={1}>
+                            <Typography>{name}</Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {released}
+                            </Typography>
+                        </Box>
+                    </Stack>
+                )}
             />
         </Box>
     );

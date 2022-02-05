@@ -2,9 +2,11 @@ import axios from "axios";
 import { FastifySchema, RouteHandlerMethod, RouteOptions } from "fastify";
 import urlCat from "urlcat";
 
-import { AxiosGamesPopular } from "@types";
+import { AxiosGames } from "@types";
 
 import { RAWG_BASE } from "@config";
+
+import { minifyImageSrc } from "@utils";
 
 const schema: FastifySchema = {
     querystring: {
@@ -36,7 +38,7 @@ const handler: RouteHandlerMethod = async request => {
         "," +
         setMonth(new Date(), Number(to)).toLocaleDateString("lt-LT");
 
-    const { data } = await axios.get<AxiosGamesPopular>(
+    const { data } = await axios.get<AxiosGames>(
         urlCat(RAWG_BASE, "/games", {
             key: process.env.RAWG_KEY,
             platforms: "4",
@@ -48,15 +50,10 @@ const handler: RouteHandlerMethod = async request => {
     );
 
     // minify images
-    const results = data.results.map(({ background_image, ...rest }) => {
-        const split = background_image.split("/media/");
-        const minified = `${split[0]}/media/crop/600/400/${split[1]}`;
-
-        return {
-            background_image: minified,
-            ...rest,
-        };
-    });
+    const results = data.results.map(({ background_image, ...rest }) => ({
+        background_image: minifyImageSrc(background_image),
+        ...rest,
+    }));
 
     return { ...data, results, next: !!data.next, previous: !!data.previous };
 };
