@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
 
-import { AxiosGamesPopular } from "@types";
+import { AxiosGames } from "@types";
 
 import { SWRImmutable } from "@config";
 
@@ -19,7 +19,7 @@ const getKey: SWRInfiniteKeyLoader = (index, previous) => {
 };
 
 export default function Index() {
-    const { data, setSize } = useSWRInfinite<AxiosGamesPopular>(getKey, SWRImmutable);
+    const { data, setSize } = useSWRInfinite<AxiosGames>(getKey, SWRImmutable);
     const { ref, inView } = useInView();
 
     useEffect(() => {

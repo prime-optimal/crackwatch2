@@ -19,6 +19,7 @@ const schema: FastifySchema = {
                 default: "-6,0",
             },
         },
+        required: ["period", "page"],
     },
 };
 

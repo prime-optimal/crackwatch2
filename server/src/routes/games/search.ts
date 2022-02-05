@@ -5,22 +5,23 @@ import urlCat from "urlcat";
 import { RAWG_BASE } from "@config";
 
 const schema: FastifySchema = {
-    params: {
+    querystring: {
         type: "object",
         properties: {
-            id: { type: "string" },
+            q: { type: "string" },
         },
-        required: ["id"],
+        required: ["q"],
     },
 };
 
 const handler: RouteHandlerMethod = async request => {
-    const { id } = request.params as { [key: string]: string };
+    const { q } = request.query as { [key: string]: string };
 
     const { data } = await axios.get(
-        urlCat(RAWG_BASE, "/games/:id", {
+        urlCat(RAWG_BASE, "/games", {
             key: process.env.RAWG_KEY,
-            id,
+            platforms: "4",
+            search: q,
         })
     );
 
@@ -28,7 +29,7 @@ const handler: RouteHandlerMethod = async request => {
 };
 
 export default {
-    url: "/game/:id",
+    url: "/games/search",
     method: "GET",
     handler,
     schema,
