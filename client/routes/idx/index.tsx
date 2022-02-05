@@ -19,7 +19,7 @@ const getKey: SWRInfiniteKeyLoader = (index, previous) => {
 };
 
 export default function Index() {
-    const { data, setSize } = useSWRInfinite<AxiosGames>(getKey, SWRImmutable);
+    const { data, setSize, size } = useSWRInfinite<AxiosGames>(getKey, SWRImmutable);
     const { ref, inView } = useInView();
 
     useEffect(() => {
@@ -59,15 +59,17 @@ export default function Index() {
             </Grid>
 
             <BackToTop />
-            <Stack
-                p={3}
-                justifyContent="center"
-                alignItems="center"
-                mt={1}
-                ref={data ? ref : undefined}
-            >
-                <CircularProgress />
-            </Stack>
+            {data?.[data.length - 1]?.next && (
+                <Stack
+                    p={3}
+                    justifyContent="center"
+                    alignItems="center"
+                    mt={1}
+                    ref={data ? ref : undefined}
+                >
+                    <CircularProgress />
+                </Stack>
+            )}
         </Container>
     );
 }
