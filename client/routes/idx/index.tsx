@@ -19,7 +19,7 @@ const getKey: SWRInfiniteKeyLoader = (index, previous) => {
 };
 
 export default function Index() {
-    const { data, setSize, size } = useSWRInfinite<AxiosGames>(getKey, SWRImmutable);
+    const { data, setSize } = useSWRInfinite<AxiosGames>(getKey, SWRImmutable);
     const { ref, inView } = useInView();
 
     useEffect(() => {
