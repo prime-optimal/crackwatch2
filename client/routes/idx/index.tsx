@@ -1,4 +1,4 @@
-import WhatshotIcon from "@mui/icons-material/Whatshot";
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import { CircularProgress, Container, Grid, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -10,12 +10,11 @@ import { GameCard, IconTypography } from "@components";
 
 const getKey: SWRInfiniteKeyLoader = (index, previous) => {
     if (previous && !previous.next) return null;
-    return `/games/popular?page=${index + 1}`;
+    return `/games?page=${index + 1}`;
 };
 
 export default function Popular() {
     const { data, setSize } = useSWRInfinite<AxiosGamesPopular>(getKey);
-
     const { ref, inView } = useInView();
 
     useEffect(() => {
@@ -24,13 +23,13 @@ export default function Popular() {
     }, [inView, setSize]);
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 3 }}>
+        <Container maxWidth="xl" sx={{ mt: 3 }}>
             <IconTypography
                 sx={{ mb: 2 }}
                 props={{ variant: "h4" }}
-                icon={<WhatshotIcon fontSize="large" />}
+                icon={<SportsEsportsIcon fontSize="large" />}
             >
-                Popular
+                Games
             </IconTypography>
 
             <Grid container spacing={6}>

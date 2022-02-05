@@ -14,6 +14,10 @@ const schema: FastifySchema = {
                 type: "number",
                 default: 1,
             },
+            period: {
+                type: "string",
+                default: "-6,0",
+            },
         },
     },
 };
@@ -22,12 +26,14 @@ const handler = async (request: Request) => {
     const setMonth = (date: Date, by: number) =>
         new Date(date.setMonth(new Date(date).getMonth() + by));
 
-    const dates =
-        setMonth(new Date(), -6).toLocaleDateString("lt-LT") +
-        "," +
-        setMonth(new Date(), 0).toLocaleDateString("lt-LT");
+    const { page, period } = request.query as { [key: string]: string };
 
-    const { page } = request.query as { [key: string]: string };
+    const [from, to] = period.split(",");
+
+    const dates =
+        setMonth(new Date(), Number(from)).toLocaleDateString("lt-LT") +
+        "," +
+        setMonth(new Date(), Number(to)).toLocaleDateString("lt-LT");
 
     const { data } = await axios.get<AxiosGamesPopular>(
         urlCat(RAWG_BASE, "/games", {
@@ -56,7 +62,7 @@ const handler = async (request: Request) => {
 
 export default {
     method: "GET",
-    url: "/games/popular",
+    url: "/games",
     handler,
     schema,
 } as RouteOptions;

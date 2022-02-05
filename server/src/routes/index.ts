@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
-import games from "./games/popular";
+import games from "./games";
 
 export default function (
     fastify: FastifyInstance,
