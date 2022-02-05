@@ -32,7 +32,11 @@ export default function SidePanel() {
             <Drawer open={open} onClose={() => setOpen(false)} anchor="left">
                 <List sx={{ width: 300, mt: 2 }}>
                     {pages.map(({ icon, title, url }) => (
-                        <ListItemButton selected={router.pathname === url} key={url}>
+                        <ListItemButton
+                            onClick={() => router.push(url)}
+                            selected={router.pathname === url}
+                            key={url}
+                        >
                             <ListItemIcon>{icon}</ListItemIcon>
                             <ListItemText primary={title} />
                         </ListItemButton>

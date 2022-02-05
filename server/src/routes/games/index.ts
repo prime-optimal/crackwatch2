@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FastifySchema, FastifyRequest as Request, RouteOptions } from "fastify";
+import { FastifySchema, RouteHandlerMethod, RouteOptions } from "fastify";
 import urlCat from "urlcat";
 
 import { AxiosGamesPopular } from "@types";
@@ -22,7 +22,7 @@ const schema: FastifySchema = {
     },
 };
 
-const handler = async (request: Request) => {
+const handler: RouteHandlerMethod = async request => {
     const setMonth = (date: Date, by: number) =>
         new Date(date.setMonth(new Date(date).getMonth() + by));
 

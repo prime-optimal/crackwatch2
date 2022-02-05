@@ -10,6 +10,7 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import { dequal } from "dequal";
 import NextLink from "next/link";
 import { memo, useState } from "react";
 import { useInView } from "react-intersection-observer";
@@ -22,7 +23,7 @@ interface GameCardProps {
     video?: string;
     genres?: string[];
     metacritic?: number;
-    slug: string;
+    id: number;
 }
 
 const Loading = () => {
@@ -58,11 +59,11 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
 };
 
 export const GameCard = memo(
-    ({ img, name, video, genres = [], metacritic, slug }: GameCardProps) => {
+    ({ img, name, video, genres = [], metacritic, id }: GameCardProps) => {
         const [hovering, setHovering] = useState(false);
         const [loading, setLoading] = useState(true);
 
-        const { ref, inView } = useInView({ delay: 300 });
+        const { ref, inView } = useInView({ delay: 150 });
 
         return (
             <Card
@@ -106,7 +107,7 @@ export const GameCard = memo(
                         alignItems="center"
                         spacing={1}
                     >
-                        <NextLink href={`/game/${slug}`} passHref>
+                        <NextLink href={`/game/${id}`} passHref>
                             <Typography
                                 variant="h5"
                                 component={MuiLink}
@@ -139,5 +140,6 @@ export const GameCard = memo(
                 </CardContent>
             </Card>
         );
-    }
+    },
+    dequal
 );
