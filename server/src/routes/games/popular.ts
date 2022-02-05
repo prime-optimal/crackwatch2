@@ -23,7 +23,7 @@ const handler = async () => {
         })
     );
 
-    return { ...data, next: undefined, previous: undefined };
+    return { ...data, next: !!data.next, previous: !!data.previous };
 };
 
 export default {
