@@ -6,7 +6,9 @@
         "node": "<17 >=16"
     },
     "scripts": {
-        "dev": "cd server && npm run dev"
+        "dev": "cd server && npm run dev",
+        "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
+        "prod": "cd server/dist && node ."
     },
     "devDependencies": {
         "concurrently": "^7.0.0",

@@ -27,6 +27,7 @@ const fastify = Fastify({
 fastify.register(fastifyNext, { dev, dir: "../../client" }).after(() => {
     fastify.next("/");
     fastify.next("/popular");
+    fastify.next("/game/:id");
 });
 
 fastify.register(routes, { prefix: "/api" });

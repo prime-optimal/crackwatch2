@@ -1,5 +1,8 @@
 {
     "name": "client",
+    "scripts": {
+        "build": "next build"
+    },
     "dependencies": {
         "@badrap/bar-of-progress": "^0.1.2",
         "@emotion/cache": "^11.7.1",
