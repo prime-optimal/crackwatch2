@@ -2,7 +2,7 @@ import SportsEsportsIcon from "@mui/icons-material/SportsEsports";
 import { CircularProgress, Container, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
-import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
+import useSWRInfinite from "swr/infinite";
 
 import { AxiosGames } from "@types";
 
@@ -100,6 +100,11 @@ export default function Index() {
             </Grid>
 
             <BackToTop />
+            {!data && (
+                <Stack p={3} justifyContent="center" alignItems="center" mt={1}>
+                    <CircularProgress />
+                </Stack>
+            )}
             {data?.[data.length - 1]?.next && (
                 <Stack
                     p={3}
