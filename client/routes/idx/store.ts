@@ -1,6 +1,6 @@
 import create from "zustand";
 
-import { immer } from "@utils";
+import immer from "@utils/immer";
 
 interface Store {
     state: {

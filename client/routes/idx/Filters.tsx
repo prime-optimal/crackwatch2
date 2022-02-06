@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { clamp } from "@utils";
+import clamp from "@utils/clamp";
 
 import { useStore } from "./store";
 
