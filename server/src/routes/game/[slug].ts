@@ -8,19 +8,19 @@ const schema: FastifySchema = {
     params: {
         type: "object",
         properties: {
-            id: { type: "string" },
+            slug: { type: "string" },
         },
-        required: ["id"],
+        required: ["slug"],
     },
 };
 
 const handler: RouteHandlerMethod = async request => {
-    const { id } = request.params as { [key: string]: string };
+    const { slug } = request.params as { [key: string]: string };
 
     const { data } = await axios.get(
-        urlCat(RAWG_BASE, "/games/:id", {
+        urlCat(RAWG_BASE, "/games/:slug", {
             key: process.env.RAWG_KEY,
-            id,
+            slug,
         })
     );
 
@@ -28,7 +28,7 @@ const handler: RouteHandlerMethod = async request => {
 };
 
 export default {
-    url: "/game/:id",
+    url: "/game/:slug",
     method: "GET",
     handler,
     schema,

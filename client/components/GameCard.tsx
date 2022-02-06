@@ -23,7 +23,7 @@ interface GameCardProps {
     video?: string;
     genres?: string[];
     metacritic?: number;
-    id: number;
+    slug: string;
 }
 
 const Loading = () => {
@@ -59,7 +59,7 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
 };
 
 export const GameCard = memo(
-    ({ img, name, video, genres = [], metacritic, id }: GameCardProps) => {
+    ({ img, name, video, genres = [], metacritic, slug }: GameCardProps) => {
         const [hovering, setHovering] = useState(false);
         const [loading, setLoading] = useState(true);
 
@@ -107,7 +107,7 @@ export const GameCard = memo(
                         alignItems="center"
                         spacing={1}
                     >
-                        <NextLink href={`/game/${id}`} passHref>
+                        <NextLink href={`/game/${slug}`} passHref>
                             <Typography
                                 variant="h5"
                                 component={MuiLink}

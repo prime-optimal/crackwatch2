@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 
-import gameId from "./game/[id]";
+import gameSlug from "./game/[slug]";
 import games from "./games";
 import gamesSearch from "./games/search";
 
@@ -10,7 +10,7 @@ export default function (
     done: () => any
 ) {
     fastify.route(games);
-    fastify.route(gameId);
+    fastify.route(gameSlug);
     fastify.route(gamesSearch);
     done();
 }
