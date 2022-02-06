@@ -10,7 +10,7 @@ import { SWRImmutable } from "@config";
 
 import { GameCard, IconTypography } from "@components";
 
-import { onServer } from "@utils";
+import onServer from "@utils/onServer";
 
 import BackToTop from "./BackToTop";
 import Filters from "./Filters";

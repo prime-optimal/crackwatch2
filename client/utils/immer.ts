@@ -1,12 +1,7 @@
 import produce, { Draft } from "immer";
 import { GetState, SetState, State, StateCreator, StoreApi } from "zustand";
 
-export const clamp = (number: number, min: number, max: number) =>
-    Math.max(min, Math.min(number, max));
-
-export const onServer = () => typeof window === "undefined";
-
-export const immer =
+const immer =
     <
         T extends State,
         CustomSetState extends SetState<T>,
@@ -32,3 +27,5 @@ export const immer =
             get,
             api
         );
+
+export default immer;

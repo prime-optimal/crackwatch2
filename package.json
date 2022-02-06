@@ -8,7 +8,8 @@
     "scripts": {
         "dev": "cd server && npm run dev",
         "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build\"",
-        "prod": "cd server/dist && node ."
+        "prod": "cd server/dist && node .",
+        "lint": "eslint . -c ./.eslintrc.json"
     },
     "devDependencies": {
         "concurrently": "^7.0.0",
