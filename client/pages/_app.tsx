@@ -10,7 +10,7 @@ import Router from "next/router";
 import axios from "redaxios";
 import { SWRConfig } from "swr";
 
-import { NavBar } from "@components";
+import { Footer, NavBar } from "@components";
 
 axios.defaults.baseURL = "/api";
 
@@ -63,6 +63,7 @@ export default function MyApp(props: MyAppProps) {
                     <CssBaseline />
                     <NavBar />
                     <Component {...pageProps} />
+                    <Footer />
                 </SWRConfig>
             </ThemeProvider>
         </CacheProvider>
