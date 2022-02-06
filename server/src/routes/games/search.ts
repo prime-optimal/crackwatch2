@@ -26,6 +26,7 @@ const handler: RouteHandlerMethod = async request => {
             key: process.env.RAWG_KEY,
             platforms: "4",
             search: q,
+            page_size: 10,
         })
     );
 
