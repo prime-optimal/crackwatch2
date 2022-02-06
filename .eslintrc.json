@@ -11,6 +11,7 @@
     "plugins": ["react", "react-hooks", "@typescript-eslint"],
     "ignorePatterns": ["build", "node_modules", "public", "cypress", ".next", "dist"],
     "rules": {
+        "react/prop-types": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "react/display-name": "off",
         "react/react-in-jsx-scope": "off",

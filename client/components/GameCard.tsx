@@ -18,7 +18,7 @@ import { useInView } from "react-intersection-observer";
 import { ResponsiveImage } from "@components";
 
 interface GameCardProps {
-    img: string;
+    img: string | null;
     name: string;
     video?: string;
     genres?: string[];

@@ -1,6 +1,14 @@
-import { Autocomplete, Box, Stack, TextField, Typography } from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    CircularProgress,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
+import Router from "next/router";
 import { useState } from "react";
-import useSWR from "swr";
+import useSWR from "swr/immutable";
 import { useDebounce } from "use-debounce";
 
 import { AxiosGames } from "@types";
@@ -15,17 +23,41 @@ export default function Search() {
         debounced ? `/games/search?q=${encodeURIComponent(debounced)}` : null
     );
 
+    const loading = !!(!data && inputValue);
+
     return (
         <Box minWidth={200} flex={1} maxWidth={600}>
             <Autocomplete
+                loading={loading}
                 inputValue={inputValue}
                 onInputChange={(_, value) => setInputValue(value)}
+                onChange={(event, value, reason) => {
+                    if (reason === "selectOption") {
+                        Router.push(`/game/${value?.slug}`);
+                    }
+                }}
                 filterOptions={x => x}
                 options={data?.results || []}
                 getOptionLabel={option => option.name}
                 isOptionEqualToValue={(option, value) => option.id === value.id}
                 placeholder="Search"
-                renderInput={props => <TextField {...props} label="Search" />}
+                renderInput={props => (
+                    <TextField
+                        {...props}
+                        label="Search"
+                        InputProps={{
+                            ...props.InputProps,
+                            endAdornment: (
+                                <>
+                                    {loading ? (
+                                        <CircularProgress color="inherit" size={20} />
+                                    ) : null}
+                                    {props.InputProps.endAdornment}
+                                </>
+                            ),
+                        }}
+                    />
+                )}
                 renderOption={(props, { name, released, background_image }) => (
                     <Stack
                         justifyContent="flex-start"
