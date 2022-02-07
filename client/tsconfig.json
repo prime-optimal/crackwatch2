@@ -22,7 +22,7 @@
             "@routes/*": ["./routes/*"],
             "@components": ["./components"],
             "@utils/*": ["./utils/*"],
-            "@hooks/*": ["./hooks/*"],
+            "@hooks": ["./hooks"],
             "@types": ["./types"],
             "@config": ["./config"]
         }

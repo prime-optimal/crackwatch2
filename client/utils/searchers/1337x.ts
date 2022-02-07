@@ -3,13 +3,13 @@ import urlCat from "urlcat";
 
 import tryToCatch from "@utils/catch";
 
-const BASE_URL = "https://www.skidrowreloaded.com";
+const BASE_URL = "https://1337x.to";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
-export default async function Skidrow(query: string) {
+export default async function OneThreeThreeSeven(query: string) {
     const url = urlCat(PROXY_URL, {
-        url: urlCat(BASE_URL, {
-            s: query,
+        url: urlCat(BASE_URL, "/category-search/:query/Games/1/", {
+            query,
         }),
     });
 
@@ -21,15 +21,11 @@ export default async function Skidrow(query: string) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(result.data, "text/html");
 
-    const items = doc.querySelector("#main-content")?.querySelectorAll("div.post");
-    if (!items) return null;
+    const container = doc.querySelector(".table-list > tbody:nth-child(2)");
 
     const titles: string[] = [];
-    items.forEach((el, key) => {
-        if (key === 0) return;
-
-        const title = el.querySelector("h2")?.textContent;
-        if (title?.toLocaleLowerCase().includes("unlocked")) return;
+    container?.querySelectorAll("tr").forEach(el => {
+        const title = el.querySelector("td.name")?.textContent;
         title && titles.push(title);
     });
 

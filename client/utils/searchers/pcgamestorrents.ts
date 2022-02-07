@@ -15,8 +15,7 @@ export default async function PcGamesTorrents(query: string) {
 
     const [result, error] = await tryToCatch(() => axios.get<string>(url));
     if (!result) {
-        console.error(error);
-        return null;
+        throw error;
     }
 
     const parser = new DOMParser();
@@ -36,8 +35,10 @@ export default async function PcGamesTorrents(query: string) {
     const fuse = new Fuse(titles, { includeScore: true, threshold: 0.05 });
     const data = fuse.search(query);
 
+    const found = data.length > 0;
+    if (!found) throw "Not found";
+
     return {
-        found: data.length > 0,
         query,
         data,
     };

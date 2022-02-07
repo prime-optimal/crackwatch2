@@ -17,6 +17,8 @@ import { useInView } from "react-intersection-observer";
 
 import { ResponsiveImage } from "@components";
 
+import { useCrack } from "@hooks";
+
 interface GameCardProps {
     img: string | null;
     name: string;
@@ -64,6 +66,7 @@ export const GameCard = memo(
         const [loading, setLoading] = useState(true);
 
         const { ref, inView } = useInView({ delay: 150 });
+        const { status } = useCrack(inView ? name : null);
 
         return (
             <Card
@@ -119,7 +122,7 @@ export const GameCard = memo(
                                     },
                                 }}
                             >
-                                {name}
+                                {name} {status}
                             </Typography>
                         </NextLink>
                         {metacritic && (
