@@ -13,7 +13,7 @@ const fetcher = async (name: string) => {
 };
 
 export function useCrack(name: string | null = null) {
-    const { data: status } = useSWR(name, fetcher);
+    const { data: status } = useSWR(name, fetcher, { shouldRetryOnError: false });
 
     return {
         status,
