@@ -4,6 +4,7 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import { dequal } from "dequal";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
@@ -59,7 +60,7 @@ export default function MyApp(props: MyAppProps) {
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
             <ThemeProvider theme={theme}>
-                <SWRConfig value={{ fetcher }}>
+                <SWRConfig value={{ fetcher, compare: dequal }}>
                     <CssBaseline />
                     <NavBar />
                     <Component {...pageProps} />
