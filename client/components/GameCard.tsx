@@ -1,3 +1,5 @@
+import CancelIcon from "@mui/icons-material/Cancel";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
     Box,
     Card,
@@ -110,21 +112,37 @@ export const GameCard = memo(
                         alignItems="center"
                         spacing={1}
                     >
-                        <NextLink href={`/game/${slug}`} passHref>
-                            <Typography
-                                variant="h5"
-                                component={MuiLink}
-                                underline="none"
-                                sx={{
-                                    "&:hover": {
-                                        cursor: "pointer",
-                                        color: "text.secondary",
-                                    },
-                                }}
-                            >
-                                {name} {status}
-                            </Typography>
-                        </NextLink>
+                        <Stack flexDirection="row" alignItems="center" justifyContent="center">
+                            <NextLink href={`/game/${slug}`} passHref>
+                                <Typography
+                                    variant="h5"
+                                    component={MuiLink}
+                                    underline="none"
+                                    mr={0.5}
+                                    sx={{
+                                        "&:hover": {
+                                            cursor: "pointer",
+                                            color: "text.secondary",
+                                        },
+                                    }}
+                                >
+                                    {name}
+                                </Typography>
+                            </NextLink>
+
+                            {status === undefined ? (
+                                <CircularProgress />
+                            ) : (
+                                <>
+                                    {status.cracked ? (
+                                        <CheckCircleIcon color="success" />
+                                    ) : (
+                                        <CancelIcon color="error" />
+                                    )}
+                                </>
+                            )}
+                        </Stack>
+
                         {metacritic && (
                             <CircularProgressWithLabel
                                 variant="determinate"

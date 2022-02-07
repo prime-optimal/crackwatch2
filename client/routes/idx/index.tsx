@@ -13,7 +13,6 @@ import { GameCard, IconTypography } from "@components";
 import onServer from "@utils/onServer";
 
 import BackToTop from "./BackToTop";
-import Filters from "./Filters";
 import { useStore } from "./store";
 
 const Title = () => {
@@ -54,8 +53,6 @@ const Title = () => {
                     {formatted}
                 </Typography>
             </IconTypography>
-
-            <Filters />
         </Stack>
     );
 };

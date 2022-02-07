@@ -2,6 +2,7 @@ import axios from "redaxios";
 import urlCat from "urlcat";
 
 import tryToCatch from "@utils/catch";
+import Fuzzy from "@utils/fuzzy";
 
 const BASE_URL = "https://1337x.to";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
@@ -29,17 +30,5 @@ export default async function OneThreeThreeSeven(query: string) {
         title && titles.push(title);
     });
 
-    // fuzzy match the names
-    const Fuse = (await import("fuse.js")).default;
-    // play around with settings to have a nice matching algo
-    const fuse = new Fuse(titles, { includeScore: true, threshold: 0.05 });
-    const data = fuse.search(query);
-
-    const found = data.length > 0;
-    if (!found) throw "Not found";
-
-    return {
-        query,
-        data,
-    };
+    return Fuzzy(titles, query);
 }

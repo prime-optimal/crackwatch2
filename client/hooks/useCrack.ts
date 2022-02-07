@@ -9,13 +9,15 @@ const fetcher = async (name: string) => {
     const [result] = await tryToCatch(() =>
         Promise.any([Skidrow(name), PcGamesTorrents(name), OneThreeThreeSeven(name)])
     );
-    return result ? "y" : "n";
+    return !!result;
 };
 
 export function useCrack(name: string | null = null) {
-    const { data: status } = useSWR(name, fetcher, { shouldRetryOnError: false });
+    const { data: cracked } = useSWR(name, fetcher, { shouldRetryOnError: false });
 
     return {
-        status,
+        status: {
+            cracked,
+        },
     };
 }
