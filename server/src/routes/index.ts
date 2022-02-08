@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
+import fastifyHelmet from "fastify-helmet";
 
 import gameSlug from "./game/[slug]";
 import games from "./games";
@@ -9,8 +10,11 @@ export default function (
     opts: FastifyPluginOptions,
     done: () => any
 ) {
+    fastify.register(fastifyHelmet);
+
     fastify.route(games);
     fastify.route(gameSlug);
     fastify.route(gamesSearch);
+
     done();
 }
