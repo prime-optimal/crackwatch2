@@ -16,7 +16,6 @@
     },
     "devDependencies": {
         "@types/node": "^17.0.16",
-        "json-schema-to-ts": "^1.6.5",
         "ts-node-dev": "^1.1.8",
         "tsc-alias": "^1.5.0",
         "tsconfig-paths": "^3.12.0",
