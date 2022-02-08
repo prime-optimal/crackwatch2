@@ -11,10 +11,12 @@
         "fastify-helmet": "^7.0.1",
         "fastify-nextjs": "^7.2.0",
         "next": "^12.0.10",
-        "urlcat": "^2.0.4"
+        "urlcat": "^2.0.4",
+        "@sinclair/typebox": "^0.23.3"
     },
     "devDependencies": {
         "@types/node": "^17.0.16",
+        "json-schema-to-ts": "^1.6.5",
         "ts-node-dev": "^1.1.8",
         "tsc-alias": "^1.5.0",
         "tsconfig-paths": "^3.12.0",

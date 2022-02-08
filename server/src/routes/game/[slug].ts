@@ -14,8 +14,8 @@ const schema: FastifySchema = {
     },
 };
 
-const handler: RouteHandlerMethod = async request => {
-    const { slug } = request.params as { [key: string]: string };
+const handler: RouteHandlerMethod = async req => {
+    const { slug } = req.params as { [key: string]: string };
 
     const { data } = await axios.get(
         urlCat(RAWG_BASE, "/games/:slug", {

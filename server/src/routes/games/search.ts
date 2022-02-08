@@ -18,8 +18,8 @@ const schema: FastifySchema = {
     },
 };
 
-const handler: RouteHandlerMethod = async request => {
-    const { q } = request.query as { [key: string]: string };
+const handler: RouteHandlerMethod = async req => {
+    const { q } = req.query as { [key: string]: string };
 
     const { data } = await axios.get<AxiosGames>(
         urlCat(RAWG_BASE, "/games", {

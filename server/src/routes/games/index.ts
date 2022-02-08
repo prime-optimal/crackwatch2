@@ -25,11 +25,11 @@ const schema: FastifySchema = {
     },
 };
 
-const handler: RouteHandlerMethod = async request => {
+const handler: RouteHandlerMethod = async req => {
     const setMonth = (date: Date, by: number) =>
         new Date(date.setMonth(new Date(date).getMonth() + by));
 
-    const { page, period } = request.query as { [key: string]: string };
+    const { page, period } = req.query as { [key: string]: string };
 
     const [from, to] = period.split(",");
 
