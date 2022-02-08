@@ -3,7 +3,7 @@
         "baseUrl": "./src",
         "target": "es2020",
         "module": "commonjs",
-        "lib": ["es2017", "es7", "es6"],
+        "lib": ["es2017", "es7", "es6", "ESNext"],
         "outDir": "dist",
         "strict": true,
         "esModuleInterop": true,
@@ -14,7 +14,8 @@
             "@utils": ["./utils"],
             "@hooks/*": ["./hooks/*"],
             "@types": ["./types"],
-            "@config": ["./config"]
+            "@config": ["./config"],
+            "@mongo": ["./mongo"]
         }
     },
     "exclude": ["node_modules", "dist"],
