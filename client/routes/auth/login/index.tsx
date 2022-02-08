@@ -48,6 +48,10 @@ export default function Login() {
                             value: emailRegex,
                             message: "That is not an email",
                         },
+                        maxLength: {
+                            value: 100,
+                            message: "That is too long",
+                        },
                     })}
                 />
 
@@ -63,6 +67,10 @@ export default function Login() {
                         minLength: {
                             value: 6,
                             message: "Your password should be at least 6 characters, trust me",
+                        },
+                        maxLength: {
+                            value: 100,
+                            message: "That is too long",
                         },
                     })}
                 />
