@@ -1,5 +1,6 @@
+import { Static, Type } from "@sinclair/typebox";
 import axios from "axios";
-import { FastifySchema, RouteHandlerMethod, RouteOptions } from "fastify";
+import { FastifyRequest as Req, RouteOptions } from "fastify";
 import urlCat from "urlcat";
 
 import { AxiosGames } from "@types";
@@ -8,18 +9,16 @@ import { RAWG_BASE } from "@config";
 
 import { minifyImageSrc } from "@utils";
 
-const schema: FastifySchema = {
-    querystring: {
-        type: "object",
-        properties: {
-            q: { type: "string" },
-        },
-        required: ["q"],
+const querystring = Type.Object(
+    {
+        q: Type.String(),
     },
-};
+    { additionalProperties: false }
+);
+type Querystring = Static<typeof querystring>;
 
-const handler: RouteHandlerMethod = async req => {
-    const { q } = req.query as { [key: string]: string };
+const handler = async (req: Req<{ Querystring: Querystring }>) => {
+    const { q } = req.query;
 
     const { data } = await axios.get<AxiosGames>(
         urlCat(RAWG_BASE, "/games", {
@@ -43,5 +42,5 @@ export default {
     url: "/games/search",
     method: "GET",
     handler,
-    schema,
+    schema: { querystring },
 } as RouteOptions;
