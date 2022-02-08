@@ -8,3 +8,5 @@ export const getMongoClient = async () => {
     await mongoose.connect(DATABASE_URL);
     return mongoose.connection.getClient();
 };
+
+export * from "./models/user";
