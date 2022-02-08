@@ -130,11 +130,11 @@ export const GameCard = memo(
                                 </Typography>
                             </NextLink>
 
-                            {status === undefined ? (
+                            {status.result === undefined ? (
                                 <CircularProgress />
                             ) : (
                                 <>
-                                    {status.cracked ? (
+                                    {status.result ? (
                                         <CheckCircleIcon color="success" />
                                     ) : (
                                         <CancelIcon color="error" />

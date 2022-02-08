@@ -7,8 +7,8 @@ const flags = {
 // play around with settings to have a nice matching algo
 const settings: Fuse.IFuseOptions<string> = {
     includeScore: true,
-    threshold: 0.05,
-    isCaseSensitive: true,
+    threshold: 0.1,
+    isCaseSensitive: false,
 };
 
 export default async function Fuzzy(list: string[], query: string) {
