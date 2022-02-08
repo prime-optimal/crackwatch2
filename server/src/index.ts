@@ -50,6 +50,7 @@ fastify.register(fastifyNext, { dev, dir: "../../client" }).after(() => {
     fastify.next("/");
     fastify.next("/game/:id");
     fastify.next("/auth/login");
+    fastify.next("/auth/register");
 });
 
 fastify.register(routes, { prefix: "/api" });
