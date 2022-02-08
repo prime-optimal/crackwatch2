@@ -6,14 +6,8 @@ import Skidrow from "@utils/searchers/skidrow";
 import SteamCrackedGames from "@utils/searchers/steamcrackedgames";
 
 const fetcher = async (name: string) => {
-    // if it is an uncommon name then query trusted sources
-    if (name.length < 7) {
-        const [result] = await tryToCatch(() => Promise.any([SteamCrackedGames(name)]));
-        return result;
-    }
-
     const [result] = await tryToCatch(() =>
-        Promise.any([Skidrow(name), PcGamesTorrents(name)])
+        Promise.any([Skidrow(name), PcGamesTorrents(name), SteamCrackedGames(name)])
     );
     return result;
 };

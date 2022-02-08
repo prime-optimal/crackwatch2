@@ -83,7 +83,7 @@ export default function Index() {
                 {data?.map(({ results }) =>
                     results.map(
                         ({ id, name, background_image, clip, genres, metacritic, slug }) => (
-                            <Grid item xs={12} md={6} lg={4} key={id}>
+                            <Grid item xs={12} md={6} lg={4} xl={3} key={id}>
                                 <GameCard
                                     genres={genres.map(x => x.name)}
                                     video={clip?.clip}
