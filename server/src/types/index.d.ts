@@ -1,5 +1,3 @@
-import { User } from "@mongo";
-
 declare module "fastify" {
     interface Session {
         user?: {
