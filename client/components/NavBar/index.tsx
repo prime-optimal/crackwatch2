@@ -1,30 +1,33 @@
-import { AppBar, Box, Container, Stack, Typography } from "@mui/material";
+import { AppBar, Container, Link as MuiLink, Stack, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
-
-import { useUser } from "@hooks";
+import NextLink from "next/link";
 
 import SidePanel from "./SidePanel";
+import User from "./User";
 
 const Search = dynamic(() => import("./Search"));
 
 export function NavBar() {
-    const user = useUser();
-
     return (
         <AppBar position="relative">
             <Container maxWidth="xl">
-                <Stack p={1} flexDirection="row" alignItems="center">
-                    <SidePanel />
-
-                    <Typography ml={0.5} variant="button" component="div">
-                        Crackwatch 2
-                    </Typography>
-
-                    <Typography>{JSON.stringify(user)}</Typography>
-
-                    <Box flex={1} />
+                <Stack
+                    p={1}
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                >
+                    <Stack flexDirection="row" justifyContent="center" alignItems="center">
+                        <SidePanel />
+                        <NextLink href="/" passHref>
+                            <MuiLink underline="none" color="inherit">
+                                CW 2
+                            </MuiLink>
+                        </NextLink>
+                    </Stack>
 
                     <Search />
+                    <User />
                 </Stack>
             </Container>
         </AppBar>

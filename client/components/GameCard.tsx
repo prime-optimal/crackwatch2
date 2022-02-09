@@ -1,5 +1,5 @@
-import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import HelpIcon from "@mui/icons-material/Help";
 import {
     Box,
     Card,
@@ -8,6 +8,7 @@ import {
     Chip,
     CircularProgress,
     CircularProgressProps,
+    LinearProgress,
     Link as MuiLink,
     Stack,
     Typography,
@@ -28,15 +29,8 @@ interface GameCardProps {
     genres?: string[];
     metacritic?: number;
     slug: string;
+    preview?: string;
 }
-
-const Loading = () => {
-    return (
-        <Stack width="100%" height="100%" justifyContent="center" alignItems="center">
-            <CircularProgress />
-        </Stack>
-    );
-};
 
 const CircularProgressWithLabel = (props: CircularProgressProps & { value: number }) => {
     return (
@@ -63,9 +57,9 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
 };
 
 export const GameCard = memo(
-    ({ img, name, video, genres = [], metacritic, slug }: GameCardProps) => {
+    ({ img, name, video, genres = [], metacritic, slug, preview }: GameCardProps) => {
         const [hovering, setHovering] = useState(false);
-        const [loading, setLoading] = useState(true);
+        const [vidLoading, setVidLoading] = useState(true);
 
         const { ref, inView } = useInView({ delay: 150 });
         const { status } = useCrack(inView ? name : null);
@@ -74,7 +68,7 @@ export const GameCard = memo(
             <Card
                 ref={ref}
                 sx={{
-                    transition: "all 0.2s ease-out",
+                    transition: ({ transitions }) => `all 0.2s ${transitions.easing.sharp}`,
                     transform: !inView ? "scale(0.8)" : "scale(1)",
                     "&:hover": {
                         transform: "scale(1.05)",
@@ -82,28 +76,42 @@ export const GameCard = memo(
                 }}
             >
                 <CardMedia
-                    sx={{ height: 250 }}
+                    sx={{
+                        height: 250,
+                        position: "relative",
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
                     onMouseEnter={() => setHovering(true)}
                     onClick={() => setHovering(x => !x)}
                     onMouseLeave={() => setHovering(false)}
                 >
+                    {status.result === undefined && (
+                        <LinearProgress
+                            sx={{ position: "absolute", top: 0, width: "100%", zIndex: 1 }}
+                        />
+                    )}
+
                     {hovering && video ? (
-                        <>
-                            {loading && <Loading />}
-                            <video
-                                onLoadedData={() => setLoading(false)}
-                                muted
-                                preload="auto"
-                                src={video}
-                                autoPlay
-                                loop
-                                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                            />
-                        </>
+                        <video
+                            onLoadedData={() => setVidLoading(false)}
+                            muted
+                            poster={preview}
+                            preload="auto"
+                            src={video}
+                            autoPlay
+                            loop
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                            }}
+                        />
                     ) : (
                         <ResponsiveImage src={img} />
                     )}
                 </CardMedia>
+
                 <CardContent>
                     <Stack
                         flexDirection="row"
@@ -130,14 +138,12 @@ export const GameCard = memo(
                                 </Typography>
                             </NextLink>
 
-                            {status.result === undefined ? (
-                                <CircularProgress />
-                            ) : (
+                            {status.result !== undefined && (
                                 <>
                                     {status.result ? (
                                         <CheckCircleIcon color="success" />
                                     ) : (
-                                        <CancelIcon color="error" />
+                                        <HelpIcon color="warning" />
                                     )}
                                 </>
                             )}

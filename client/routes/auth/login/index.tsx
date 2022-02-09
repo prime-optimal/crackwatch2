@@ -4,6 +4,8 @@ import { Box, Container, Paper, Stack, TextField, Typography } from "@mui/materi
 import { useForm } from "react-hook-form";
 import axios from "redaxios";
 
+import { useUserMutation } from "@hooks";
+
 import tryToCatch from "@utils/catch";
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -20,13 +22,16 @@ export default function Login() {
         formState: { errors, isSubmitting },
     } = useForm<LoginArgs>();
 
+    const mutate = useUserMutation();
+
     const onSubmit = async (data: LoginArgs) => {
         const [result, error] = await tryToCatch(() => axios.post("/auth/login", data));
         if (!result) {
             alert(`There was an error ${JSON.stringify(error)}`);
             return;
         }
-        return result;
+        // update the UI
+        mutate(result.data);
     };
 
     return (

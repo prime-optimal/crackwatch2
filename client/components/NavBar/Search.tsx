@@ -26,7 +26,7 @@ export default function Search() {
     const loading = !!(!data && inputValue);
 
     return (
-        <Box minWidth={200} flex={1} maxWidth={600}>
+        <Box minWidth={200} flex={1} maxWidth={800} px={2}>
             <Autocomplete
                 loading={loading}
                 inputValue={inputValue}
@@ -69,7 +69,7 @@ export default function Search() {
                         <Box height={60} flex="1 1 30px">
                             <ResponsiveImage
                                 props={{
-                                    borderRadius: theme => `${theme.shape.borderRadius}px`,
+                                    borderRadius: ({ shape }) => `${shape.borderRadius}px`,
                                     overflow: "hidden",
                                 }}
                                 src={background_image}

@@ -37,12 +37,14 @@ const handler = async (req: Req<{ Body: Body }>) => {
         };
     }
 
-    req.session.user = {
+    const sessionUser = {
         email,
         nickname: user.nickname,
     };
 
-    return "OK";
+    req.session.user = sessionUser;
+
+    return sessionUser;
 };
 
 export default {

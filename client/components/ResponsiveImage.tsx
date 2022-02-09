@@ -2,7 +2,7 @@ import { Box, BoxProps } from "@mui/material";
 import Image from "next/image";
 
 interface ResponsiveImageProps {
-    src: string | null;
+    src: string | null | undefined;
     props?: BoxProps;
 }
 
