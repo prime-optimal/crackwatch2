@@ -9,7 +9,7 @@ export interface User {
 
 const userSchema = new Schema<User>({
     nickname: { type: String, required: true, minlength: 4, maxlength: 20 },
-    password: { type: String, required: true, minlength: 6, maxlength: 100 },
+    password: { type: String, required: true, minlength: 6, maxlength: 200 },
     email: { type: String, required: true, minlength: 4, maxlength: 100 },
     createdAt: { type: Date, required: true, default: () => new Date() },
 });
