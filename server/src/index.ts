@@ -33,6 +33,7 @@ const fastify = Fastify({
 fastify.register(fastifyCookie);
 fastify.register(fastifySession, {
     secret,
+    saveUninitialized: false,
     rolling: true,
     cookieName: "session",
     store: MongoStore.create({

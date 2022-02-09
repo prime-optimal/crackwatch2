@@ -28,13 +28,15 @@ const handler = async (req: Req<{ Body: Body }>) => {
         };
     }
 
-    const salt = await randomBytesPromise(16);
-    const hashed = (await scryptPromise(password, salt, 64)) as any as Buffer;
+    const salt = (await randomBytesPromise(16)).toString("base64");
+    const hashed = ((await scryptPromise(password, salt, 64)) as any as Buffer).toString(
+        "base64"
+    );
 
     await userModel.create({
         email,
         nickname,
-        password: hashed.toString("base64"),
+        password: `${salt}:${hashed}`,
     });
 
     return "OK";

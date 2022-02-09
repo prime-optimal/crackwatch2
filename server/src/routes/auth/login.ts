@@ -1,5 +1,9 @@
 import { Static, Type } from "@sinclair/typebox";
+import { scrypt, timingSafeEqual } from "crypto";
 import { FastifyRequest as Req, RouteOptions } from "fastify";
+import { promisify } from "util";
+
+import { userModel } from "@mongo";
 
 const body = Type.Object(
     {
@@ -10,8 +14,35 @@ const body = Type.Object(
 );
 type Body = Static<typeof body>;
 
+const scryptPromise = promisify(scrypt);
+
 const handler = async (req: Req<{ Body: Body }>) => {
-    return req.body;
+    const { email, password } = req.body;
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+        throw {
+            status: 404,
+            message: "User does not exist",
+        };
+    }
+
+    const [salt, key] = user.password.split(":");
+    const hashed = (await scryptPromise(password, salt, 64)) as Buffer;
+
+    if (!timingSafeEqual(hashed, Buffer.from(key, "base64"))) {
+        throw {
+            status: 400,
+            message: "Email and/or password is incorrect",
+        };
+    }
+
+    req.session.user = {
+        email,
+        nickname: user.nickname,
+    };
+
+    return "OK";
 };
 
 export default {
