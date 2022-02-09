@@ -12,6 +12,7 @@ const fetcher = async (name: string) => {
     return result;
 };
 
+// idea: if more than 1 providers are chosen then return a state, eg 1/3 2/3 3/3 for cool loading
 export function useCrack(name: string | null = null) {
     const { data: result } = useSWR(name, fetcher, { shouldRetryOnError: false });
 
