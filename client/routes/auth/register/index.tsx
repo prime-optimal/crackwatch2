@@ -1,6 +1,15 @@
 import LockIcon from "@mui/icons-material/Lock";
 import { LoadingButton as Button } from "@mui/lab";
-import { Box, Container, Paper, Stack, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Container,
+    Link as MuiLink,
+    Paper,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
+import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import axios from "redaxios";
 
@@ -100,7 +109,15 @@ export default function Login() {
                     })}
                 />
 
-                <Stack alignItems="flex-end" mt={2}>
+                <Stack
+                    alignItems="center"
+                    justifyContent="space-between"
+                    flexDirection="row"
+                    mt={2}
+                >
+                    <NextLink href="/auth/login" passHref>
+                        <MuiLink>Login</MuiLink>
+                    </NextLink>
                     <Box>
                         <Button type="submit" endIcon={<LockIcon />} loading={isSubmitting}>
                             Register

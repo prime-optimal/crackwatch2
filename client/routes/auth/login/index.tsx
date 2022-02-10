@@ -1,6 +1,15 @@
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { LoadingButton as Button } from "@mui/lab";
-import { Box, Container, Paper, Stack, TextField, Typography } from "@mui/material";
+import {
+    Box,
+    Container,
+    Link as MuiLink,
+    Paper,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
+import NextLink from "next/link";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
 import axios from "redaxios";
@@ -82,7 +91,15 @@ export default function Login() {
                     })}
                 />
 
-                <Stack alignItems="flex-end" mt={2}>
+                <Stack
+                    alignItems="center"
+                    justifyContent="space-between"
+                    flexDirection="row"
+                    mt={2}
+                >
+                    <NextLink href="/auth/register" passHref>
+                        <MuiLink underline="hover">Register</MuiLink>
+                    </NextLink>
                     <Box>
                         <Button
                             type="submit"

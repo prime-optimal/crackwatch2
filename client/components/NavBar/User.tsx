@@ -82,7 +82,7 @@ export default function User() {
         <Stack flexDirection="row" justifyContent="center" alignItems="center">
             <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
                 <Avatar alt={user?.nickname}>
-                    <ResponsiveImage src={user?.avatar} />
+                    {user?.avatar && <ResponsiveImage src={user.avatar} />}
                 </Avatar>
             </IconButton>
 
