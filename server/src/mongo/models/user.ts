@@ -5,9 +5,11 @@ export interface User {
     password: string;
     email: string;
     createdAt: Date;
+    avatar: string;
 }
 
 const userSchema = new Schema<User>({
+    avatar: { type: String, required: true },
     nickname: { type: String, required: true, minlength: 4, maxlength: 20 },
     password: { type: String, required: true, minlength: 6, maxlength: 400 },
     email: { type: String, required: true, minlength: 4, maxlength: 100 },

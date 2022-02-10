@@ -3,6 +3,7 @@ declare module "fastify" {
         user?: {
             email: string;
             nickname: string;
+            avatar: string;
         };
     }
 }

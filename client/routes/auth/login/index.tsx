@@ -1,10 +1,11 @@
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import { LoadingButton as Button } from "@mui/lab";
 import { Box, Container, Paper, Stack, TextField, Typography } from "@mui/material";
+import Router from "next/router";
 import { useForm } from "react-hook-form";
 import axios from "redaxios";
 
-import { useUserMutation } from "@hooks";
+import { useUser } from "@hooks";
 
 import tryToCatch from "@utils/catch";
 
@@ -22,7 +23,7 @@ export default function Login() {
         formState: { errors, isSubmitting },
     } = useForm<LoginArgs>();
 
-    const mutate = useUserMutation();
+    const { mutate } = useUser();
 
     const onSubmit = async (data: LoginArgs) => {
         const [result, error] = await tryToCatch(() => axios.post("/auth/login", data));
@@ -30,8 +31,9 @@ export default function Login() {
             alert(`There was an error ${JSON.stringify(error)}`);
             return;
         }
-        // update the UI
+
         mutate(result.data);
+        Router.push("/");
     };
 
     return (

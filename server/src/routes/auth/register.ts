@@ -33,10 +33,15 @@ const handler = async (req: Req<{ Body: Body }>) => {
         "base64"
     );
 
+    const avatar = `https://avatars.dicebear.com/api/initials/${encodeURIComponent(
+        nickname
+    )}.svg`;
+
     await userModel.create({
         email,
         nickname,
         password: `${salt}:${hashed}`,
+        avatar,
     });
 
     return "OK";
