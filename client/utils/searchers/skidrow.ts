@@ -7,6 +7,7 @@ import Fuzzy from "@utils/fuzzy";
 const BASE_URL = "https://www.skidrowreloaded.com";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
+// Tier 2 provider
 export default async function Skidrow(query: string) {
     const url = urlCat(PROXY_URL, {
         url: urlCat(BASE_URL, {
@@ -34,5 +35,5 @@ export default async function Skidrow(query: string) {
         title && titles.push(title);
     });
 
-    return Fuzzy(titles, query);
+    return Fuzzy(titles, query, "Skidrow");
 }

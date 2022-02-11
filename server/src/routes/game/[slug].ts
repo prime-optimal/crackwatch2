@@ -1,21 +1,20 @@
+import { Static, Type } from "@sinclair/typebox";
 import axios from "axios";
-import { FastifySchema, RouteHandlerMethod, RouteOptions } from "fastify";
+import { FastifyRequest as Req, RouteOptions } from "fastify";
 import urlCat from "urlcat";
 
 import { RAWG_BASE } from "@config";
 
-const schema: FastifySchema = {
-    params: {
-        type: "object",
-        properties: {
-            slug: { type: "string" },
-        },
-        required: ["slug"],
+const params = Type.Object(
+    {
+        slug: Type.String(),
     },
-};
+    { additionalProperties: false }
+);
+type Params = Static<typeof params>;
 
-const handler: RouteHandlerMethod = async request => {
-    const { slug } = request.params as { [key: string]: string };
+const handler = async (req: Req<{ Params: Params }>) => {
+    const { slug } = req.params;
 
     const { data } = await axios.get(
         urlCat(RAWG_BASE, "/games/:slug", {
@@ -31,5 +30,5 @@ export default {
     url: "/game/:slug",
     method: "GET",
     handler,
-    schema,
+    schema: { params },
 } as RouteOptions;
