@@ -13,7 +13,9 @@ export function useCrack(name: string | null = null, providers = defaultProvider
 
         const query = async (provider: string) => {
             const search = Providers.find(x => x.provider === provider)?.search;
-            if (!search) return;
+            if (!search) {
+                throw "Incorrect provider passed!";
+            }
 
             if (await search(name)) {
                 setCracked(true);
@@ -21,7 +23,7 @@ export function useCrack(name: string | null = null, providers = defaultProvider
         };
 
         const queries = providers.map(provider => query(provider));
-        Promise.allSettled(queries).then(() => {
+        Promise.all(queries).then(() => {
             setCracked(x => (x ? x : false));
         });
     }, [name, providers]);
