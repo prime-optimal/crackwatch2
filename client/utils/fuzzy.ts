@@ -5,15 +5,15 @@ const flags = {
 };
 
 // play around with settings to have a nice matching algo
-const settings: Fuse.IFuseOptions<string> = {
+const defaultOptions: Fuse.IFuseOptions<string> = {
     includeScore: true,
     threshold: 0.1,
     isCaseSensitive: false,
 };
 
-export default async function Fuzzy(list: string[], query: string) {
+export default async function Fuzzy(list: string[], query: string, options = defaultOptions) {
     const Fuse = (await import("fuse.js")).default;
-    const fuse = new Fuse(list, settings);
+    const fuse = new Fuse(list, { ...defaultOptions, ...options });
 
     // skip items with flags
     fuse.remove(item => flags.skip.some(flag => item.toLowerCase().includes(flag)));

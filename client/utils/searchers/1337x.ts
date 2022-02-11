@@ -7,6 +7,7 @@ import Fuzzy from "@utils/fuzzy";
 const BASE_URL = "https://1337x.to";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
+// Tier 3 provider
 export default async function OneThreeThreeSeven(query: string) {
     const url = urlCat(PROXY_URL, {
         url: urlCat(BASE_URL, "/category-search/:query/Games/1/", {
