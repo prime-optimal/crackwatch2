@@ -8,8 +8,15 @@ export interface PageProps {
     };
 }
 
+export type Provider =
+    | "1337x"
+    | "gamestatus"
+    | "pcgamestorrents"
+    | "skidrow"
+    | "steamcrackedgames";
+
 export interface CrackProvider {
-    provider: string;
+    provider: Provider;
     search: (query: string) => Promise<{
         provider: string;
         query: string;

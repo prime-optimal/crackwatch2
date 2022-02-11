@@ -1,6 +1,6 @@
 import axios from "redaxios";
 
-import { GameStatusSearch } from "@types";
+import { GameStatusSearch, Provider } from "@types";
 
 import tryToCatch from "@utils/catch";
 import Fuzzy from "@utils/fuzzy";
@@ -12,7 +12,7 @@ const headers = {
 };
 
 // Tier 1 provider
-const provider = "gamestatus";
+const provider: Provider = "gamestatus";
 
 const search = async (query: string) => {
     const [result, error] = await tryToCatch(() =>
