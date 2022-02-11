@@ -57,7 +57,6 @@ export default function Index() {
                                     name={name}
                                     metacritic={metacritic ? metacritic : undefined}
                                     slug={slug}
-                                    preview={clip?.preview}
                                 />
                             </Grid>
                         )
@@ -66,11 +65,13 @@ export default function Index() {
             </Grid>
 
             <BackToTop />
+
             {!data && (
                 <Stack p={3} justifyContent="center" alignItems="center" mt={1}>
                     <CircularProgress />
                 </Stack>
             )}
+
             {data?.[data.length - 1]?.next && (
                 <Stack
                     p={3}
