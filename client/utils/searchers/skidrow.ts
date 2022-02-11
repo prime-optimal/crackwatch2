@@ -8,7 +8,9 @@ const BASE_URL = "https://www.skidrowreloaded.com";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
 // Tier 2 provider
-export default async function Skidrow(query: string) {
+const provider = "skidrow";
+
+const search = async (query: string) => {
     const url = urlCat(PROXY_URL, {
         url: urlCat(BASE_URL, {
             s: query,
@@ -36,4 +38,6 @@ export default async function Skidrow(query: string) {
     });
 
     return Fuzzy(titles, query, "Skidrow");
-}
+};
+
+export default { provider, search };

@@ -8,7 +8,9 @@ const BASE_URL = "https://pcgamestorrents.com";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
 // Tier 2 provider
-export default async function PcGamesTorrents(query: string) {
+const provider = "pcgamestorrents";
+
+const search = async (query: string) => {
     const url = urlCat(PROXY_URL, {
         url: urlCat(BASE_URL, {
             s: query,
@@ -32,4 +34,6 @@ export default async function PcGamesTorrents(query: string) {
     });
 
     return Fuzzy(titles, query, "PcGamesTorrents");
-}
+};
+
+export default { provider, search };

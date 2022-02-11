@@ -12,7 +12,9 @@ const headers = {
 };
 
 // Tier 1 provider
-export default async function GameStatus(query: string) {
+const provider = "gamestatus";
+
+const search = async (query: string) => {
     const [result, error] = await tryToCatch(() =>
         axios.post<GameStatusSearch[]>(BASE_URL, { title: query }, { headers })
     );
@@ -24,5 +26,7 @@ export default async function GameStatus(query: string) {
         .filter(({ crack_date }) => !!crack_date)
         .map(({ title }) => title);
 
-    return Fuzzy(titles, query, "GameStatus", { threshold: 0.2 });
-}
+    return Fuzzy(titles, query, provider, { threshold: 0.2 });
+};
+
+export default { provider, search };

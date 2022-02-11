@@ -1,32 +1,30 @@
-import useSWR from "swr/immutable";
+import { useEffect, useState } from "react";
 
-import tryToCatch from "@utils/catch";
-import GameStatus from "@utils/searchers/gamestatus";
-import PcGamesTorrents from "@utils/searchers/pcgamestorrents";
-import Skidrow from "@utils/searchers/skidrow";
-import SteamCrackedGames from "@utils/searchers/steamcrackedgames";
+import Providers from "@utils/searchers";
 
-const fetcher = async (name: string) => {
-    const [result] = await tryToCatch(() =>
-        Promise.any([
-            Skidrow(name),
-            PcGamesTorrents(name),
-            SteamCrackedGames(name),
-            GameStatus(name),
-        ])
-    );
-    console.log({ result });
-
-    return result;
-};
+const settings = ["steamcrackedgames", "gamestatus"];
 
 // idea: if more than 1 providers are chosen then return a state, eg 1/3 2/3 3/3 for cool loading
 export function useCrack(name: string | null = null) {
-    const { data: result } = useSWR(name, fetcher, { shouldRetryOnError: false });
+    const [cracked, setCracked] = useState<boolean | null>(null);
 
-    return {
-        status: {
-            result,
-        },
-    };
+    useEffect(() => {
+        if (!name) return;
+
+        const query = async (provider: string) => {
+            const search = Providers.find(x => x.provider === provider)?.search;
+            if (!search) return;
+
+            if (await search(name)) {
+                setCracked(true);
+            }
+        };
+
+        const queries = settings.map(provider => query(provider));
+        Promise.allSettled(queries).then(() => {
+            setCracked(x => (x ? x : false));
+        });
+    }, [name]);
+
+    return { cracked };
 }
