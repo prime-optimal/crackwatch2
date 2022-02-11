@@ -8,6 +8,7 @@ import user from "./auth/user";
 import gameSlug from "./game/[slug]";
 import games from "./games";
 import gamesSearch from "./games/search";
+import nickname from "./validate/nickname";
 
 export default function (
     fastify: FastifyInstance,
@@ -15,6 +16,8 @@ export default function (
     done: () => any
 ) {
     fastify.register(fastifyHelmet);
+
+    fastify.route(nickname);
 
     fastify.route(login);
     fastify.route(register);

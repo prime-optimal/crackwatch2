@@ -10,6 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import NextLink from "next/link";
+import Router from "next/router";
 import { useForm } from "react-hook-form";
 import axios from "redaxios";
 
@@ -37,7 +38,20 @@ export default function Login() {
             alert(`There was an error ${JSON.stringify(error)}`);
             return;
         }
+
+        Router.push("/auth/login");
         return result;
+    };
+
+    const validateNickname = async (nickname: string) => {
+        const [result] = await tryToCatch(() =>
+            axios.post<boolean>("/validate/nickname", { nickname })
+        );
+        if (!result) {
+            return "There was an error validating nickname";
+        }
+
+        return result.data || "This nickname is already taken, sorry";
     };
 
     return (
@@ -54,6 +68,9 @@ export default function Login() {
                     fullWidth
                     {...register("nickname", {
                         required: "Be creative man",
+                        validate: {
+                            validateNickname,
+                        },
                         pattern: {
                             value: nicknameRegex,
                             message: "This nickname is invalid",
