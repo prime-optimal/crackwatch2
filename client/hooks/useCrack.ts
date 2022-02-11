@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 
 import Providers from "@utils/searchers";
 
-const settings = ["steamcrackedgames", "gamestatus"];
-
 // idea: if more than 1 providers are chosen then return a state, eg 1/3 2/3 3/3 for cool loading
-export function useCrack(name: string | null = null) {
+export function useCrack(
+    name: string | null = null,
+    settings = ["gamestatus", "steamcrackedgames", "pcgamestorrents"]
+) {
     const [cracked, setCracked] = useState<boolean | null>(null);
 
     useEffect(() => {
@@ -24,7 +25,7 @@ export function useCrack(name: string | null = null) {
         Promise.allSettled(queries).then(() => {
             setCracked(x => (x ? x : false));
         });
-    }, [name]);
+    }, [name, settings]);
 
     return { cracked };
 }
