@@ -1,9 +1,20 @@
+import type Fuse from "fuse.js";
+
 export interface PageProps {
     fallback: any;
     error?: {
         status: string;
         data: string;
     };
+}
+
+export interface CrackProvider {
+    provider: string;
+    search: (query: string) => Promise<{
+        provider: string;
+        query: string;
+        data: Fuse.FuseResult<string>[];
+    } | null>;
 }
 
 export interface User {
