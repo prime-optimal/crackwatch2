@@ -23,9 +23,11 @@ export function useCrack(name: string | null = null, providers = defaultProvider
         };
 
         const queries = providers.map(provider => query(provider));
-        Promise.all(queries).then(() => {
-            setCracked(x => (x ? x : false));
-        });
+        Promise.all(queries)
+            .then(() => {
+                setCracked(x => (x ? x : false));
+            })
+            .catch(error => alert(JSON.stringify(error)));
     }, [name, providers]);
 
     return { cracked };
