@@ -35,5 +35,5 @@ export default async function SteamCrackedGames(query: string) {
         title && cracked && titles.push(title);
     });
 
-    return Fuzzy(titles, query);
+    return Fuzzy(titles, query, "SteamCrackedGames");
 }

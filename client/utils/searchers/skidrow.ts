@@ -35,5 +35,5 @@ export default async function Skidrow(query: string) {
         title && titles.push(title);
     });
 
-    return Fuzzy(titles, query);
+    return Fuzzy(titles, query, "Skidrow");
 }

@@ -31,5 +31,5 @@ export default async function OneThreeThreeSeven(query: string) {
         title && titles.push(title);
     });
 
-    return Fuzzy(titles, query);
+    return Fuzzy(titles, query, "1337x");
 }

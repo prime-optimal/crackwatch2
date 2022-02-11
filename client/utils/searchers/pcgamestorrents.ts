@@ -31,5 +31,5 @@ export default async function PcGamesTorrents(query: string) {
         title?.textContent && titles.push(title.textContent);
     });
 
-    return Fuzzy(titles, query);
+    return Fuzzy(titles, query, "PcGamesTorrents");
 }

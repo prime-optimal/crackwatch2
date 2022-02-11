@@ -11,7 +11,12 @@ const defaultOptions: Fuse.IFuseOptions<string> = {
     isCaseSensitive: false,
 };
 
-export default async function Fuzzy(list: string[], query: string, options = defaultOptions) {
+export default async function Fuzzy(
+    list: string[],
+    query: string,
+    provider: string,
+    options = defaultOptions
+) {
     const Fuse = (await import("fuse.js")).default;
     const fuse = new Fuse(list, { ...defaultOptions, ...options });
 
@@ -23,6 +28,7 @@ export default async function Fuzzy(list: string[], query: string, options = def
     if (!found) throw "Not found";
 
     return {
+        provider,
         query,
         data,
     };
