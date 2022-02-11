@@ -25,7 +25,7 @@ export default async function Fuzzy(
     const data = fuse.search(query);
 
     const found = data.length > 0;
-    if (!found) throw "Not found";
+    if (!found) return null;
 
     return {
         provider,
