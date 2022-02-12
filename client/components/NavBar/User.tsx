@@ -53,6 +53,7 @@ const UserMenu = (props: MenuProps) => {
                 </ListItemIcon>
                 Settings
             </MenuItem>
+
             {user?.nickname ? (
                 <MenuItem onClick={onLogout}>
                     <ListItemIcon>
