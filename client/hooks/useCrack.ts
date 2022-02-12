@@ -21,8 +21,9 @@ const fetcher = async ({ name, providers }: FetcherProps) => {
             throw "Incorrect provider passed!";
         }
 
-        if (await search(name)) {
-            return true;
+        const result = await search(name);
+        if (result) {
+            return result;
         }
         throw "Not found";
     };
