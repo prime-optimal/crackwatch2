@@ -35,7 +35,7 @@ const search = async (query: string) => {
         title && titles.push(title);
     });
 
-    return Fuzzy(titles, query, provider);
+    return Fuzzy(titles, query);
 };
 
 export default { provider, search };

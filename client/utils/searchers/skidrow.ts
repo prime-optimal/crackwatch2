@@ -28,10 +28,9 @@ const search = async (query: string) => {
     const doc = parser.parseFromString(result.data, "text/html");
 
     const items = doc.querySelector("#main-content")?.querySelectorAll("div.post");
-    if (!items) return null;
 
     const titles: string[] = [];
-    items.forEach((el, key) => {
+    items?.forEach((el, key) => {
         if (key === 0) return;
 
         const title = el.querySelector("h2")?.textContent;
@@ -39,7 +38,7 @@ const search = async (query: string) => {
         title && titles.push(title);
     });
 
-    return Fuzzy(titles, query, "Skidrow");
+    return Fuzzy(titles, query);
 };
 
 export default { provider, search };

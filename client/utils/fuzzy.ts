@@ -1,4 +1,4 @@
-import type Fuse from "fuse.js";
+import Fuse from "fuse.js";
 
 const flags = {
     skip: ["uncracked", "unlocked"],
@@ -11,25 +11,12 @@ const defaultOptions: Fuse.IFuseOptions<string> = {
     isCaseSensitive: false,
 };
 
-export default async function Fuzzy(
-    list: string[],
-    query: string,
-    provider: string,
-    options = defaultOptions
-) {
-    const Fuse = (await import("fuse.js")).default;
+export default async function Fuzzy(list: string[], query: string, options = defaultOptions) {
     const fuse = new Fuse(list, { ...defaultOptions, ...options });
 
     // skip items with flags
     fuse.remove(item => flags.skip.some(flag => item.toLowerCase().includes(flag)));
     const data = fuse.search(query);
 
-    const found = data.length > 0;
-    if (!found) return null;
-
-    return {
-        provider,
-        query,
-        data,
-    };
+    return data;
 }

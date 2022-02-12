@@ -17,11 +17,7 @@ export type Provider =
 
 export interface CrackProvider {
     provider: Provider;
-    search: (query: string) => Promise<{
-        provider: string;
-        query: string;
-        data: Fuse.FuseResult<string>[];
-    } | null>;
+    search: (query: string) => Promise<Fuse.FuseResult<string>[]>;
 }
 
 export interface User {

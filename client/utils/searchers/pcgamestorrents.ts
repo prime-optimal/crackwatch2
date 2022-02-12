@@ -35,7 +35,7 @@ const search = async (query: string) => {
         title?.textContent && titles.push(title.textContent);
     });
 
-    return Fuzzy(titles, query, "PcGamesTorrents");
+    return Fuzzy(titles, query);
 };
 
 export default { provider, search };

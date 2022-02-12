@@ -5,7 +5,7 @@ import { Provider } from "@types";
 import tryToCatch from "@utils/catch";
 import Providers from "@utils/searchers";
 
-const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames", "pcgamestorrents"];
+const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
 
 interface FetcherProps {
     name: string;
@@ -15,27 +15,27 @@ interface FetcherProps {
 const fetcher = async ({ name, providers }: FetcherProps) => {
     if (!name) return;
 
-    const query = async (provider: string) => {
+    const query = (provider: string) => {
         const search = Providers.find(x => x.provider === provider)?.search;
         if (!search) {
             throw "Incorrect provider passed!";
         }
 
-        const result = await search(name);
-        if (result) {
-            return result;
-        }
-        throw "Not found";
+        return search(name);
     };
 
     const queries = providers.map(provider => query(provider));
 
-    const [result] = await tryToCatch(() => Promise.any(queries));
-    return !!result;
+    const [result] = await tryToCatch(() => Promise.all(queries));
+    return result;
 };
 
 // pass a name and providers and this hook will return whether the game has been cracked
 export function useCrack(name: string | null = null, providers = defaultProviders) {
-    const { data: cracked = null } = useSWR(name && { name, providers }, fetcher);
-    return { cracked };
+    const { data = null } = useSWR(name && { name, providers }, fetcher);
+
+    return {
+        data,
+        cracked: data && data.some(results => results.length > 0),
+    };
 }

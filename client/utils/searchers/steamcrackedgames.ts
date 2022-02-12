@@ -39,7 +39,7 @@ const search = async (query: string) => {
         title && cracked && titles.push(title);
     });
 
-    return Fuzzy(titles, query, "SteamCrackedGames");
+    return Fuzzy(titles, query);
 };
 
 export default { provider, search };
