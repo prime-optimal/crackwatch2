@@ -1,5 +1,6 @@
 import { Card } from "@mui/material";
 import { dequal } from "dequal";
+import { motion } from "framer-motion";
 import { memo } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -27,13 +28,12 @@ export const GameCard = memo(
         return (
             <Card
                 ref={ref}
-                sx={{
-                    transition: ({ transitions }) => `all 0.2s ${transitions.easing.sharp}`,
-                    transform: !inView ? "scale(0.8)" : "scale(1)",
-                    "&:hover": {
-                        transform: "scale(1.05)",
-                    },
+                component={motion.div}
+                whileHover={{ scale: 1.05 }}
+                animate={{
+                    scale: inView ? 1 : 0.9,
                 }}
+                transition={{ duration: 0.3 }}
             >
                 <Media img={img} loading={loading} video={video} />
                 <Content
