@@ -1,6 +1,8 @@
 import axios from "redaxios";
 import urlCat from "urlcat";
 
+import { Provider } from "@types";
+
 import tryToCatch from "@utils/catch";
 import Fuzzy from "@utils/fuzzy";
 
@@ -8,7 +10,9 @@ const BASE_URL = "https://pcgamestorrents.com";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
 // Tier 2 provider
-export default async function PcGamesTorrents(query: string) {
+const provider: Provider = "pcgamestorrents";
+
+const search = async (query: string) => {
     const url = urlCat(PROXY_URL, {
         url: urlCat(BASE_URL, {
             s: query,
@@ -31,5 +35,7 @@ export default async function PcGamesTorrents(query: string) {
         title?.textContent && titles.push(title.textContent);
     });
 
-    return Fuzzy(titles, query, "PcGamesTorrents");
-}
+    return Fuzzy(titles, query);
+};
+
+export default { provider, search };

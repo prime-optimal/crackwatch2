@@ -1,6 +1,8 @@
 import axios from "redaxios";
 import urlCat from "urlcat";
 
+import { Provider } from "@types";
+
 import tryToCatch from "@utils/catch";
 import Fuzzy from "@utils/fuzzy";
 
@@ -8,7 +10,9 @@ const BASE_URL = "https://1337x.to";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
 // Tier 3 provider
-export default async function OneThreeThreeSeven(query: string) {
+const provider: Provider = "1337x";
+
+const search = async (query: string) => {
     const url = urlCat(PROXY_URL, {
         url: urlCat(BASE_URL, "/category-search/:query/Games/1/", {
             query,
@@ -31,5 +35,7 @@ export default async function OneThreeThreeSeven(query: string) {
         title && titles.push(title);
     });
 
-    return Fuzzy(titles, query, "1337x");
-}
+    return Fuzzy(titles, query);
+};
+
+export default { provider, search };

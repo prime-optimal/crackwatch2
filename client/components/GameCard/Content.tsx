@@ -40,7 +40,7 @@ interface ContentProps {
     slug: string;
     name: string;
     metacritic?: number;
-    cracked?: boolean;
+    cracked: boolean | null;
     genres?: string[];
     loading: boolean;
 }

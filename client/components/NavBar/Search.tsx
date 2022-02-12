@@ -7,13 +7,42 @@ import {
     Typography,
 } from "@mui/material";
 import Router from "next/router";
-import { useState } from "react";
+import { HTMLAttributes, useState } from "react";
 import useSWR from "swr/immutable";
 import { useDebounce } from "use-debounce";
 
-import { AxiosGames } from "@types";
+import { AxiosGames, Result } from "@types";
 
 import { ResponsiveImage } from "@components";
+
+const renderOption = (
+    props: HTMLAttributes<HTMLLIElement>,
+    { name, released, background_image }: Result
+) => (
+    <Stack
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        component="li"
+        flexDirection="row"
+        {...props}
+    >
+        <Box height={60} flex="1 1 30px">
+            <ResponsiveImage
+                props={{
+                    borderRadius: ({ shape }) => `${shape.borderRadius}px`,
+                    overflow: "hidden",
+                }}
+                src={background_image}
+            />
+        </Box>
+        <Box flex={7} ml={1}>
+            <Typography>{name}</Typography>
+            <Typography variant="body2" color="text.secondary">
+                {released}
+            </Typography>
+        </Box>
+    </Stack>
+);
 
 export default function Search() {
     const [inputValue, setInputValue] = useState("");
@@ -58,31 +87,7 @@ export default function Search() {
                         }}
                     />
                 )}
-                renderOption={(props, { name, released, background_image }) => (
-                    <Stack
-                        justifyContent="flex-start"
-                        alignItems="flex-start"
-                        component="li"
-                        flexDirection="row"
-                        {...props}
-                    >
-                        <Box height={60} flex="1 1 30px">
-                            <ResponsiveImage
-                                props={{
-                                    borderRadius: ({ shape }) => `${shape.borderRadius}px`,
-                                    overflow: "hidden",
-                                }}
-                                src={background_image}
-                            />
-                        </Box>
-                        <Box flex={7} ml={1}>
-                            <Typography>{name}</Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {released}
-                            </Typography>
-                        </Box>
-                    </Stack>
-                )}
+                renderOption={renderOption}
             />
         </Box>
     );

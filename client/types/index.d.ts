@@ -1,9 +1,23 @@
+import type Fuse from "fuse.js";
+
 export interface PageProps {
     fallback: any;
     error?: {
         status: string;
         data: string;
     };
+}
+
+export type Provider =
+    | "1337x"
+    | "gamestatus"
+    | "pcgamestorrents"
+    | "skidrow"
+    | "steamcrackedgames";
+
+export interface CrackProvider {
+    provider: Provider;
+    search: (query: string) => Promise<Fuse.FuseResult<string>[]>;
 }
 
 export interface User {

@@ -1,32 +1,42 @@
 import useSWR from "swr/immutable";
 
+import { Provider } from "@types";
+
 import tryToCatch from "@utils/catch";
-import GameStatus from "@utils/searchers/gamestatus";
-import PcGamesTorrents from "@utils/searchers/pcgamestorrents";
-import Skidrow from "@utils/searchers/skidrow";
-import SteamCrackedGames from "@utils/searchers/steamcrackedgames";
+import Providers from "@utils/searchers";
 
-const fetcher = async (name: string) => {
-    const [result] = await tryToCatch(() =>
-        Promise.any([
-            Skidrow(name),
-            PcGamesTorrents(name),
-            SteamCrackedGames(name),
-            GameStatus(name),
-        ])
-    );
-    console.log({ result });
+// My recommended tier 1 default providers
+const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
 
+interface FetcherProps {
+    name: string;
+    providers: Provider[];
+}
+
+const fetcher = async ({ name, providers }: FetcherProps) => {
+    if (!name) return;
+
+    const query = (provider: string) => {
+        const search = Providers.find(x => x.provider === provider)?.search;
+        if (!search) {
+            throw "Incorrect provider passed!";
+        }
+
+        return search(name);
+    };
+
+    const queries = providers.map(provider => query(provider));
+
+    const [result] = await tryToCatch(() => Promise.all(queries));
     return result;
 };
 
-// idea: if more than 1 providers are chosen then return a state, eg 1/3 2/3 3/3 for cool loading
-export function useCrack(name: string | null = null) {
-    const { data: result } = useSWR(name, fetcher, { shouldRetryOnError: false });
+// pass a name and providers and this hook will return whether the game has been cracked
+export function useCrack(name: string | null = null, providers = defaultProviders) {
+    const { data = null } = useSWR(name && { name, providers }, fetcher);
 
     return {
-        status: {
-            result,
-        },
+        data,
+        cracked: data && data.some(results => results.length > 0),
     };
 }

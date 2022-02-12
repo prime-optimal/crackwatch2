@@ -1,6 +1,8 @@
 import axios from "redaxios";
 import urlCat from "urlcat";
 
+import { Provider } from "@types";
+
 import tryToCatch from "@utils/catch";
 import Fuzzy from "@utils/fuzzy";
 
@@ -8,7 +10,9 @@ const BASE_URL = "https://steamcrackedgames.com";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
 // Tier 1 provider
-export default async function SteamCrackedGames(query: string) {
+const provider: Provider = "steamcrackedgames";
+
+const search = async (query: string) => {
     const url = urlCat(PROXY_URL, {
         url: urlCat(BASE_URL, "/search", {
             q: query,
@@ -35,5 +39,7 @@ export default async function SteamCrackedGames(query: string) {
         title && cracked && titles.push(title);
     });
 
-    return Fuzzy(titles, query, "SteamCrackedGames");
-}
+    return Fuzzy(titles, query);
+};
+
+export default { provider, search };

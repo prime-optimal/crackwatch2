@@ -20,9 +20,9 @@ interface GameCardProps {
 export const GameCard = memo(
     ({ img, name, video, genres, metacritic, slug }: GameCardProps) => {
         const { ref, inView } = useInView({ delay: 150 });
-        const { status } = useCrack(inView ? name : null);
+        const { cracked } = useCrack(inView ? name : null);
 
-        const loading = status.result === undefined;
+        const loading = cracked === null;
 
         return (
             <Card
@@ -39,7 +39,7 @@ export const GameCard = memo(
                 <Content
                     loading={loading}
                     name={name}
-                    cracked={!!status.result}
+                    cracked={cracked}
                     slug={slug}
                     genres={genres}
                     metacritic={metacritic}
