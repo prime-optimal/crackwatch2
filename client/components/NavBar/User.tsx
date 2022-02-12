@@ -36,7 +36,7 @@ const UserMenu = (props: MenuProps) => {
     };
 
     const onLogin = () => Router.push("/auth/login");
-    const onSettings = () => Router.push("/settings");
+    const onSettings = () => Router.push("/account/settings");
 
     return (
         <Menu
