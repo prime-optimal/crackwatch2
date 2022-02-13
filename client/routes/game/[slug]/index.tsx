@@ -18,7 +18,11 @@ export default function Game() {
             <ResponsiveImage
                 src={data?.background_image}
                 props={{
-                    sx: { opacity: 0.1, filter: "blur(10px)" },
+                    sx: {
+                        filter: "blur(10px)",
+                        maskImage:
+                            "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 95%)",
+                    },
                     zIndex: -1,
                     position: "fixed",
                     top: 0,

@@ -14,12 +14,14 @@ const stringMargin = 450;
 
 export default function Description() {
     const { slug = null } = useRouter().query;
-    const { data } = useSWR<AxiosGame>(slug && `/game/${slug}`);
+    const pageHref = `/game/${slug}`;
 
-    const steam = useMemo(() => {
+    const { data } = useSWR<AxiosGame>(slug && pageHref);
+
+    const steamUrl = useMemo(() => {
         const url = data?.stores.find(({ store }) => store.slug === "steam")?.url;
-        return url || `/game/${slug}`;
-    }, [data, slug]);
+        return url || pageHref;
+    }, [data?.stores, pageHref]);
 
     const formatText = () => {
         const len = data?.description_raw.length;
@@ -74,14 +76,17 @@ export default function Description() {
             </Typography>
 
             <Stack flexDirection="row">
-                <Link href={steam} passHref>
+                <Link href={steamUrl} passHref>
                     <Button LinkComponent="a" startIcon={<ShoppingCartIcon />}>
-                        {steam === `/game/${slug}` ? "No steam page" : "Steam"}
+                        {steamUrl === pageHref ? "No steam page" : "Steam"}
                     </Button>
                 </Link>
-                <Box ml={1}>
-                    <Button startIcon={<WebIcon />}>Website</Button>
-                </Box>
+
+                <Link href={data?.website || pageHref} passHref>
+                    <Button sx={{ ml: 1 }} LinkComponent="a" startIcon={<WebIcon />}>
+                        {data?.website ? "Website" : "No website"}
+                    </Button>
+                </Link>
             </Stack>
         </Box>
     );
