@@ -24,6 +24,7 @@ export default function Game() {
                 <Grid item xs={12} md={6} height={400}>
                     <Carousel
                         images={screenshots?.results.map(screenshot => screenshot.image)}
+                        autoRotate={8000}
                     />
                 </Grid>
             </Grid>

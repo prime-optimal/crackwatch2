@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
+import useInterval from "@hooks/useInterval";
+
 interface CarouselProps {
     images?: string[];
+    autoRotate?: number;
 }
 
-export default function Carousel({ images = [] }: CarouselProps) {
+export default function Carousel({ images = [], autoRotate }: CarouselProps) {
     const [active, setActive] = useState(Math.floor(images.length / 2));
 
     const swipeRight = () => {
@@ -28,6 +31,12 @@ export default function Carousel({ images = [] }: CarouselProps) {
     useEffect(() => {
         setActive(Math.floor(images.length / 2));
     }, [images]);
+
+    useInterval(() => {
+        if (autoRotate) {
+            swipeRight();
+        }
+    }, autoRotate);
 
     return (
         <Box
