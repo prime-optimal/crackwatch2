@@ -13,11 +13,10 @@ interface GameCardProps {
     name: string;
     video?: string;
     genres?: string[];
-    metacritic?: number;
     slug: string;
 }
 
-const GameCard = memo(({ img, name, video, genres, metacritic, slug }: GameCardProps) => {
+const GameCard = memo(({ img, name, video, genres, slug }: GameCardProps) => {
     const { ref, inView } = useInView({ delay: 150 });
     const { cracked } = useCrack(inView ? name : null);
 
@@ -40,7 +39,6 @@ const GameCard = memo(({ img, name, video, genres, metacritic, slug }: GameCardP
                 cracked={cracked}
                 slug={slug}
                 genres={genres}
-                metacritic={metacritic}
             />
         </Card>
     );

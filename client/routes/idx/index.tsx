@@ -48,20 +48,17 @@ export default function Index() {
 
             <Grid container spacing={6}>
                 {data?.map(({ results }) =>
-                    results.map(
-                        ({ id, name, background_image, clip, genres, metacritic, slug }) => (
-                            <Grid item xs={12} md={6} lg={4} xl={3} key={id}>
-                                <GameCard
-                                    genres={genres.map(x => x.name)}
-                                    video={clip?.clip}
-                                    img={background_image}
-                                    name={name}
-                                    metacritic={metacritic ? metacritic : undefined}
-                                    slug={slug}
-                                />
-                            </Grid>
-                        )
-                    )
+                    results.map(({ id, name, background_image, clip, genres, slug }) => (
+                        <Grid item xs={12} md={6} lg={4} xl={3} key={id}>
+                            <GameCard
+                                genres={genres.map(x => x.name)}
+                                video={clip?.clip}
+                                img={background_image}
+                                name={name}
+                                slug={slug}
+                            />
+                        </Grid>
+                    ))
                 )}
             </Grid>
 

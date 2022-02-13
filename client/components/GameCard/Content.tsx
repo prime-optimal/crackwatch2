@@ -39,20 +39,12 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
 interface ContentProps {
     slug: string;
     name: string;
-    metacritic?: number;
     cracked: boolean | null;
     genres?: string[];
     loading: boolean;
 }
 
-export default function Content({
-    metacritic,
-    name,
-    slug,
-    cracked,
-    genres = [],
-    loading,
-}: ContentProps) {
+export default function Content({ name, slug, cracked, genres = [], loading }: ContentProps) {
     return (
         <CardContent>
             <Stack
@@ -90,15 +82,6 @@ export default function Content({
                         </>
                     )}
                 </Stack>
-
-                {metacritic && (
-                    <CircularProgressWithLabel
-                        variant="determinate"
-                        value={metacritic}
-                        color="success"
-                        size={30}
-                    />
-                )}
             </Stack>
 
             <Stack flexDirection="row" flexWrap="wrap" mt={1}>
