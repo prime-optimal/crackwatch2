@@ -25,7 +25,6 @@ const theme = createTheme({
     typography: {
         fontFamily: [
             "Inter",
-            "Saira",
             "-apple-system",
             "system-ui",
             "BlinkMacSystemFont",

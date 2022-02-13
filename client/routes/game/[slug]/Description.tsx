@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 import { AxiosGame } from "@types";
 
-const stringMargin = 350;
+const stringMargin = 450;
 
 export default function Description() {
     const { slug = null } = useRouter().query;
