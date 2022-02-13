@@ -62,10 +62,10 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
                     height="100%"
                 >
                     <IconButton onClick={swipeLeft} sx={{ zIndex: 1 }}>
-                        <ChevronLeftIcon />
+                        <ChevronLeftIcon fontSize="large" />
                     </IconButton>
                     <IconButton onClick={swipeRight} sx={{ zIndex: 1 }}>
-                        <ChevronRightIcon />
+                        <ChevronRightIcon fontSize="large" />
                     </IconButton>
                 </Stack>
             </Box>

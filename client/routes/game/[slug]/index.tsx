@@ -6,6 +6,7 @@ import { AxiosGame } from "@types";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
+import Crack from "./Crack";
 import Description from "./Description";
 import Media from "./Media";
 
@@ -39,6 +40,10 @@ export default function Game() {
 
                 <Grid item xs={12} md={6}>
                     <Description />
+                </Grid>
+
+                <Grid item xs={12} md={3}>
+                    <Crack />
                 </Grid>
             </Grid>
         </Container>

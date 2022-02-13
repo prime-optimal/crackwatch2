@@ -17,7 +17,9 @@ export default function IconTypography({
     return (
         <Stack sx={sx} flexDirection="row" flexWrap="wrap" alignItems="center">
             {icon}
-            <Typography {...props}>{children}</Typography>
+            <Typography ml={0.5} {...props}>
+                {children}
+            </Typography>
         </Stack>
     );
 }

@@ -16,13 +16,13 @@ interface FetcherProps {
 const fetcher = async ({ name, providers }: FetcherProps) => {
     if (!name) return;
 
-    const query = (provider: string) => {
+    const query = async (provider: string) => {
         const search = Providers.find(x => x.provider === provider)?.search;
         if (!search) {
             throw "Incorrect provider passed!";
         }
 
-        return search(name);
+        return { items: await search(name), provider };
     };
 
     const queries = providers.map(provider => query(provider));
@@ -37,6 +37,6 @@ export default function useCrack(name: string | null = null, providers = default
 
     return {
         data,
-        cracked: data && data.some(results => results.length > 0),
+        cracked: data && data.some(crack => crack.items.length > 0),
     };
 }
