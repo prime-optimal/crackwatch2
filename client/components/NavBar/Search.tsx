@@ -11,13 +11,13 @@ import { HTMLAttributes, useState } from "react";
 import useSWR from "swr/immutable";
 import { useDebounce } from "use-debounce";
 
-import { AxiosGames, Result } from "@types";
+import { AxiosGames, ResultGames } from "@types";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
 const renderOption = (
     props: HTMLAttributes<HTMLLIElement>,
-    { name, released, background_image }: Result
+    { name, released, background_image }: ResultGames
 ) => (
     <Stack
         justifyContent="flex-start"
