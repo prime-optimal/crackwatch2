@@ -2,11 +2,9 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Box, IconButton, Stack } from "@mui/material";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ResponsiveImage } from "@components";
-
-import clamp from "@utils/clamp";
 
 interface CarouselProps {
     images?: string[];
@@ -16,12 +14,20 @@ export function Carousel({ images = [] }: CarouselProps) {
     const [active, setActive] = useState(Math.floor(images.length / 2));
 
     const swipeRight = () => {
-        setActive(x => clamp(x + 1, 0, images.length - 1));
+        setActive(x => (x + 1) % images.length);
     };
 
     const swipeLeft = () => {
-        setActive(x => clamp(x - 1, 0, images.length - 1));
+        if (active - 1 < 0) {
+            setActive(images.length - 1);
+            return;
+        }
+        setActive(x => x - 1);
     };
+
+    useEffect(() => {
+        setActive(Math.floor(images.length / 2));
+    }, [images]);
 
     return (
         <Box
