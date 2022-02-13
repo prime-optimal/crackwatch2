@@ -18,7 +18,7 @@ export default function Game() {
                     <Typography variant="h3">{data?.name}</Typography>
                 </Grid>
 
-                <Grid item xs={12} md={6} height={400}>
+                <Grid item xs={12} md={6}>
                     <Media />
                 </Grid>
             </Grid>
