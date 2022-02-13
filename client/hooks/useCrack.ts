@@ -32,7 +32,7 @@ const fetcher = async ({ name, providers }: FetcherProps) => {
 };
 
 // pass a name and providers and this hook will return whether the game has been cracked
-export function useCrack(name: string | null = null, providers = defaultProviders) {
+export default function useCrack(name: string | null = null, providers = defaultProviders) {
     const { data = null } = useSWR(name && { name, providers }, fetcher);
 
     return {

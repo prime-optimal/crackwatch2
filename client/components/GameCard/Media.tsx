@@ -1,7 +1,7 @@
 import { CardMedia, LinearProgress } from "@mui/material";
 import { useState } from "react";
 
-import { ResponsiveImage } from "@components";
+import ResponsiveImage from "@components/ResponsiveImage";
 
 interface MediaProps {
     img: string | null;

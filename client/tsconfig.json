@@ -20,9 +20,9 @@
         "incremental": true,
         "paths": {
             "@routes/*": ["./routes/*"],
-            "@components": ["./components"],
+            "@components/*": ["./components/*"],
             "@utils/*": ["./utils/*"],
-            "@hooks": ["./hooks"],
+            "@hooks/*": ["./hooks/*"],
             "@types": ["./types"],
             "@config": ["./config"]
         }

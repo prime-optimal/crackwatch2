@@ -8,7 +8,12 @@ interface IconTypographyProps {
     sx?: StackProps["sx"];
 }
 
-export function IconTypography({ icon, children, props = {}, sx = {} }: IconTypographyProps) {
+export default function IconTypography({
+    icon,
+    children,
+    props = {},
+    sx = {},
+}: IconTypographyProps) {
     return (
         <Stack sx={sx} flexDirection="row" flexWrap="wrap" alignItems="center">
             {icon}

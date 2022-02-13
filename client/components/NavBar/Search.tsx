@@ -13,7 +13,7 @@ import { useDebounce } from "use-debounce";
 
 import { AxiosGames, Result } from "@types";
 
-import { ResponsiveImage } from "@components";
+import ResponsiveImage from "@components/ResponsiveImage";
 
 const renderOption = (
     props: HTMLAttributes<HTMLLIElement>,

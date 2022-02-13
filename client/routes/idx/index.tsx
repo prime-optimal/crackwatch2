@@ -8,7 +8,8 @@ import { AxiosGames } from "@types";
 
 import { SWRImmutable } from "@config";
 
-import { GameCard, IconTypography } from "@components";
+import GameCard from "@components/GameCard";
+import IconTypography from "@components/IconTypography";
 
 import BackToTop from "./BackToTop";
 

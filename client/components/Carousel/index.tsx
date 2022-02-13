@@ -4,13 +4,13 @@ import { Box, IconButton, Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-import { ResponsiveImage } from "@components";
+import ResponsiveImage from "@components/ResponsiveImage";
 
 interface CarouselProps {
     images?: string[];
 }
 
-export function Carousel({ images = [] }: CarouselProps) {
+export default function Carousel({ images = [] }: CarouselProps) {
     const [active, setActive] = useState(Math.floor(images.length / 2));
 
     const swipeRight = () => {

@@ -16,9 +16,9 @@ import Router from "next/router";
 import { useState } from "react";
 import axios from "redaxios";
 
-import { ResponsiveImage } from "@components";
+import ResponsiveImage from "@components/ResponsiveImage";
 
-import { useUser } from "@hooks";
+import useUser from "@hooks/useUser";
 
 import tryToCatch from "@utils/catch";
 

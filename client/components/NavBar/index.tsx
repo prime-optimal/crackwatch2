@@ -6,7 +6,7 @@ import User from "./User";
 
 const Search = dynamic(() => import("./Search"));
 
-export function NavBar() {
+export default function NavBar() {
     return (
         <AppBar position="relative">
             <Container maxWidth="xl">
