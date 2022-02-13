@@ -32,10 +32,10 @@ export interface AxiosGameScreenshots {
     count: number;
     next: string;
     previous: null;
-    results: Result[];
+    results: ResultScreenshot[];
 }
 
-export interface Result {
+export interface ResultScreenshot {
     id: number;
     image: string;
     width: number;

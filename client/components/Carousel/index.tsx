@@ -3,6 +3,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Box, IconButton, Stack } from "@mui/material";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useSwipeable } from "react-swipeable";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
@@ -33,10 +34,13 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
     }, [images]);
 
     useInterval(() => {
-        if (autoRotate) {
-            swipeRight();
-        }
+        autoRotate && swipeRight();
     }, autoRotate);
+
+    const swipeProps = useSwipeable({
+        onSwipedRight: swipeLeft,
+        onSwipedLeft: swipeRight,
+    });
 
     return (
         <Box
@@ -47,8 +51,9 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
             sx={{
                 borderRadius: ({ shape }) => `${shape.borderRadius}px`,
             }}
+            {...swipeProps}
         >
-            <Box position="absolute" zIndex={1} height="100%" width="100%">
+            <Box position="absolute" height="100%" width="100%">
                 <Stack
                     mx={1}
                     justifyContent="space-between"
@@ -56,10 +61,10 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
                     alignItems="center"
                     height="100%"
                 >
-                    <IconButton onClick={swipeLeft}>
+                    <IconButton onClick={swipeLeft} sx={{ zIndex: 1 }}>
                         <ChevronLeftIcon />
                     </IconButton>
-                    <IconButton onClick={swipeRight}>
+                    <IconButton onClick={swipeRight} sx={{ zIndex: 1 }}>
                         <ChevronRightIcon />
                     </IconButton>
                 </Stack>

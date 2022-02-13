@@ -2,30 +2,24 @@ import { Container, Grid, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import useSWR from "swr/immutable";
 
-import { AxiosGame, AxiosGameScreenshots } from "@types";
+import { AxiosGame } from "@types";
 
-import Carousel from "@components/Carousel";
+import Media from "./Media";
 
 export default function Game() {
     const { slug = null } = useRouter().query;
 
-    const { data: game } = useSWR<AxiosGame>(slug && `/game/${slug}`);
-    const { data: screenshots } = useSWR<AxiosGameScreenshots>(
-        slug && `/game/${slug}/screenshots`
-    );
+    const { data } = useSWR<AxiosGame>(slug && `/game/${slug}`);
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography variant="h3">{game?.name}</Typography>
+                    <Typography variant="h3">{data?.name}</Typography>
                 </Grid>
 
                 <Grid item xs={12} md={6} height={400}>
-                    <Carousel
-                        images={screenshots?.results.map(screenshot => screenshot.image)}
-                        autoRotate={8000}
-                    />
+                    <Media />
                 </Grid>
             </Grid>
         </Container>
