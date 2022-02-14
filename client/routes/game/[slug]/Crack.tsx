@@ -1,5 +1,18 @@
 import InfoIcon from "@mui/icons-material/Info";
-import { Box, Paper, Typography } from "@mui/material";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import {
+    Box,
+    Chip,
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    Divider,
+    IconButton,
+    Paper,
+    Stack,
+    Typography,
+} from "@mui/material";
+import { useCallback, useState } from "react";
 
 import IconTypography from "@components/IconTypography";
 
@@ -7,10 +20,32 @@ import useCrack from "@hooks/useCrack";
 
 import { useGame } from "./hooks";
 
+interface ProviderInfoProps {
+    open: boolean;
+    onClose: () => any;
+    data: ReturnType<typeof useCrack>["data"];
+}
+
+const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
+    return (
+        <Dialog open={open} onClose={onClose} maxWidth="md">
+            <DialogTitle>Provider results</DialogTitle>
+            <DialogContent>
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 export default function Crack() {
     const { data } = useGame();
-
     const { cracked, data: providers } = useCrack(data?.name || null);
+
+    const [open, setOpen] = useState(false);
+
+    const onClose = useCallback(() => {
+        setOpen(false);
+    }, []);
 
     return (
         <Box component={Paper} p={2}>
@@ -22,7 +57,7 @@ export default function Crack() {
                 Crack info
             </IconTypography>
 
-            <Typography mb={1}>
+            <Typography>
                 <Typography component="span" color="text.secondary">
                     Crack status:{" "}
                 </Typography>
@@ -36,7 +71,22 @@ export default function Crack() {
                 </Typography>
             </Typography>
 
-            {/** Providers todo */}
+            <Divider sx={{ my: 1 }} />
+
+            <Stack flexDirection="row" flexWrap="wrap" alignItems="center">
+                <Typography mr={0.5} color="text.secondary">
+                    Providers:
+                </Typography>
+                {providers?.map(({ provider }) => (
+                    <Chip sx={{ m: 0.5 }} label={provider} key={provider} />
+                ))}
+
+                <IconButton sx={{ m: 0.5 }} onClick={() => setOpen(true)}>
+                    <UnfoldMoreIcon />
+                </IconButton>
+            </Stack>
+
+            <ProviderInfo data={providers} onClose={onClose} open={open} />
         </Box>
     );
 }
