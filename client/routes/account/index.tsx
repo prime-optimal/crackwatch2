@@ -1,11 +1,21 @@
-import { Avatar, Box, Container, Divider, Paper, Stack, Typography } from "@mui/material";
+import {
+    Avatar,
+    Box,
+    Checkbox,
+    Container,
+    Divider,
+    FormControlLabel,
+    Paper,
+    Stack,
+    Typography,
+} from "@mui/material";
 
 import useUser from "@hooks/useUser";
 
 import { ProviderTiers } from "@utils/searchers";
 
 const tierMap = {
-    s: "popular games, ~98% accuracy",
+    s: "popular games, ~98% accuracy (recommended)",
     b: "popular, indie games, ~85% accuracy",
     c: "every game, ~70% accuracy",
 };
@@ -39,19 +49,25 @@ export default function Account() {
 
                 <Divider sx={{ my: 2 }} />
 
-                <Typography variant="h5">Providers</Typography>
+                <Typography variant="h4">Providers</Typography>
 
                 {Object.keys(ProviderTiers).map(tier => (
-                    <Box key={tier} my={2}>
-                        <Typography>
+                    <Stack key={tier} my={3}>
+                        <Typography variant="h6">
                             Tier {tier.toUpperCase()} -{" "}
-                            {tierMap[tier as keyof typeof ProviderTiers]}
+                            <Typography component="span" color="text.secondary">
+                                {tierMap[tier as keyof typeof ProviderTiers]}
+                            </Typography>
                         </Typography>
 
-                        <Typography>
-                            {ProviderTiers[tier as keyof typeof ProviderTiers].join(", ")}
-                        </Typography>
-                    </Box>
+                        {ProviderTiers[tier as keyof typeof ProviderTiers].map(provider => (
+                            <FormControlLabel
+                                key={provider}
+                                label={<Typography variant="button">{provider}</Typography>}
+                                control={<Checkbox />}
+                            />
+                        ))}
+                    </Stack>
                 ))}
             </Box>
         </Container>
