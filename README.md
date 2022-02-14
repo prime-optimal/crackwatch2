@@ -13,3 +13,5 @@
 -   All information related to video games (images, reviews, etc...) are provided by RAWG API [rawg.io](https://rawg.io/apidocs)
 
 -   This web app does not provide download links for copyrighted content, only tells if it exists
+
+-   All trademarks are property of their respective owners in the US and other countries

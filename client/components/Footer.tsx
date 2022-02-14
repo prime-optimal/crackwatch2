@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 
 export default function Footer() {
     return (
@@ -11,7 +11,10 @@ export default function Footer() {
             my={4}
         >
             Credits: All of the information about the games and everything is provided by
-            RAWG.io (https://rawg.io/apidocs)
+            RAWG.io{" "}
+            <Link href="https://rawg.io/apidocs" target="_blank" rel="noreferrer">
+                (https://rawg.io/apidocs)
+            </Link>
             <br />
             Disclaimer: this site does not provide download links for games as it is illegal,
             if you like the games then support the developers and buy them.
