@@ -92,7 +92,7 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
                         damping: 20,
                     }}
                 >
-                    {Math.abs(index - active) < 2 && <ResponsiveImage src={image} />}
+                    <ResponsiveImage src={image} />
                 </Box>
             ))}
         </Box>
