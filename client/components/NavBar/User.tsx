@@ -1,6 +1,7 @@
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import {
     Avatar,
     Divider,
@@ -36,7 +37,7 @@ const UserMenu = (props: MenuProps) => {
     };
 
     const onLogin = () => Router.push("/auth/login");
-    const onSettings = () => Router.push("/account/settings");
+    const onAccount = () => Router.push("/account");
 
     return (
         <Menu
@@ -47,11 +48,18 @@ const UserMenu = (props: MenuProps) => {
             <Typography align="center">{user?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
 
-            <MenuItem disabled={!user?.nickname} onClick={onSettings}>
+            <MenuItem disabled={!user?.nickname}>
                 <ListItemIcon>
-                    <SettingsIcon />
+                    <WatchLaterIcon />
                 </ListItemIcon>
-                Settings
+                Watching
+            </MenuItem>
+
+            <MenuItem disabled={!user?.nickname} onClick={onAccount}>
+                <ListItemIcon>
+                    <ManageAccountsIcon />
+                </ListItemIcon>
+                Account
             </MenuItem>
 
             {user?.nickname ? (

@@ -11,7 +11,7 @@ const headers = {
     Referer: "https://gamestatus.info/",
 };
 
-// Tier 1 provider
+// Tier S provider
 const provider: Provider = "gamestatus";
 
 const search = async (query: string) => {

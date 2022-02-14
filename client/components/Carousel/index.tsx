@@ -40,6 +40,7 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
     const swipeProps = useSwipeable({
         onSwipedRight: swipeLeft,
         onSwipedLeft: swipeRight,
+        preventDefaultTouchmoveEvent: true,
     });
 
     return (

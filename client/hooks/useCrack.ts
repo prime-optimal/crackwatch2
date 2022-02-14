@@ -3,7 +3,7 @@ import useSWR from "swr/immutable";
 import { Provider } from "@types";
 
 import tryToCatch from "@utils/catch";
-import Providers from "@utils/searchers";
+import { Providers } from "@utils/searchers";
 
 // My recommended tier 1 default providers
 const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
