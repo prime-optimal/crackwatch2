@@ -25,7 +25,6 @@ const handler = async (req: Req<{ Querystring: Querystring }>) => {
             key: process.env.RAWG_KEY,
             platforms: "4",
             search: q,
-            search_exact: true,
             page_size: 10,
         })
     );

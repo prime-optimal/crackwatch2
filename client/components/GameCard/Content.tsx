@@ -1,58 +1,17 @@
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import HelpIcon from "@mui/icons-material/Help";
-import {
-    Box,
-    CardContent,
-    Chip,
-    CircularProgress,
-    CircularProgressProps,
-    Link as MuiLink,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { CardContent, Chip, Link as MuiLink, Stack, Typography } from "@mui/material";
 import NextLink from "next/link";
-
-const CircularProgressWithLabel = (props: CircularProgressProps & { value: number }) => {
-    return (
-        <Box sx={{ position: "relative", display: "inline-flex" }}>
-            <CircularProgress variant="determinate" {...props} />
-            <Box
-                sx={{
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    position: "absolute",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }}
-            >
-                <Typography variant="caption" component="div" color="text.secondary">
-                    {Math.round(props.value)}
-                </Typography>
-            </Box>
-        </Box>
-    );
-};
 
 interface ContentProps {
     slug: string;
     name: string;
-    metacritic?: number;
     cracked: boolean | null;
     genres?: string[];
     loading: boolean;
 }
 
-export default function Content({
-    metacritic,
-    name,
-    slug,
-    cracked,
-    genres = [],
-    loading,
-}: ContentProps) {
+export default function Content({ name, slug, cracked, genres = [], loading }: ContentProps) {
     return (
         <CardContent>
             <Stack
@@ -90,15 +49,6 @@ export default function Content({
                         </>
                     )}
                 </Stack>
-
-                {metacritic && (
-                    <CircularProgressWithLabel
-                        variant="determinate"
-                        value={metacritic}
-                        color="success"
-                        size={30}
-                    />
-                )}
             </Stack>
 
             <Stack flexDirection="row" flexWrap="wrap" mt={1}>

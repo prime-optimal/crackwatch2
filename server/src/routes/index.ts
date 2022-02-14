@@ -6,6 +6,7 @@ import logout from "./auth/logout";
 import register from "./auth/register";
 import user from "./auth/user";
 import gameSlug from "./game/[slug]";
+import gameScreenshots from "./game/[slug]/screenshots";
 import games from "./games";
 import gamesSearch from "./games/search";
 import nickname from "./validate/nickname";
@@ -24,8 +25,10 @@ export default function (
     fastify.route(logout);
     fastify.route(user);
 
-    fastify.route(games);
     fastify.route(gameSlug);
+    fastify.route(gameScreenshots);
+
+    fastify.route(games);
     fastify.route(gamesSearch);
 
     done();

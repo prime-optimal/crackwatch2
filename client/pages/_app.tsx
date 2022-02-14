@@ -11,7 +11,8 @@ import Router from "next/router";
 import axios from "redaxios";
 import { SWRConfig } from "swr";
 
-import { Footer, NavBar } from "@components";
+import Footer from "@components/Footer";
+import NavBar from "@components/NavBar";
 
 axios.defaults.baseURL = "/api";
 
@@ -24,7 +25,6 @@ const theme = createTheme({
     typography: {
         fontFamily: [
             "Inter",
-            "Saira",
             "-apple-system",
             "system-ui",
             "BlinkMacSystemFont",

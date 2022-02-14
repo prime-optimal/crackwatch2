@@ -14,7 +14,7 @@ import Router from "next/router";
 import { useForm } from "react-hook-form";
 import axios from "redaxios";
 
-import { useUser } from "@hooks";
+import useUser from "@hooks/useUser";
 
 import tryToCatch from "@utils/catch";
 

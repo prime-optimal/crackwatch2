@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-export function Footer() {
+export default function Footer() {
     return (
         <Typography
             variant="caption"

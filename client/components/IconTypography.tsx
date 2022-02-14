@@ -8,11 +8,18 @@ interface IconTypographyProps {
     sx?: StackProps["sx"];
 }
 
-export function IconTypography({ icon, children, props = {}, sx = {} }: IconTypographyProps) {
+export default function IconTypography({
+    icon,
+    children,
+    props = {},
+    sx = {},
+}: IconTypographyProps) {
     return (
         <Stack sx={sx} flexDirection="row" flexWrap="wrap" alignItems="center">
             {icon}
-            <Typography {...props}>{children}</Typography>
+            <Typography ml={0.5} {...props}>
+                {children}
+            </Typography>
         </Stack>
     );
 }
