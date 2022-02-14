@@ -45,11 +45,11 @@ export default function Game() {
                 </Grid>
 
                 <Grid item xs={12} md={3} lg={4}>
-                    <Crack />
+                    <Buy />
                 </Grid>
 
                 <Grid item xs={12} md={3} lg={4}>
-                    <Buy />
+                    <Crack />
                 </Grid>
 
                 <Grid item xs={12} md={6} lg={4}>
