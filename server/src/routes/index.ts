@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyPluginOptions } from "fastify";
 import fastifyHelmet from "fastify-helmet";
 
+import providersPut from "./account/providers";
 import login from "./auth/login";
 import logout from "./auth/logout";
 import register from "./auth/register";
@@ -30,6 +31,8 @@ export default function (
 
     fastify.route(games);
     fastify.route(gamesSearch);
+
+    fastify.route(providersPut);
 
     done();
 }

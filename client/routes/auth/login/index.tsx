@@ -41,7 +41,7 @@ export default function Login() {
             return;
         }
 
-        mutate(result.data);
+        mutate();
         Router.replace("/");
     };
 

@@ -1,9 +1,7 @@
 declare module "fastify" {
     interface Session {
         user?: {
-            email: string;
-            nickname: string;
-            avatar: string;
+            id: string;
         };
     }
 }

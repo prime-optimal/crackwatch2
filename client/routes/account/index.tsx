@@ -9,19 +9,26 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import { useState } from "react";
+
+import { Provider } from "@types";
 
 import useUser from "@hooks/useUser";
 
+import tryToCatch from "@utils/catch";
 import { ProviderTiers } from "@utils/searchers";
 
+import { queries } from "./queries";
+
 const tierMap = {
-    s: "popular games, ~98% accuracy (recommended)",
+    s: "popular games, ~99% accuracy (recommended)",
     b: "popular, indie games, ~85% accuracy",
     c: "every game, ~70% accuracy",
 };
 
 export default function Account() {
-    const { data: user } = useUser();
+    const { data: user, mutate } = useUser();
+    const [loading, setLoading] = useState(false);
 
     if (!user?.nickname) {
         return (
@@ -30,6 +37,31 @@ export default function Account() {
             </Typography>
         );
     }
+
+    const onChange = async (provider: Provider, checked: boolean) => {
+        if (checked) {
+            const providers = [...user.providers, provider];
+            const [result, error] = await tryToCatch(() => queries.providersPut(providers));
+
+            if (!result) {
+                console.error(error);
+                return;
+            }
+
+            await mutate();
+            return;
+        }
+
+        const providers = user.providers.filter(x => x !== provider);
+        const [result, error] = await tryToCatch(() => queries.providersPut(providers));
+
+        if (!result) {
+            console.error(error);
+            return;
+        }
+
+        await mutate();
+    };
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
@@ -52,7 +84,7 @@ export default function Account() {
                 <Typography variant="h4">Providers</Typography>
 
                 {Object.keys(ProviderTiers).map(tier => (
-                    <Stack key={tier} my={3}>
+                    <Box key={tier} my={3}>
                         <Typography variant="h6">
                             Tier {tier.toUpperCase()} -{" "}
                             <Typography component="span" color="text.secondary">
@@ -64,10 +96,20 @@ export default function Account() {
                             <FormControlLabel
                                 key={provider}
                                 label={<Typography variant="button">{provider}</Typography>}
-                                control={<Checkbox />}
+                                control={
+                                    <Checkbox
+                                        onChange={async (_, checked) => {
+                                            setLoading(true);
+                                            await onChange(provider, checked);
+                                            setLoading(false);
+                                        }}
+                                        checked={user.providers.includes(provider)}
+                                        disabled={loading}
+                                    />
+                                }
                             />
                         ))}
-                    </Stack>
+                    </Box>
                 ))}
             </Box>
         </Container>

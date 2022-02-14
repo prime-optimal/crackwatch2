@@ -8,8 +8,8 @@ export interface Account {
 }
 
 const accountSchema = new Schema<Account>({
-    providers: { Type: [String], default: [], required: true },
-    userId: { Type: [String], required: true },
+    providers: { type: [String], default: ["gamestatus", "steamcrackedgames"] },
+    userId: { type: String, required: true },
 });
 
 export const accountModel = model("Account", accountSchema);

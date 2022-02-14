@@ -1,6 +1,7 @@
 import { Static, Type } from "@sinclair/typebox";
 import { randomBytes, scrypt } from "crypto";
 import { FastifyRequest as Req, RouteOptions } from "fastify";
+import { accountModel } from "mongo/models/account";
 import { promisify } from "util";
 
 import { userModel } from "@mongo";
@@ -37,11 +38,15 @@ const handler = async (req: Req<{ Body: Body }>) => {
         nickname
     )}.svg`;
 
-    await userModel.create({
+    const user = await userModel.create({
         email,
         nickname,
         password: `${salt}:${hashed}`,
         avatar,
+    });
+
+    await accountModel.create({
+        userId: user.id,
     });
 
     return "OK";
