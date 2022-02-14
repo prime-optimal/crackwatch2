@@ -1,17 +1,14 @@
 import InfoIcon from "@mui/icons-material/Info";
 import { Box, Paper, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import useSWR from "swr/immutable";
-
-import { AxiosGame } from "@types";
 
 import IconTypography from "@components/IconTypography";
 
 import useCrack from "@hooks/useCrack";
 
+import { useGame } from "./hooks";
+
 export default function Crack() {
-    const { slug = null } = useRouter().query;
-    const { data } = useSWR<AxiosGame>(slug && `/game/${slug}`);
+    const { data } = useGame();
 
     const { cracked, data: providers } = useCrack(data?.name || null);
 

@@ -1,27 +1,14 @@
 import CodeIcon from "@mui/icons-material/Code";
 import PublishIcon from "@mui/icons-material/Publish";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import WebIcon from "@mui/icons-material/Web";
 import { Box, Button, Chip, Paper, Stack, Typography } from "@mui/material";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useMemo } from "react";
-import useSWR from "swr";
 
-import { AxiosGame } from "@types";
+import { useGame } from "./hooks";
 
 const stringMargin = 450;
 
 export default function Description() {
-    const { slug = null } = useRouter().query;
-    const pageHref = `/game/${slug}`;
-
-    const { data } = useSWR<AxiosGame>(slug && pageHref);
-
-    const steamUrl = useMemo(() => {
-        const url = data?.stores.find(({ store }) => store.slug === "steam")?.url;
-        return url || pageHref;
-    }, [data?.stores, pageHref]);
+    const { data } = useGame();
 
     const formatText = () => {
         const len = data?.description_raw.length;
@@ -43,21 +30,20 @@ export default function Description() {
                 <Typography mr={0.5} color="text.secondary">
                     By:{" "}
                 </Typography>
-                {data?.developers.map(dev => (
-                    <Chip
-                        icon={<CodeIcon />}
-                        label={dev.name}
-                        key={dev.name}
-                        sx={{ m: 0.5 }}
-                    />
+                {data?.developers.map(({ name }) => (
+                    <Chip icon={<CodeIcon />} label={name} key={name} sx={{ m: 0.5 }} />
                 ))}
-                {data?.publishers.map(publisher => (
-                    <Chip
-                        icon={<PublishIcon />}
-                        label={publisher.name}
-                        key={publisher.name}
-                        sx={{ m: 0.5 }}
-                    />
+                {data?.publishers.map(({ name }) => (
+                    <Chip icon={<PublishIcon />} label={name} key={name} sx={{ m: 0.5 }} />
+                ))}
+            </Stack>
+
+            <Stack mb={2} flexDirection="row" flexWrap="wrap" alignItems="center">
+                <Typography mr={0.5} color="text.secondary">
+                    Genres:{" "}
+                </Typography>
+                {data?.genres.map(({ name }) => (
+                    <Chip label={name} key={name} sx={{ m: 0.5 }} />
                 ))}
             </Stack>
 
@@ -76,17 +62,16 @@ export default function Description() {
             </Typography>
 
             <Stack flexDirection="row">
-                <Link href={steamUrl} passHref>
-                    <Button LinkComponent="a" startIcon={<ShoppingCartIcon />}>
-                        {steamUrl === pageHref ? "No steam page" : "Steam"}
+                {data?.website && (
+                    <Button
+                        href={data.website}
+                        target="_blank"
+                        LinkComponent="a"
+                        startIcon={<WebIcon />}
+                    >
+                        Website
                     </Button>
-                </Link>
-
-                <Link href={data?.website || pageHref} passHref>
-                    <Button sx={{ ml: 1 }} LinkComponent="a" startIcon={<WebIcon />}>
-                        {data?.website ? "Website" : "No website"}
-                    </Button>
-                </Link>
+                )}
             </Stack>
         </Box>
     );

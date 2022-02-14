@@ -6,9 +6,11 @@ import { AxiosGame } from "@types";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
+import Buy from "./Buy";
 import Crack from "./Crack";
 import Description from "./Description";
 import Media from "./Media";
+import Reviews from "./Reviews";
 
 export default function Game() {
     const { slug = null } = useRouter().query;
@@ -34,7 +36,7 @@ export default function Game() {
             />
 
             <Grid container spacing={4}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} lg={6}>
                     <Media />
                 </Grid>
 
@@ -42,8 +44,16 @@ export default function Game() {
                     <Description />
                 </Grid>
 
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={3} lg={4}>
                     <Crack />
+                </Grid>
+
+                <Grid item xs={12} md={3} lg={4}>
+                    <Buy />
+                </Grid>
+
+                <Grid item xs={12} md={6} lg={4}>
+                    <Reviews />
                 </Grid>
             </Grid>
         </Container>
