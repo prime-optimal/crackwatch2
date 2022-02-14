@@ -9,7 +9,15 @@ interface ResponsiveImageProps {
 export default function ResponsiveImage({ src, props = {} }: ResponsiveImageProps) {
     return (
         <Box overflow="hidden" position="relative" width="100%" height="100%" {...props}>
-            {src && <Image src={src} alt="Not found" layout="fill" objectFit="cover" />}
+            {src && (
+                <Image
+                    decoding="auto"
+                    src={src}
+                    alt="Not found"
+                    layout="fill"
+                    objectFit="cover"
+                />
+            )}
         </Box>
     );
 }
