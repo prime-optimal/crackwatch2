@@ -31,7 +31,7 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
         <Dialog open={open} onClose={onClose} maxWidth="md">
             <DialogTitle>Provider results</DialogTitle>
             <DialogContent>
-                <pre>{JSON.stringify(data, null, 2)}</pre>
+                <Typography component="pre">{JSON.stringify(data, null, 2)}</Typography>
             </DialogContent>
         </Dialog>
     );
