@@ -41,10 +41,7 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 export default function Crack() {
     const { data } = useGame();
 
-    const { data: user } = useUser();
-    const { cracked, data: providers } = useCrack(
-        data?.name ? { name: data.name, providers: user?.providers } : null
-    );
+    const { cracked, data: providers } = useCrack(data?.name || null);
 
     const [open, setOpen] = useState(false);
 

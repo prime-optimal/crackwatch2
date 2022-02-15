@@ -5,12 +5,14 @@ import { Provider } from "@types";
 import tryToCatch from "@utils/catch";
 import { Providers } from "@utils/searchers";
 
+import useUser from "./useUser";
+
 // My recommended tier 1 default providers
 const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
 
 interface FetcherProps {
-    name: string;
     providers?: Provider[];
+    name: string;
 }
 
 const fetcher = async ({ name, providers = defaultProviders }: FetcherProps) => {
@@ -32,8 +34,12 @@ const fetcher = async ({ name, providers = defaultProviders }: FetcherProps) => 
 };
 
 // pass a name and providers and this hook will return whether the game has been cracked
-export default function useCrack(key: null | FetcherProps) {
-    const { data = null } = useSWR(key, fetcher);
+export default function useCrack(name: string | null) {
+    const { data: user } = useUser();
+    const { data = null } = useSWR(
+        user && name ? { name, providers: user.providers } : null,
+        fetcher
+    );
 
     return {
         data,
