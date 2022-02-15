@@ -17,7 +17,6 @@ import { useState } from "react";
 import IconTypography from "@components/IconTypography";
 
 import useCrack from "@hooks/useCrack";
-import useUser from "@hooks/useUser";
 
 import { useGame } from "./hooks";
 
