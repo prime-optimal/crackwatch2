@@ -17,6 +17,7 @@ import { useState } from "react";
 import IconTypography from "@components/IconTypography";
 
 import useCrack from "@hooks/useCrack";
+import useUser from "@hooks/useUser";
 
 import { useGame } from "./hooks";
 
@@ -39,7 +40,11 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 
 export default function Crack() {
     const { data } = useGame();
-    const { cracked, data: providers } = useCrack(data?.name || null);
+
+    const { data: user } = useUser();
+    const { cracked, data: providers } = useCrack(
+        data?.name ? { name: data.name, providers: user?.providers } : null
+    );
 
     const [open, setOpen] = useState(false);
 
