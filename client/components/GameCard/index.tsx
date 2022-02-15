@@ -4,6 +4,7 @@ import { memo } from "react";
 import { useInView } from "react-intersection-observer";
 
 import useCrack from "@hooks/useCrack";
+import useUser from "@hooks/useUser";
 
 import Content from "./Content";
 import Media from "./Media";
@@ -18,7 +19,9 @@ interface GameCardProps {
 
 const GameCard = memo(({ img, name, video, genres, slug }: GameCardProps) => {
     const { ref, inView } = useInView({ delay: 150 });
-    const { cracked } = useCrack(inView ? name : null);
+
+    const { data: user } = useUser();
+    const { cracked } = useCrack(inView ? () => ({ name, providers: user?.providers }) : null);
 
     const loading = cracked === null;
 

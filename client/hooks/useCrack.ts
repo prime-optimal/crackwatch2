@@ -10,10 +10,10 @@ const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
 
 interface FetcherProps {
     name: string;
-    providers: Provider[];
+    providers?: Provider[];
 }
 
-const fetcher = async ({ name, providers }: FetcherProps) => {
+const fetcher = async ({ name, providers = defaultProviders }: FetcherProps) => {
     if (!name) return;
 
     const query = async (provider: string) => {
@@ -32,8 +32,8 @@ const fetcher = async ({ name, providers }: FetcherProps) => {
 };
 
 // pass a name and providers and this hook will return whether the game has been cracked
-export default function useCrack(name: string | null = null, providers = defaultProviders) {
-    const { data = null } = useSWR(name && { name, providers }, fetcher);
+export default function useCrack(key: null | (() => FetcherProps)) {
+    const { data = null } = useSWR(key, fetcher);
 
     return {
         data,
