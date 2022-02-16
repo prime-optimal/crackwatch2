@@ -3,9 +3,6 @@
     "scripts": {
         "build": "tsc && tsc-alias"
     },
-    "files": [
-        "./dist"
-    ],
     "dependencies": {
         "@fastify/session": "^6.4.0",
         "@meanie/mongoose-to-json": "^2.6.0",
