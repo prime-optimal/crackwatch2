@@ -10,3 +10,4 @@ export const getMongoClient = async () => {
 };
 
 export * from "./models/user";
+export * from "./models/account";

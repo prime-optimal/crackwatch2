@@ -15,7 +15,7 @@ export default function BackToTop() {
         <Grow in={trigger}>
             <Fab
                 onClick={onClick}
-                sx={{ position: "fixed", bottom: 40, right: 40 }}
+                sx={{ position: "fixed", bottom: 40, right: 40, zIndex: 1 }}
                 size="small"
             >
                 <KeyboardArrowUpIcon />

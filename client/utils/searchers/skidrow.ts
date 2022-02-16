@@ -9,7 +9,7 @@ import Fuzzy from "@utils/fuzzy";
 const BASE_URL = "https://www.skidrowreloaded.com";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
-// Tier 2 provider
+// Tier B provider
 const provider: Provider = "skidrow";
 
 const search = async (query: string) => {

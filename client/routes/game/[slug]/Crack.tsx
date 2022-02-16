@@ -12,7 +12,7 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import IconTypography from "@components/IconTypography";
 
@@ -39,13 +39,10 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 
 export default function Crack() {
     const { data } = useGame();
+
     const { cracked, data: providers } = useCrack(data?.name || null);
 
     const [open, setOpen] = useState(false);
-
-    const onClose = useCallback(() => {
-        setOpen(false);
-    }, []);
 
     return (
         <Box component={Paper} p={2}>
@@ -86,7 +83,7 @@ export default function Crack() {
                 </IconButton>
             </Stack>
 
-            <ProviderInfo data={providers} onClose={onClose} open={open} />
+            <ProviderInfo data={providers} onClose={() => setOpen(false)} open={open} />
         </Box>
     );
 }

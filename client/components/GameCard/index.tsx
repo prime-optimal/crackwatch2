@@ -18,9 +18,8 @@ interface GameCardProps {
 
 const GameCard = memo(({ img, name, video, genres, slug }: GameCardProps) => {
     const { ref, inView } = useInView({ delay: 150 });
-    const { cracked } = useCrack(inView ? name : null);
 
-    const loading = cracked === null;
+    const { cracked, loading } = useCrack(inView ? name : null);
 
     return (
         <Card

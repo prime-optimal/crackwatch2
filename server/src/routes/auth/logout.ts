@@ -1,14 +1,15 @@
-import { FastifyReply, FastifyRequest as Req, RouteOptions } from "fastify";
+import { FastifyRequest as Req, FastifyReply as Res } from "fastify";
+import { Resource } from "fastify-autoroutes";
 
-const handler = (req: Req, res: FastifyReply) => {
+const handler: any = (req: Req, res: Res) => {
     req.destroySession(err => {
         if (err) throw err;
         res.clearCookie("session").send("OK");
     });
 };
 
-export default {
-    url: "/auth/logout",
-    method: "POST",
-    handler,
-} as RouteOptions;
+export default (): Resource => ({
+    post: {
+        handler,
+    },
+});

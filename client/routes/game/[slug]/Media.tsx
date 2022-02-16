@@ -1,10 +1,11 @@
 import { Box } from "@mui/material";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import useSWR from "swr/immutable";
 
 import { AxiosGameScreenshots } from "@types";
 
-import Carousel from "@components/Carousel";
+const Carousel = dynamic(() => import("@components/Carousel"), { ssr: false });
 
 export default function Media() {
     const { slug = null } = useRouter().query;

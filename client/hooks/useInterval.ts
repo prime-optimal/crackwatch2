@@ -15,11 +15,13 @@ export default function useInterval(fn: () => void, ms = 200) {
         if (onServer()) return;
 
         const iteration = () => {
-            fnRef.current();
-            timeoutRef.current = setTimeout(iteration, ms) as unknown as number;
+            timeoutRef.current = setTimeout(() => {
+                fnRef.current();
+                iteration();
+            }, ms) as unknown as number;
         };
         iteration();
 
         return () => clearTimeout(timeoutRef.current);
-    }, [fnRef, ms]);
+    }, [ms]);
 }

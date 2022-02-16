@@ -9,7 +9,7 @@ import Fuzzy from "@utils/fuzzy";
 const BASE_URL = "https://steamcrackedgames.com";
 const PROXY_URL = "https://proxy.tronikel-apps.com";
 
-// Tier 1 provider
+// Tier S provider
 const provider: Provider = "steamcrackedgames";
 
 const search = async (query: string) => {
