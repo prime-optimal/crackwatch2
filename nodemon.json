@@ -1,6 +1,9 @@
 {
     "ignore": ["./client/*", ".git", "node_modules/**/node_modules", "dist/"],
     "watch": ["./server"],
-    "verbose": false,
-    "ext": "ts"
+    "verbose": true,
+    "ext": "ts",
+    "env": {
+        "NODE_ENV": "development"
+    }
 }

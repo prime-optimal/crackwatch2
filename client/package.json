@@ -1,7 +1,9 @@
 {
     "name": "client",
     "scripts": {
-        "build": "next build"
+        "build": "next build",
+        "start": "next start",
+        "dev": "next dev"
     },
     "dependencies": {
         "@badrap/bar-of-progress": "^0.1.2",

@@ -49,7 +49,7 @@ fastify.register(fastifySession, {
     },
 });
 
-fastify.register(fastifyNext, { dev, dir: "../../client" }).after(() => {
+fastify.register(fastifyNext, { dev, dir: path.resolve("../../client") }).after(() => {
     fastify.next("/");
     fastify.next("/game/:id");
     fastify.next("/auth/login");
