@@ -1,9 +1,9 @@
-import { FastifyRequest as Req, RouteOptions } from "fastify";
-import { accountModel } from "mongo/models/account";
+import { FastifyRequest as Req } from "fastify";
+import { Resource } from "fastify-autoroutes";
 
-import { userModel } from "@mongo";
+import { accountModel, userModel } from "@mongo";
 
-const handler = async (req: Req) => {
+const handler: any = async (req: Req) => {
     if (!req.session.user) return {};
 
     const user = await userModel.findById(req.session.user.id);
@@ -21,8 +21,8 @@ const handler = async (req: Req) => {
     return { nickname, email, createdAt, avatar, providers };
 };
 
-export default {
-    method: "GET",
-    url: "/auth/user",
-    handler,
-} as RouteOptions;
+export default (): Resource => ({
+    get: {
+        handler,
+    },
+});

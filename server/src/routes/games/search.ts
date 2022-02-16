@@ -1,6 +1,7 @@
 import { Static, Type } from "@sinclair/typebox";
 import axios from "axios";
 import { FastifyRequest as Req, RouteOptions } from "fastify";
+import { Resource } from "fastify-autoroutes";
 import urlCat from "urlcat";
 
 import { AxiosGames } from "@types";
@@ -17,7 +18,7 @@ const querystring = Type.Object(
 );
 type Querystring = Static<typeof querystring>;
 
-const handler = async (req: Req<{ Querystring: Querystring }>) => {
+const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { q } = req.query;
 
     const { data } = await axios.get<AxiosGames>(
@@ -38,9 +39,9 @@ const handler = async (req: Req<{ Querystring: Querystring }>) => {
     return { ...data, results, next: !!data.next, previous: !!data.previous };
 };
 
-export default {
-    url: "/games/search",
-    method: "GET",
-    handler,
-    schema: { querystring },
-} as RouteOptions;
+export default (): Resource => ({
+    get: {
+        handler,
+        schema: { querystring },
+    },
+});

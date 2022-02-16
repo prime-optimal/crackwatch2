@@ -1,6 +1,7 @@
 import { Static, Type } from "@sinclair/typebox";
 import { scrypt, timingSafeEqual } from "crypto";
-import { FastifyRequest as Req, RouteOptions } from "fastify";
+import { FastifyRequest as Req } from "fastify";
+import { Resource } from "fastify-autoroutes";
 import { promisify } from "util";
 
 import { userModel } from "@mongo";
@@ -16,7 +17,7 @@ type Body = Static<typeof body>;
 
 const scryptPromise = promisify(scrypt);
 
-const handler = async (req: Req<{ Body: Body }>) => {
+const handler: any = async (req: Req<{ Body: Body }>) => {
     const { email, password } = req.body;
 
     const user = await userModel.findOne({ email });
@@ -44,9 +45,9 @@ const handler = async (req: Req<{ Body: Body }>) => {
     return "OK";
 };
 
-export default {
-    url: "/auth/login",
-    method: "POST",
-    handler,
-    schema: { body },
-} as RouteOptions;
+export default (): Resource => ({
+    post: {
+        handler,
+        schema: { body },
+    },
+});

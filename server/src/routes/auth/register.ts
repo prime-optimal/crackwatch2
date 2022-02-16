@@ -1,10 +1,10 @@
 import { Static, Type } from "@sinclair/typebox";
 import { randomBytes, scrypt } from "crypto";
-import { FastifyRequest as Req, RouteOptions } from "fastify";
-import { accountModel } from "mongo/models/account";
+import { FastifyRequest as Req } from "fastify";
+import { Resource } from "fastify-autoroutes";
 import { promisify } from "util";
 
-import { userModel } from "@mongo";
+import { accountModel, userModel } from "@mongo";
 
 const body = Type.Object(
     {
@@ -19,7 +19,7 @@ type Body = Static<typeof body>;
 const randomBytesPromise = promisify(randomBytes);
 const scryptPromise = promisify(scrypt);
 
-const handler = async (req: Req<{ Body: Body }>) => {
+const handler: any = async (req: Req<{ Body: Body }>) => {
     const { email, nickname, password } = req.body;
 
     if (await userModel.findOne({ $or: [{ email }, { nickname }] })) {
@@ -52,9 +52,9 @@ const handler = async (req: Req<{ Body: Body }>) => {
     return "OK";
 };
 
-export default {
-    url: "/auth/register",
-    method: "POST",
-    handler,
-    schema: { body },
-} as RouteOptions;
+export default (): Resource => ({
+    post: {
+        handler,
+        schema: { body },
+    },
+});

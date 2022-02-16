@@ -1,6 +1,8 @@
 import { Static, Type } from "@sinclair/typebox";
-import { FastifyRequest as Req, RouteOptions } from "fastify";
-import { accountModel } from "mongo/models/account";
+import { FastifyRequest as Req } from "fastify";
+import { Resource } from "fastify-autoroutes";
+
+import { accountModel } from "@mongo";
 
 import { authenticate } from "@hooks/authenticate";
 
@@ -12,7 +14,7 @@ const body = Type.Object(
 );
 type Body = Static<typeof body>;
 
-const handler = async (req: Req<{ Body: Body }>) => {
+const handler: any = async (req: Req<{ Body: Body }>) => {
     if (!req.session.user?.id) {
         throw {
             status: 400,
@@ -36,10 +38,10 @@ const handler = async (req: Req<{ Body: Body }>) => {
     return "OK";
 };
 
-export default {
-    url: "/account/providers",
-    method: "PUT",
-    handler,
-    schema: { body },
-    onRequest: authenticate,
-} as RouteOptions;
+export default (): Resource => ({
+    put: {
+        handler,
+        schema: { body },
+        onRequest: authenticate,
+    },
+});

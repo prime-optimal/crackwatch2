@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src",
+        "baseUrl": ".",
         "target": "es2020",
         "module": "commonjs",
         "lib": ["es2017", "es7", "es6", "ESNext"],
@@ -9,13 +9,13 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "paths": {
-            "@routes/*": ["./routes/*"],
-            "@components": ["./components"],
-            "@utils": ["./utils"],
-            "@hooks/*": ["./hooks/*"],
-            "@types": ["./types"],
-            "@config": ["./config"],
-            "@mongo": ["./mongo"]
+            "@routes/*": ["./src/routes/*"],
+            "@components": ["./src/components"],
+            "@utils": ["./src/utils"],
+            "@hooks/*": ["./src/hooks/*"],
+            "@types": ["./src/types"],
+            "@config": ["./src/config"],
+            "@mongo": ["./src/mongo"]
         }
     },
     "exclude": ["node_modules", "dist"],

@@ -44,5 +44,6 @@ export default function useCrack(name: string | null) {
     return {
         data,
         cracked: data && data.some(crack => crack.items.length > 0),
+        loading: data === null,
     };
 }
