@@ -61,7 +61,7 @@ fastify.register(
     (fastify, opts, done) => {
         fastify.register(fastifyHelmet);
         fastify.register(fastifyAutoRoutes, {
-            dir: path.normalize(path.resolve("./routes")).replace(/\\/g, "/"),
+            dir: path.resolve("./routes"),
         });
         done();
     },

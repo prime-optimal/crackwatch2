@@ -1,0 +1,6 @@
+{
+    "ignore": ["./client/*", ".git", "node_modules/**/node_modules", "dist/"],
+    "watch": ["./server"],
+    "verbose": false,
+    "ext": "ts"
+}
