@@ -16,9 +16,14 @@ import { Provider } from "@types";
 import useUser from "@hooks/useUser";
 
 import tryToCatch from "@utils/catch";
-import { ProviderTiers } from "@utils/searchers";
 
 import { queries } from "./queries";
+
+const ProviderTiers = {
+    s: ["gamestatus", "steamcrackedgames"] as Provider[],
+    b: ["pcgamestorrents", "skidrow"] as Provider[],
+    c: ["1337x"] as Provider[],
+};
 
 const tierMap = {
     s: "popular games, ~99% accuracy (recommended)",

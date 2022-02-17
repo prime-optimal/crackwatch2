@@ -13,9 +13,9 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import axios from "axios";
 import Router from "next/router";
 import { useState } from "react";
+import axios from "redaxios";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 

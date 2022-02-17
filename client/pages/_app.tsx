@@ -4,11 +4,11 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import { dequal } from "dequal";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import axios from "redaxios";
 import { SWRConfig } from "swr";
 
 import Footer from "@components/Footer";

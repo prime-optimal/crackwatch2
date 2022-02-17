@@ -8,7 +8,7 @@ import { AxiosGames } from "@types";
 
 import { RAWG_BASE } from "@config";
 
-import { minifyImageSrc } from "@utils";
+import { minifyImageSrc } from "@utils/minify";
 
 const querystring = Type.Object(
     {

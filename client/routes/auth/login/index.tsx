@@ -9,10 +9,10 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import axios from "axios";
 import NextLink from "next/link";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
+import axios from "redaxios";
 
 import useUser from "@hooks/useUser";
 

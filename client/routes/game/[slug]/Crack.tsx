@@ -40,7 +40,7 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 export default function Crack() {
     const { data } = useGame();
 
-    const { cracked, data: providers } = useCrack(data?.name || null);
+    const { cracked, providers, data: crack, error } = useCrack(data?.name || null);
 
     const [open, setOpen] = useState(false);
 
@@ -74,7 +74,7 @@ export default function Crack() {
                 <Typography mr={0.5} color="text.secondary">
                     Providers:
                 </Typography>
-                {providers?.map(({ provider }) => (
+                {providers?.map(provider => (
                     <Chip sx={{ m: 0.5 }} label={provider} key={provider} />
                 ))}
 
@@ -83,7 +83,7 @@ export default function Crack() {
                 </IconButton>
             </Stack>
 
-            <ProviderInfo data={providers} onClose={() => setOpen(false)} open={open} />
+            <ProviderInfo data={crack || error} onClose={() => setOpen(false)} open={open} />
         </Box>
     );
 }

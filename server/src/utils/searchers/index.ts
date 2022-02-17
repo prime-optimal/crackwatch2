@@ -6,7 +6,7 @@ import PcGamesTorrents from "./pcgamestorrents";
 import Skidrow from "./skidrow";
 import SteamCrackedGames from "./steamcrackedgames";
 
-export const Providers: CrackProvider[] = [
+const Providers: CrackProvider[] = [
     OneThreeThreeSeven,
     GameStatus,
     PcGamesTorrents,
@@ -14,8 +14,4 @@ export const Providers: CrackProvider[] = [
     SteamCrackedGames,
 ];
 
-export const ProviderTiers = {
-    s: [GameStatus.provider, SteamCrackedGames.provider],
-    b: [PcGamesTorrents.provider, Skidrow.provider],
-    c: [OneThreeThreeSeven.provider],
-};
+export default Providers;

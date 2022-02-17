@@ -1,4 +1,4 @@
-import type Fuse from "fuse.js";
+import Fuse from "fuse.js";
 
 const flags = {
     skip: ["uncracked", "unlocked"],
@@ -12,7 +12,6 @@ const defaultOptions: Fuse.IFuseOptions<string> = {
 };
 
 export default async function Fuzzy(list: string[], query: string, options = defaultOptions) {
-    const Fuse = (await import("fuse.js")).default;
     const fuse = new Fuse(list, { ...defaultOptions, ...options });
 
     // skip items with flags
