@@ -1,4 +1,5 @@
 import { Container, Grid } from "@mui/material";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
@@ -16,8 +17,19 @@ export default function Game() {
     const { slug = null } = useRouter().query;
     const { data } = useSWR<AxiosGame>(slug && `/game/${slug}`);
 
+    const title = data?.name + " Crack status";
+
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
+            <Head>
+                <title>{title}</title>
+                <meta property="og:title" content={title} />
+                <meta property="og:type" content="object" />
+                <meta property="og:image" content={data?.background_image_additional} />
+                <meta property="og:description" content={data?.description_raw} />
+                <meta name="twitter:card" content="summary_large_image" />
+            </Head>
+
             <ResponsiveImage
                 src={data?.background_image}
                 props={{

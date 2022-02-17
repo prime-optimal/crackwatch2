@@ -1,5 +1,5 @@
 import { Static, Type } from "@sinclair/typebox";
-import { FastifyRequest as Req, RouteOptions } from "fastify";
+import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 
 import { userModel } from "@mongo";

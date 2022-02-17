@@ -47,6 +47,13 @@ export default function Index() {
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <Head>
                 <title>Crackwatch 2</title>
+                <meta name="og:title" content="Crackwatch 2" />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Crackwatch 2" />
+                <meta
+                    property="og:description"
+                    content="Check up and watch your favorite game's crack status"
+                />
             </Head>
 
             <Title />
