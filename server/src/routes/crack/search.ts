@@ -30,7 +30,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
                 search(query)
                     .then(result => {
                         if (result.length < 1) reject(`${provider} does not have cracks`);
-                        resolve({ provider, result });
+                        else resolve({ provider, result });
                     })
                     .catch(() => reject(`${provider} did not respond`));
             })

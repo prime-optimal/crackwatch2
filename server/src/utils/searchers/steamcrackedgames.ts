@@ -24,7 +24,7 @@ const search = async (query: string) => {
 
     const titles: string[] = [];
     container.find("tr").each((i, el) => {
-        const title = $(el).find("a.text-white").text().trim();
+        const title = $(el).find("a.text-white").first().text().trim();
 
         const cracked = $(el).find("span.cracked-text").text().includes("cracked");
 
