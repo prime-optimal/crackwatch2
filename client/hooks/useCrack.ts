@@ -27,7 +27,8 @@ export default function useCrack(query: string | null) {
 
     const { data = null, error } = useSWR(
         query && user ? { query, providers: user.providers } : null,
-        fetcher
+        fetcher,
+        { shouldRetryOnError: false }
     );
 
     return {
