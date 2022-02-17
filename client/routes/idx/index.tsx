@@ -1,5 +1,6 @@
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { CircularProgress, Container, Grid, Stack } from "@mui/material";
+import Head from "next/head";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
@@ -44,6 +45,17 @@ export default function Index() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
+            <Head>
+                <title>Crackwatch 2</title>
+                <meta name="og:title" content="Crackwatch 2" />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Crackwatch 2" />
+                <meta
+                    property="og:description"
+                    content="Check up and watch your favorite game's crack status"
+                />
+            </Head>
+
             <Title />
 
             <Grid container spacing={6}>

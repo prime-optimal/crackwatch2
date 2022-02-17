@@ -1,6 +1,6 @@
 import { Static, Type } from "@sinclair/typebox";
 import axios from "axios";
-import { FastifyRequest as Req, RouteOptions } from "fastify";
+import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 import urlCat from "urlcat";
 
