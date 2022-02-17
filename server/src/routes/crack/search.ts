@@ -23,6 +23,13 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     // filter out the needed providers
     const filtered = Providers.filter(({ provider }) => providers.includes(provider));
 
+    if (filtered.length < 1) {
+        throw {
+            status: 400,
+            message: "Unknown providers ¯\\_(ツ)_/¯",
+        };
+    }
+
     // this only looks complex
     const promises = filtered.map(
         ({ search, provider }) =>
