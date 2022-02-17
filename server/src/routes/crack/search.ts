@@ -32,14 +32,17 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
                         if (result.length < 1) reject(`${provider} does not have cracks`);
                         resolve({ provider, result });
                     })
-                    .catch(() => reject(`${provider} did not respond, aborting`));
+                    .catch(() => reject(`${provider} did not respond`));
             })
     );
 
     const [result, error] = await tryToCatch(() => Promise.any(promises));
 
     if (!result) {
-        throw new Error((error as AggregateError).errors.join(" - "));
+        throw {
+            status: 404,
+            message: (error as AggregateError).errors.join(" - "),
+        };
     }
 
     return result;
