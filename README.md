@@ -2,6 +2,13 @@
 
 ## Currently heavy WIP
 
+## Planned features
+
+-   Crack status provider tier list - [ X ]
+-   Game watch list - [ ]
+-   Send an email when a watched game has been cracked [ ]
+-   A discord bot in the future ?
+
 ## Some screenshots
 
 ![index page gif](https://i.imgur.com/asaBZzt.gif)

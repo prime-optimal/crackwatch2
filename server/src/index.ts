@@ -6,6 +6,7 @@ import fastifyAutoRoutes from "fastify-autoroutes";
 import fastifyCookie from "fastify-cookie";
 import fastifyHelmet from "fastify-helmet";
 import fastifyNext from "fastify-nextjs";
+import fastifyRateLimit from "fastify-rate-limit";
 import path from "path";
 
 import { getMongoClient } from "@mongo";
@@ -30,6 +31,16 @@ const fastify = Fastify({
         },
     },
     trustProxy: !dev,
+});
+
+fastify.register(fastifyRateLimit, {
+    max: 200,
+    timeWindow: 1000 * 60,
+    allowList: ["127.0.0.1"],
+    keyGenerator: req =>
+        req.headers["cf-connecting-ip"]?.toString() || // cloudflare
+        req.headers["x-forwarded-for"]?.toString() || // nginx
+        req.ip,
 });
 
 fastify.register(fastifyCookie);

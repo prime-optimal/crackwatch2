@@ -16,6 +16,7 @@
         "fastify-cookie": "^5.5.0",
         "fastify-helmet": "^7.0.1",
         "fastify-nextjs": "^7.2.0",
+        "fastify-rate-limit": "^5.7.2",
         "mongoose": "^6.2.1",
         "next": "^12.0.10",
         "urlcat": "^2.0.4"
