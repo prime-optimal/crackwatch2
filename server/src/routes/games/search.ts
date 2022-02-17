@@ -6,7 +6,7 @@ import urlCat from "urlcat";
 
 import { AxiosGames } from "@types";
 
-import { RAWG_BASE } from "@config";
+import { RAWG_BASE, headers } from "@config";
 
 import { minifyImageSrc } from "@utils/minify";
 
@@ -27,7 +27,8 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
             platforms: "4",
             search: q,
             page_size: 10,
-        })
+        }),
+        { headers }
     );
 
     // minify images

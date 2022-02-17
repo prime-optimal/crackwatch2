@@ -4,7 +4,7 @@ import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 import urlCat from "urlcat";
 
-import { RAWG_BASE } from "@config";
+import { RAWG_BASE, headers } from "@config";
 
 const params = Type.Object(
     {
@@ -21,7 +21,8 @@ const handler: any = async (req: Req<{ Params: Params }>) => {
         urlCat(RAWG_BASE, "/games/:slug", {
             key: process.env.RAWG_KEY,
             slug,
-        })
+        }),
+        { headers }
     );
 
     return data;
