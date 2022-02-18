@@ -1,3 +1,5 @@
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import InfoIcon from "@mui/icons-material/Info";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import {
@@ -10,6 +12,7 @@ import {
     IconButton,
     Paper,
     Stack,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -17,6 +20,7 @@ import { useState } from "react";
 import IconTypography from "@components/IconTypography";
 
 import useCrack from "@hooks/useCrack";
+import useUser from "@hooks/useUser";
 
 import { useGame } from "./hooks";
 
@@ -39,6 +43,7 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 
 export default function Crack() {
     const { data } = useGame();
+    const { data: user } = useUser();
 
     const { cracked, providers, data: crack, error } = useCrack(data?.name || null);
 
@@ -46,13 +51,22 @@ export default function Crack() {
 
     return (
         <Box component={Paper} p={2}>
-            <IconTypography
-                sx={{ mb: 2 }}
-                props={{ variant: "h5" }}
-                icon={<InfoIcon fontSize="large" />}
+            <Stack
+                flexDirection="row"
+                mb={2}
+                justifyContent="space-between"
+                alignItems="center"
             >
-                Crack info
-            </IconTypography>
+                <IconTypography props={{ variant: "h5" }} icon={<InfoIcon fontSize="large" />}>
+                    Crack info
+                </IconTypography>
+
+                <Tooltip title="Get crack updates">
+                    <IconButton disabled={!user?.nickname}>
+                        <BookmarkBorderIcon fontSize="large" />
+                    </IconButton>
+                </Tooltip>
+            </Stack>
 
             <Typography>
                 <Typography component="span" color="text.secondary">
