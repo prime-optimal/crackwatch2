@@ -1,13 +1,11 @@
 import { Static, Type } from "@sinclair/typebox";
-import axios from "axios";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 import urlCat from "urlcat";
 
 import { AxiosGames } from "@types";
 
-import { RAWG_BASE, headers } from "@config";
-
+import { rawgClient } from "@utils/axios";
 import { minifyImageSrc } from "@utils/minify";
 
 const querystring = Type.Object(
@@ -21,14 +19,14 @@ type Querystring = Static<typeof querystring>;
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     const { q } = req.query;
 
-    const { data } = await axios.get<AxiosGames>(
-        urlCat(RAWG_BASE, "/games", {
+    const { data } = await rawgClient.get<AxiosGames>(
+        urlCat("/games", {
             key: process.env.RAWG_KEY,
             platforms: "4",
             search: q,
             page_size: 10,
         }),
-        { headers }
+        { ttl: 60 * 60 * 24 * 7 }
     );
 
     // minify images

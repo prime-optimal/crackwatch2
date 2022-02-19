@@ -1,5 +1,4 @@
 import fastifySession from "@fastify/session";
-import axios from "axios";
 import MongoStore from "connect-mongo";
 import dotenv from "dotenv";
 import Fastify from "fastify";
@@ -11,8 +10,6 @@ import fastifyRateLimit from "fastify-rate-limit";
 import path from "path";
 
 import { getMongoClient } from "@mongo";
-
-axios.defaults.timeout = 1000 * 5;
 
 dotenv.config({ path: path.resolve("../.env") });
 

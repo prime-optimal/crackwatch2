@@ -1,9 +1,9 @@
-import axios from "axios";
 import cheerio from "cheerio";
 import urlCat from "urlcat";
 
 import { Provider } from "@types";
 
+import { crackClient } from "@utils/axios";
 import Fuzzy from "@utils/fuzzy";
 
 const BASE_URL = "https://pcgamestorrents.com";
@@ -16,7 +16,7 @@ const search = async (query: string) => {
         s: query,
     });
 
-    const { data } = await axios.get(url);
+    const { data } = await crackClient.get(url);
 
     const $ = cheerio.load(data);
 

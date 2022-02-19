@@ -1,10 +1,9 @@
 import { Static, Type } from "@sinclair/typebox";
-import axios from "axios";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 import urlCat from "urlcat";
 
-import { RAWG_BASE, headers } from "@config";
+import { rawgClient } from "@utils/axios";
 
 const params = Type.Object(
     {
@@ -17,12 +16,12 @@ type Params = Static<typeof params>;
 const handler: any = async (req: Req<{ Params: Params }>) => {
     const { slug } = req.params;
 
-    const { data } = await axios.get(
-        urlCat(RAWG_BASE, "/games/:slug/screenshots", {
+    const { data } = await rawgClient.get(
+        urlCat("/games/:slug/screenshots", {
             key: process.env.RAWG_KEY,
             slug,
         }),
-        { headers }
+        { ttl: 60 * 60 * 24 }
     );
 
     return data;
