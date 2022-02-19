@@ -1,7 +1,6 @@
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import {
     Avatar,
     Divider,
@@ -47,13 +46,6 @@ const UserMenu = (props: MenuProps) => {
         >
             <Typography align="center">{user?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
-
-            <MenuItem disabled={!user?.nickname}>
-                <ListItemIcon>
-                    <WatchLaterIcon />
-                </ListItemIcon>
-                Watching
-            </MenuItem>
 
             <MenuItem disabled={!user?.nickname} onClick={onAccount}>
                 <ListItemIcon>

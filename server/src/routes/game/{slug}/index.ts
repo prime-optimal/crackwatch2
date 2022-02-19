@@ -8,7 +8,7 @@ import { RAWG_BASE, headers } from "@config";
 
 const params = Type.Object(
     {
-        slug: Type.String(),
+        slug: Type.String({ minLength: 1 }),
     },
     { additionalProperties: false }
 );

@@ -25,7 +25,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     if (filtered.length < 1) {
         throw {
-            status: 400,
+            statusCode: 400,
             message: "Unknown providers ¯\\_(ツ)_/¯",
         };
     }

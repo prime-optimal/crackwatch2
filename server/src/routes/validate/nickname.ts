@@ -6,7 +6,7 @@ import { userModel } from "@mongo";
 
 const body = Type.Object(
     {
-        nickname: Type.String({ maxLength: 20 }),
+        nickname: Type.String({ maxLength: 20, minLength: 1 }),
     },
     { additionalProperties: false }
 );

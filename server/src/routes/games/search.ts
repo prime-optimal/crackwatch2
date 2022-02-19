@@ -12,7 +12,7 @@ import { minifyImageSrc } from "@utils/minify";
 
 const querystring = Type.Object(
     {
-        q: Type.String(),
+        q: Type.String({ minLength: 1 }),
     },
     { additionalProperties: false }
 );
