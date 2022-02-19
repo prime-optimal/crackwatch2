@@ -20,8 +20,7 @@ const handler: any = async (req: Req<{ Params: Params }>) => {
         urlCat("/games/:slug/screenshots", {
             key: process.env.RAWG_KEY,
             slug,
-        }),
-        { ttl: 60 * 60 * 24 }
+        })
     );
 
     return data;

@@ -41,7 +41,9 @@ fastify.register(fastifyRateLimit, {
             // ssr is allowed
             req.headers["ssr-secret"] === process.env.SSR_SECRET ||
             // media is allowed
-            req.url.startsWith("/_next/")
+            req.url.startsWith("/_next/") ||
+            // localhost
+            req.ip === "127.0.0.1"
         );
     },
     keyGenerator: req =>

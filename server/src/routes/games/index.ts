@@ -38,8 +38,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
             ordering: "-added",
             dates,
             page,
-        }),
-        { ttl: 60 * 60 * 24 }
+        })
     );
 
     // minify images
