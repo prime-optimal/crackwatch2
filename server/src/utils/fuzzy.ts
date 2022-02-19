@@ -10,6 +10,7 @@ const defaultOptions: Fuse.IFuseOptions<string> = {
     threshold: 0.1,
     isCaseSensitive: false,
     distance: 15,
+    shouldSort: false,
 };
 
 export default async function Fuzzy(list: string[], query: string, options = defaultOptions) {

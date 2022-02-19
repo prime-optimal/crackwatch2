@@ -16,6 +16,7 @@ const rawgClient = cachios.create(
     {
         stdTTL: 60 * 60 * 24,
         checkperiod: 600,
+        useClones: true,
     }
 );
 
@@ -26,7 +27,7 @@ const crackClient = cachios.create(
             "user-agent": headers["user-agent"],
         },
     }) as any,
-    { stdTTL: 60 * 60 * 2, checkperiod: 600 }
+    { stdTTL: 60 * 60 * 2, checkperiod: 600, useClones: true }
 );
 
 export { rawgClient, crackClient };
