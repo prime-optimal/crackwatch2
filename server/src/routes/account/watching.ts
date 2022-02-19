@@ -33,7 +33,7 @@ const handlerPut: any = async (req: Req<{ Body: BodyPut }>) => {
         };
     }
 
-    account.watching.push({ cracked: false, item, slug, started: new Date() });
+    account.watching.push({ item, slug, started: new Date() });
     await account.save();
 
     return account.watching;

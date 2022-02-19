@@ -9,7 +9,7 @@ export interface Account {
 }
 
 interface Watching {
-    cracked: boolean;
+    cracked?: boolean;
     item: string;
     slug: string;
     started: Date;
@@ -25,7 +25,7 @@ const accountSchema = new Schema<Account>({
         ],
         type: [
             new Schema<Watching>({
-                cracked: { type: Boolean, required: true },
+                cracked: { type: Boolean, default: false },
                 item: { type: String, required: true },
                 started: { type: Date, required: true },
                 slug: { type: String, required: true },
