@@ -1,4 +1,6 @@
 import InfoIcon from "@mui/icons-material/Info";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import {
     Box,
@@ -10,13 +12,17 @@ import {
     IconButton,
     Paper,
     Stack,
+    Tooltip,
     Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import axios from "redaxios";
+import urlCat from "urlcat";
 
 import IconTypography from "@components/IconTypography";
 
 import useCrack from "@hooks/useCrack";
+import useUser from "@hooks/useUser";
 
 import { useGame } from "./hooks";
 
@@ -31,28 +37,73 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
         <Dialog open={open} onClose={onClose} maxWidth="md">
             <DialogTitle>Provider results</DialogTitle>
             <DialogContent>
-                <Typography component="pre">{JSON.stringify(data, null, 2)}</Typography>
+                <Typography component="code">{JSON.stringify(data, null, 2)}</Typography>
             </DialogContent>
         </Dialog>
+    );
+};
+
+const Notifications = () => {
+    const { data } = useGame();
+    const { data: user, mutate, isValidating } = useUser();
+
+    const active = useMemo(() => {
+        return !!user?.watching.find(game => game.slug === data?.slug);
+    }, [data?.slug, user?.watching]);
+
+    const onClick = () => {
+        if (!user?.nickname) return;
+
+        mutate(async user => {
+            if (!user?.nickname) return;
+
+            if (active) {
+                const { data: watching } = await axios.delete(
+                    urlCat("/account/watching", {
+                        slug: data?.slug,
+                    })
+                );
+                return { ...user, watching } as any;
+            }
+
+            const { data: watching } = await axios.put(`/account/watching`, {
+                slug: data?.slug,
+                item: data?.name,
+            });
+            return { ...user, watching } as any;
+        });
+    };
+
+    return (
+        <Tooltip title={`Get${active ? "ting" : ""} crack updates`}>
+            <IconButton disabled={!user?.nickname || isValidating} onClick={onClick}>
+                {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
+            </IconButton>
+        </Tooltip>
     );
 };
 
 export default function Crack() {
     const { data } = useGame();
 
-    const { cracked, data: providers } = useCrack(data?.name || null);
+    const { cracked, providers, data: crack, error, loading } = useCrack(data?.name || null);
 
     const [open, setOpen] = useState(false);
 
     return (
         <Box component={Paper} p={2}>
-            <IconTypography
-                sx={{ mb: 2 }}
-                props={{ variant: "h5" }}
-                icon={<InfoIcon fontSize="large" />}
+            <Stack
+                flexDirection="row"
+                mb={2}
+                justifyContent="space-between"
+                alignItems="center"
             >
-                Crack info
-            </IconTypography>
+                <IconTypography props={{ variant: "h5" }} icon={<InfoIcon fontSize="large" />}>
+                    Crack info
+                </IconTypography>
+
+                {!cracked && !loading && <Notifications />}
+            </Stack>
 
             <Typography>
                 <Typography component="span" color="text.secondary">
@@ -74,7 +125,7 @@ export default function Crack() {
                 <Typography mr={0.5} color="text.secondary">
                     Providers:
                 </Typography>
-                {providers?.map(({ provider }) => (
+                {providers?.map(provider => (
                     <Chip sx={{ m: 0.5 }} label={provider} key={provider} />
                 ))}
 
@@ -83,7 +134,7 @@ export default function Crack() {
                 </IconButton>
             </Stack>
 
-            <ProviderInfo data={providers} onClose={() => setOpen(false)} open={open} />
+            <ProviderInfo data={crack || error} onClose={() => setOpen(false)} open={open} />
         </Box>
     );
 }

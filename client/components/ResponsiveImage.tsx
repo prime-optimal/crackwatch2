@@ -13,7 +13,7 @@ export default function ResponsiveImage({ src, props = {} }: ResponsiveImageProp
                 <Image
                     decoding="auto"
                     src={src}
-                    alt="Not found"
+                    alt="Probably Loading..."
                     layout="fill"
                     objectFit="cover"
                 />

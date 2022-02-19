@@ -15,27 +15,20 @@ const body = Type.Object(
 type Body = Static<typeof body>;
 
 const handler: any = async (req: Req<{ Body: Body }>) => {
-    if (!req.session.user?.id) {
-        throw {
-            status: 400,
-            message: "This route needs authentication",
-        };
-    }
-
     const { providers } = req.body;
 
-    const account = await accountModel.findOne({ userId: req.session.user.id });
+    const account = await accountModel.findOne({ userId: req.session.user?.id || null });
     if (!account) {
         throw {
-            status: 400,
-            message: "The account settings weren't found for some reason",
+            statusCode: 401,
+            message: "Unexpected user not found",
         };
     }
 
     account.providers = providers as any;
     await account.save();
 
-    return "OK";
+    return account.providers;
 };
 
 export default (): Resource => ({

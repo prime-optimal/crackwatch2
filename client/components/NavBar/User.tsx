@@ -1,7 +1,6 @@
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import {
     Avatar,
     Divider,
@@ -13,26 +12,23 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
-import axios from "axios";
 import Router from "next/router";
 import { useState } from "react";
+import axios from "redaxios";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
 import useUser from "@hooks/useUser";
 
-import tryToCatch from "@utils/catch";
-
 const UserMenu = (props: MenuProps) => {
-    const { data: user, mutate } = useUser();
+    const { data: user, mutate, isValidating } = useUser();
 
     const onLogout = async () => {
-        const [result, error] = await tryToCatch(() => axios.post("/auth/logout"));
-        if (!result) {
-            alert(JSON.stringify(error));
-        }
+        await mutate(async () => {
+            await axios.post("/auth/logout");
+            return {};
+        });
 
-        mutate({});
         Router.push("/auth/login");
     };
 
@@ -47,13 +43,6 @@ const UserMenu = (props: MenuProps) => {
         >
             <Typography align="center">{user?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
-
-            <MenuItem disabled={!user?.nickname}>
-                <ListItemIcon>
-                    <WatchLaterIcon />
-                </ListItemIcon>
-                Watching
-            </MenuItem>
 
             <MenuItem disabled={!user?.nickname} onClick={onAccount}>
                 <ListItemIcon>
@@ -70,7 +59,7 @@ const UserMenu = (props: MenuProps) => {
                     Logout
                 </MenuItem>
             ) : (
-                <MenuItem onClick={onLogin}>
+                <MenuItem onClick={onLogin} disabled={isValidating}>
                     <ListItemIcon>
                         <LockOpenIcon />
                     </ListItemIcon>

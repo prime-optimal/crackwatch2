@@ -9,14 +9,12 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import axios from "axios";
 import NextLink from "next/link";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
+import axios from "redaxios";
 
 import useUser from "@hooks/useUser";
-
-import tryToCatch from "@utils/catch";
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -35,13 +33,11 @@ export default function Login() {
     const { mutate } = useUser();
 
     const onSubmit = async (data: LoginArgs) => {
-        const [result, error] = await tryToCatch(() => axios.post("/auth/login", data));
-        if (!result) {
-            alert(`There was an error ${JSON.stringify(error)}`);
-            return;
-        }
+        await mutate(async user => {
+            await axios.post("/auth/login", data);
+            return user;
+        });
 
-        mutate();
         Router.replace("/");
     };
 

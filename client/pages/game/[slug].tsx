@@ -1,23 +1,15 @@
-import axios from "axios";
 import { GetServerSideProps } from "next";
 import { SWRConfig } from "swr";
-import urlCat from "urlcat";
 
 import { PageProps } from "@types";
 
-import { RAWG_BASE } from "@config";
+import SSRAxios from "@utils/ssr-axios";
 
 import Game from "@routes/game/[slug]";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const { slug } = params as any;
-
-    const { data } = await axios.get(
-        urlCat(RAWG_BASE, "/games/:slug", {
-            key: process.env.RAWG_KEY,
-            slug,
-        })
-    );
+    const { data } = await SSRAxios(`/game/${slug}`);
 
     return {
         props: {

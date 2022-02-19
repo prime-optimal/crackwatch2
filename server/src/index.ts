@@ -11,7 +11,7 @@ import path from "path";
 
 import { getMongoClient } from "@mongo";
 
-dotenv.config();
+dotenv.config({ path: path.resolve("../.env") });
 
 const dev = process.env.NODE_ENV !== "production";
 const secret = process.env.SECRET || "12345678901234567890-1234567890234546786y5643";
@@ -36,7 +36,16 @@ const fastify = Fastify({
 fastify.register(fastifyRateLimit, {
     max: 200,
     timeWindow: 1000 * 60,
-    allowList: ["127.0.0.1"],
+    allowList: req => {
+        return (
+            // ssr is allowed
+            req.headers["ssr-secret"] === process.env.SSR_SECRET ||
+            // media is allowed
+            req.url.startsWith("/_next/") ||
+            // localhost
+            req.ip === "127.0.0.1"
+        );
+    },
     keyGenerator: req =>
         req.headers["cf-connecting-ip"]?.toString() || // cloudflare
         req.headers["x-forwarded-for"]?.toString() || // nginx

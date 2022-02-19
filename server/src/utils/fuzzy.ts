@@ -1,18 +1,20 @@
-import type Fuse from "fuse.js";
+import Fuse from "fuse.js";
 
 const flags = {
     skip: ["uncracked", "unlocked"],
 };
 
 // play around with settings to have a nice matching algo
+// in sequel cases eg. 'Prototype' and 'Prototype 2' this algo is bad
 const defaultOptions: Fuse.IFuseOptions<string> = {
     includeScore: true,
     threshold: 0.1,
     isCaseSensitive: false,
+    distance: 15,
+    shouldSort: false,
 };
 
 export default async function Fuzzy(list: string[], query: string, options = defaultOptions) {
-    const Fuse = (await import("fuse.js")).default;
     const fuse = new Fuse(list, { ...defaultOptions, ...options });
 
     // skip items with flags

@@ -23,7 +23,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     const user = await userModel.findOne({ email });
     if (!user) {
         throw {
-            status: 404,
+            statusCode: 404,
             message: "User does not exist",
         };
     }
@@ -33,7 +33,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     if (!timingSafeEqual(hashed, Buffer.from(key, "base64"))) {
         throw {
-            status: 400,
+            statusCode: 400,
             message: "Email and/or password is incorrect",
         };
     }

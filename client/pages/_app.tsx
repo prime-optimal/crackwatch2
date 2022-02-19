@@ -4,11 +4,11 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import { createTheme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import { dequal } from "dequal";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import axios from "redaxios";
 import { SWRConfig } from "swr";
 
 import Footer from "@components/Footer";
@@ -57,11 +57,20 @@ export default function MyApp(props: MyAppProps) {
     return (
         <CacheProvider value={emotionCache}>
             <Head>
-                <title>Crackwatch</title>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
+
             <ThemeProvider theme={theme}>
-                <SWRConfig value={{ fetcher, compare: dequal }}>
+                <SWRConfig
+                    value={{
+                        fetcher,
+                        compare: dequal,
+                        onError: (error: any) => {
+                            if (error.status === 404) return;
+                            alert(error.data?.message || error.message || error);
+                        },
+                    }}
+                >
                     <CssBaseline />
                     <NavBar />
                     <Component {...pageProps} />

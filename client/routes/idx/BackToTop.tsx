@@ -4,7 +4,7 @@ import { Fab, Grow, useScrollTrigger } from "@mui/material";
 export default function BackToTop() {
     const trigger = useScrollTrigger({
         disableHysteresis: true,
-        threshold: 700,
+        threshold: 1200,
     });
 
     const onClick = () => {

@@ -6,8 +6,10 @@
     "dependencies": {
         "@fastify/session": "^6.4.0",
         "@meanie/mongoose-to-json": "^2.6.0",
-        "@sinclair/typebox": "^0.23.3",
+        "@sinclair/typebox": "^0.23.4",
         "axios": "^0.26.0",
+        "cachios": "^3.1.1",
+        "cheerio": "^1.0.0-rc.10",
         "connect-mongo": "^4.6.0",
         "dotenv": "^16.0.0",
         "express-session": "^1.17.2",
@@ -17,8 +19,8 @@
         "fastify-helmet": "^7.0.1",
         "fastify-nextjs": "^7.2.0",
         "fastify-rate-limit": "^5.7.2",
-        "mongoose": "^6.2.1",
-        "next": "^12.0.10",
+        "fuse.js": "^6.5.3",
+        "mongoose": "^6.2.2",
         "urlcat": "^2.0.4"
     },
     "devDependencies": {

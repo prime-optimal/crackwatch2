@@ -24,7 +24,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     if (await userModel.findOne({ $or: [{ email }, { nickname }] })) {
         throw {
-            status: 400,
+            statusCode: 400,
             message: "User already exists",
         };
     }
