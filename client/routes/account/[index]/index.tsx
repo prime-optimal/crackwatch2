@@ -9,6 +9,7 @@ import {
     Tabs,
     Typography,
 } from "@mui/material";
+import Head from "next/head";
 import { useState } from "react";
 
 import useUser from "@hooks/useUser";
@@ -33,6 +34,9 @@ export default function Account() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
+            <Head>
+                <title>{`${user.nickname}'s account`}</title>
+            </Head>
             <Box component={Paper} p={2}>
                 <Stack
                     flexDirection="row"
@@ -49,12 +53,7 @@ export default function Account() {
 
                 <Divider sx={{ my: 2 }} />
 
-                <Tabs
-                    variant="fullWidth"
-                    centered
-                    value={value}
-                    onChange={(_, value) => setValue(value)}
-                >
+                <Tabs centered value={value} onChange={(_, value) => setValue(value)}>
                     <Tab label="Watching" value={0} />
                     <Tab label="Providers" value={1} />
                 </Tabs>

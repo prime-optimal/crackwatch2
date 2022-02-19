@@ -5,6 +5,7 @@ const flags = {
 };
 
 // play around with settings to have a nice matching algo
+// in sequel cases eg. 'Prototype' and 'Prototype 2' this algo is bad
 const defaultOptions: Fuse.IFuseOptions<string> = {
     includeScore: true,
     threshold: 0.1,

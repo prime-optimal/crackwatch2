@@ -46,10 +46,8 @@ function Providers() {
 
     return (
         <Stack>
-            <Typography variant="h4">Providers</Typography>
-
             {Object.keys(ProviderTiers).map(tier => (
-                <Box key={tier} my={3}>
+                <Box key={tier} mb={3}>
                     <Typography variant="h6">
                         Tier {tier.toUpperCase()} -{" "}
                         <Typography component="span" color="text.secondary">

@@ -68,6 +68,7 @@ export default function Index() {
                                 img={background_image}
                                 name={name}
                                 slug={slug}
+                                animations
                             />
                         </Grid>
                     ))
