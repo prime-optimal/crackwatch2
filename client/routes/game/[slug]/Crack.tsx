@@ -1,6 +1,6 @@
-import BookmarkIcon from "@mui/icons-material/Bookmark";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import InfoIcon from "@mui/icons-material/Info";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import {
     Box,
@@ -15,7 +15,9 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import axios from "redaxios";
+import urlCat from "urlcat";
 
 import IconTypography from "@components/IconTypography";
 
@@ -35,17 +37,56 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
         <Dialog open={open} onClose={onClose} maxWidth="md">
             <DialogTitle>Provider results</DialogTitle>
             <DialogContent>
-                <Typography>{JSON.stringify(data, null, 2)}</Typography>
+                <Typography component="code">{JSON.stringify(data, null, 2)}</Typography>
             </DialogContent>
         </Dialog>
     );
 };
 
+const Notifications = () => {
+    const { data } = useGame();
+    const { data: user, mutate, isValidating } = useUser();
+
+    const active = useMemo(() => {
+        return !!user?.watching.find(game => game.slug === data?.slug);
+    }, [data?.slug, user?.watching]);
+
+    const onClick = () => {
+        if (!user?.nickname) return;
+
+        mutate(async user => {
+            if (!user?.nickname) return;
+
+            if (active) {
+                const { data: watching } = await axios.delete(
+                    urlCat("/account/watching", {
+                        slug: data?.slug,
+                    })
+                );
+                return { ...user, watching } as any;
+            }
+
+            const { data: watching } = await axios.put(`/account/watching`, {
+                slug: data?.slug,
+                item: data?.name,
+            });
+            return { ...user, watching } as any;
+        });
+    };
+
+    return (
+        <Tooltip title={`Get${active ? "ting" : ""} crack updates`}>
+            <IconButton disabled={!user?.nickname || isValidating} onClick={onClick}>
+                {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
+            </IconButton>
+        </Tooltip>
+    );
+};
+
 export default function Crack() {
     const { data } = useGame();
-    const { data: user } = useUser();
 
-    const { cracked, providers, data: crack, error } = useCrack(data?.name || null);
+    const { cracked, providers, data: crack, error, loading } = useCrack(data?.name || null);
 
     const [open, setOpen] = useState(false);
 
@@ -61,11 +102,7 @@ export default function Crack() {
                     Crack info
                 </IconTypography>
 
-                <Tooltip title="Get crack updates">
-                    <IconButton disabled={!user?.nickname}>
-                        <BookmarkBorderIcon fontSize="large" />
-                    </IconButton>
-                </Tooltip>
+                {!cracked && !loading && <Notifications />}
             </Stack>
 
             <Typography>

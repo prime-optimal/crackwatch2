@@ -57,11 +57,20 @@ export default function MyApp(props: MyAppProps) {
     return (
         <CacheProvider value={emotionCache}>
             <Head>
-                <title>Crackwatch</title>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
             </Head>
+
             <ThemeProvider theme={theme}>
-                <SWRConfig value={{ fetcher, compare: dequal }}>
+                <SWRConfig
+                    value={{
+                        fetcher,
+                        compare: dequal,
+                        onError: (error: any) => {
+                            if (error.status === 404) return;
+                            alert(error.data?.message || error.message || error);
+                        },
+                    }}
+                >
                     <CssBaseline />
                     <NavBar />
                     <Component {...pageProps} />

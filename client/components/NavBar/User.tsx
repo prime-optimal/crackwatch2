@@ -20,18 +20,15 @@ import ResponsiveImage from "@components/ResponsiveImage";
 
 import useUser from "@hooks/useUser";
 
-import tryToCatch from "@utils/catch";
-
 const UserMenu = (props: MenuProps) => {
-    const { data: user, mutate } = useUser();
+    const { data: user, mutate, isValidating } = useUser();
 
     const onLogout = async () => {
-        const [result, error] = await tryToCatch(() => axios.post("/auth/logout"));
-        if (!result) {
-            alert(JSON.stringify(error));
-        }
+        await mutate(async () => {
+            await axios.post("/auth/logout");
+            return {};
+        });
 
-        mutate({});
         Router.push("/auth/login");
     };
 
@@ -62,7 +59,7 @@ const UserMenu = (props: MenuProps) => {
                     Logout
                 </MenuItem>
             ) : (
-                <MenuItem onClick={onLogin}>
+                <MenuItem onClick={onLogin} disabled={isValidating}>
                     <ListItemIcon>
                         <LockOpenIcon />
                     </ListItemIcon>

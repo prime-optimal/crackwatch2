@@ -31,7 +31,7 @@ const search = async (query: string) => {
         title && cracked && titles.push(title);
     });
 
-    return Fuzzy(titles, query);
+    return Fuzzy(titles, query, { distance: 5 });
 };
 
 export default { provider, search };
