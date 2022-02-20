@@ -12,6 +12,8 @@ interface MediaProps {
 export default function Media({ img, video, loading }: MediaProps) {
     const [hovering, setHovering] = useState(false);
 
+    const imageHidden = !!(hovering && video);
+
     return (
         <CardMedia
             sx={{
@@ -31,20 +33,30 @@ export default function Media({ img, video, loading }: MediaProps) {
             )}
 
             <video
-                hidden={!(hovering && video)}
+                hidden={!imageHidden}
                 muted
                 preload="auto"
                 src={video}
                 autoPlay
                 loop
                 style={{
+                    position: "absolute",
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
                 }}
             />
 
-            <ResponsiveImage props={{ hidden: !!(hovering && video) }} src={img} />
+            <ResponsiveImage
+                props={{
+                    sx: {
+                        opacity: !imageHidden ? 1 : 0,
+                        transition: ({ transitions }) =>
+                            `all 0.2s ${transitions.easing.sharp}`,
+                    },
+                }}
+                src={img}
+            />
         </CardMedia>
     );
 }
