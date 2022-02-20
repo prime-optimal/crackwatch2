@@ -17,7 +17,7 @@ interface Watching {
     cracked: boolean;
     item: string;
     slug: string;
-    started: Date;
+    started: string;
 }
 
 export interface User {

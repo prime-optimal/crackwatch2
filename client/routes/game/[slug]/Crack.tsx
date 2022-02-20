@@ -45,7 +45,7 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 
 const Notifications = () => {
     const { data } = useGame();
-    const { data: user, mutate, isValidating } = useUser();
+    const { data: user, mutate } = useUser();
 
     const active = useMemo(() => {
         return !!user?.watching.find(game => game.slug === data?.slug);
@@ -54,29 +54,40 @@ const Notifications = () => {
     const onClick = () => {
         if (!user?.nickname) return;
 
-        mutate(async user => {
-            if (!user?.nickname) return;
+        if (active) {
+            const fresh = user.watching.filter(game => game.slug !== data?.slug);
 
-            if (active) {
+            mutate(user => ({ ...user, watching: fresh } as any), false);
+            mutate(async user => {
                 const { data: watching } = await axios.delete(
                     urlCat("/account/watching", {
                         slug: data?.slug,
                     })
                 );
                 return { ...user, watching } as any;
-            }
+            }, false);
 
+            return;
+        }
+
+        const fresh = [
+            ...user.watching,
+            { slug: data?.slug, item: data?.name, started: new Date().toUTCString() },
+        ];
+
+        mutate(user => ({ ...user, watching: fresh } as any), false);
+        mutate(async user => {
             const { data: watching } = await axios.put(`/account/watching`, {
                 slug: data?.slug,
                 item: data?.name,
             });
             return { ...user, watching } as any;
-        });
+        }, false);
     };
 
     return (
         <Tooltip title={`Get${active ? "ting" : ""} crack updates`}>
-            <IconButton disabled={!user?.nickname || isValidating} onClick={onClick}>
+            <IconButton disabled={!user?.nickname} onClick={onClick}>
                 {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
             </IconButton>
         </Tooltip>
