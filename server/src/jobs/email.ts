@@ -26,6 +26,7 @@ export default function Schedule() {
 
             const accounts = await accountModel.find();
 
+            // call this for every user
             const fetch = async (queries: string[], providers: string[], userId: string) => {
                 const promises = queries.map(async query => {
                     const user = await userModel.findById(userId);
