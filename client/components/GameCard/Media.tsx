@@ -30,22 +30,21 @@ export default function Media({ img, video, loading }: MediaProps) {
                 />
             )}
 
-            {hovering && video ? (
-                <video
-                    muted
-                    preload="auto"
-                    src={video}
-                    autoPlay
-                    loop
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                    }}
-                />
-            ) : (
-                <ResponsiveImage src={img} />
-            )}
+            <video
+                hidden={!(hovering && video)}
+                muted
+                preload="auto"
+                src={video}
+                autoPlay
+                loop
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                }}
+            />
+
+            <ResponsiveImage props={{ hidden: !!(hovering && video) }} src={img} />
         </CardMedia>
     );
 }
