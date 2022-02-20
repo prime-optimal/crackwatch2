@@ -15,7 +15,7 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "redaxios";
 import urlCat from "urlcat";
 
@@ -45,7 +45,7 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 
 const Notifications = () => {
     const { data } = useGame();
-    const { data: user, mutate, isValidating } = useUser();
+    const { data: user, mutate, loading } = useUser();
 
     const active = useMemo(() => {
         return !!user?.watching.find(game => game.slug === data?.slug);
@@ -76,7 +76,7 @@ const Notifications = () => {
 
     return (
         <Tooltip title={`Get${active ? "ting" : ""} crack updates`}>
-            <IconButton disabled={!user?.nickname || isValidating} onClick={onClick}>
+            <IconButton disabled={!user?.nickname || loading} onClick={onClick}>
                 {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
             </IconButton>
         </Tooltip>
