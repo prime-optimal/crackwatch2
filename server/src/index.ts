@@ -18,8 +18,6 @@ dotenv.config({ path: path.resolve("../.env") });
 const dev = process.env.NODE_ENV !== "production";
 const secret = process.env.SECRET || "12345678901234567890-1234567890234546786y5643";
 
-Schedule();
-
 const fastify = Fastify({
     ignoreTrailingSlash: true,
     logger: {
@@ -36,6 +34,8 @@ const fastify = Fastify({
     },
     trustProxy: !dev,
 });
+
+Schedule(fastify);
 
 fastify.register(fastifyRateLimit, {
     max: 200,

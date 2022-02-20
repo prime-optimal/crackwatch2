@@ -1,3 +1,4 @@
+import { FastifyInstance } from "fastify";
 import cron from "node-cron";
 import nodemailer from "nodemailer";
 import pLimit from "p-limit";
@@ -10,7 +11,7 @@ import SearchCrack from "@utils/searchers";
 // send at most 2 emails at once
 const limit = pLimit(2);
 
-export default function Schedule() {
+export default function Schedule(fastify: FastifyInstance) {
     cron.schedule("* * * * *", () => {
         nodemailer.createTestAccount(async (err, account) => {
             // create reusable transporter object using the default SMTP transport
@@ -42,7 +43,7 @@ export default function Schedule() {
                             text: `${query} - ${result ? "Cracked" : "Not cracked"}`,
                         })
                         .then(info => {
-                            console.log(nodemailer.getTestMessageUrl(info));
+                            fastify.log.info(nodemailer.getTestMessageUrl(info));
                         });
                 });
 
