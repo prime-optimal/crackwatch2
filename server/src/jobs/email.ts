@@ -37,14 +37,12 @@ export default function Schedule(fastify: FastifyInstance) {
 
                     // if (!result) return;
 
-                    await transporter
-                        .sendMail({
-                            to: user.email,
-                            text: `${query} - ${result ? "Cracked" : "Not cracked"}`,
-                        })
-                        .then(info => {
-                            fastify.log.info(nodemailer.getTestMessageUrl(info));
-                        });
+                    const info = await transporter.sendMail({
+                        to: user.email,
+                        text: `${query} - ${result ? "Cracked" : "Not cracked"}`,
+                    });
+
+                    fastify.log.info(nodemailer.getTestMessageUrl(info));
                 });
 
                 await Promise.all(promises);
