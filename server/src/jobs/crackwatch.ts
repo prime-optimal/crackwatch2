@@ -7,7 +7,8 @@ import { accountModel, userModel } from "@mongo";
 import tryToCatch from "@utils/catch";
 import SearchCrack from "@utils/searchers";
 
-const limit = pLimit(1);
+// send at most 2 emails at once
+const limit = pLimit(2);
 
 export default function Schedule() {
     cron.schedule("* * * * *", () => {
