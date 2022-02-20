@@ -20,28 +20,36 @@ const tierMap = {
 };
 
 function Providers() {
-    const { data: user, isValidating, mutate } = useUser();
+    const { data: user, mutate } = useUser();
 
     const onChange = (provider: Provider, checked: boolean) => {
-        mutate(async user => {
-            if (!user?.nickname) return;
+        if (!user?.nickname) return;
 
-            if (checked) {
-                const fresh = [...user.providers, provider];
+        if (checked) {
+            const fresh = [...user.providers, provider];
+            mutate(user => ({ ...user, providers: fresh } as any), false);
+
+            mutate(async user => {
                 const { data: providers } = await axios.put("/account/providers", {
                     providers: fresh,
                 });
 
                 return { ...user, providers } as any;
-            }
+            }, false);
 
-            const fresh = user.providers.filter(x => x !== provider);
+            return;
+        }
+
+        const fresh = user.providers.filter(x => x !== provider);
+        mutate(user => ({ ...user, providers: fresh } as any), false);
+
+        mutate(async user => {
             const { data: providers } = await axios.put("/account/providers", {
                 providers: fresh,
             });
 
             return { ...user, providers } as any;
-        });
+        }, false);
     };
 
     return (
@@ -63,7 +71,6 @@ function Providers() {
                                 <Checkbox
                                     onChange={(_, checked) => onChange(provider, checked)}
                                     checked={user?.providers.includes(provider)}
-                                    disabled={isValidating}
                                 />
                             }
                         />

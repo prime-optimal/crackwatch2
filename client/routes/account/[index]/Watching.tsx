@@ -1,30 +1,102 @@
-import { Grid, Stack } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import {
+    Avatar,
+    IconButton,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText,
+    Typography,
+} from "@mui/material";
 import { dequal } from "dequal";
-import { memo } from "react";
+import NextLink from "next/link";
+import { memo, useMemo } from "react";
+import axios from "redaxios";
 import useSWR from "swr/immutable";
+import urlCat from "urlcat";
 
 import { AxiosGame } from "@types";
 
-import GameCard from "@components/GameCard";
+import ResponsiveImage from "@components/ResponsiveImage";
 
+import useCrack from "@hooks/useCrack";
 import useUser from "@hooks/useUser";
 
-interface GameProps {
+interface GameItemProps {
     slug: string;
+    started: string;
 }
 
-const Game = ({ slug }: GameProps) => {
+const GameItem = ({ slug, started }: GameItemProps) => {
     const { data: game } = useSWR<AxiosGame>(slug && `/game/${slug}`);
 
+    const { cracked } = useCrack(game?.name || null);
+    const { mutate, isValidating } = useUser();
+
+    const days = useMemo(() => {
+        const ms = new Date().getTime() - new Date(started).getTime();
+        return Math.round(ms / (1000 * 60 * 60 * 24));
+    }, [started]);
+
+    const onDelete = (e: MouseEvent) => {
+        e.preventDefault();
+
+        mutate(user => {
+            if (!user?.nickname) return;
+
+            return {
+                ...user,
+                watching: user.watching.filter(game => game.slug !== slug),
+            } as any;
+        }, false);
+
+        mutate(async user => {
+            if (!user?.nickname) return;
+
+            const { data: watching } = await axios.delete(
+                urlCat("/account/watching", {
+                    slug,
+                })
+            );
+            return { ...user, watching } as any;
+        }, false);
+    };
+
     return (
-        <GameCard
-            img={game?.background_image || game?.background_image_additional || ""}
-            name={game?.name || game?.alternative_names[0]}
-            slug={slug}
-            genres={game?.genres.map(x => x.name)}
-            video={game?.clip?.clip}
-            variant="outlined"
-        />
+        <NextLink href={`/game/${slug}`} passHref>
+            <ListItem
+                disablePadding
+                secondaryAction={
+                    <IconButton disabled={isValidating} onClick={onDelete as any}>
+                        <ClearIcon />
+                    </IconButton>
+                }
+            >
+                <ListItemButton>
+                    <ListItemAvatar>
+                        <Avatar
+                            sx={{ borderRadius: ({ shape }) => `${shape.borderRadius}px` }}
+                        >
+                            <ResponsiveImage src={game?.background_image} />
+                        </Avatar>
+                    </ListItemAvatar>
+
+                    <ListItemText
+                        primary={
+                            <Typography
+                                color={({ palette }) =>
+                                    cracked ? palette.success.main : palette.warning.main
+                                }
+                            >
+                                {game?.name}
+                            </Typography>
+                        }
+                        secondary={`${days} days and counting`}
+                    />
+                </ListItemButton>
+            </ListItem>
+        </NextLink>
     );
 };
 
@@ -32,15 +104,11 @@ function Watching() {
     const { data: user } = useUser();
 
     return (
-        <Stack>
-            <Grid container spacing={4}>
-                {user?.watching.map(({ slug }) => (
-                    <Grid item xs={12} md={6} lg={4} key={slug}>
-                        <Game slug={slug} />
-                    </Grid>
-                ))}
-            </Grid>
-        </Stack>
+        <List>
+            {user?.watching.map(({ started, slug }) => (
+                <GameItem key={slug} started={started} slug={slug} />
+            ))}
+        </List>
     );
 }
 
