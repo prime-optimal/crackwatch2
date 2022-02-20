@@ -35,11 +35,11 @@ export default function Schedule(fastify: FastifyInstance) {
 
                     const [result] = await tryToCatch(() => SearchCrack(query, providers));
 
-                    // if (!result) return;
+                    if (!result) return;
 
                     const info = await transporter.sendMail({
                         to: user.email,
-                        text: `${query} - ${result ? "Cracked" : "Not cracked"}`,
+                        text: `Great news! "${query}" has been cracked`,
                     });
 
                     fastify.log.info(nodemailer.getTestMessageUrl(info));
