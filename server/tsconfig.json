@@ -16,7 +16,8 @@
             "@hooks/*": ["./hooks/*"],
             "@types": ["./types"],
             "@config": ["./config"],
-            "@mongo": ["./mongo"]
+            "@mongo": ["./mongo"],
+            "@jobs/*": ["./jobs/*"]
         }
     },
     "exclude": ["node_modules", "dist"],

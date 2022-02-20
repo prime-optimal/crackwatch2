@@ -11,10 +11,14 @@ import path from "path";
 
 import { getMongoClient } from "@mongo";
 
+import Schedule from "@jobs/crackwatch";
+
 dotenv.config({ path: path.resolve("../.env") });
 
 const dev = process.env.NODE_ENV !== "production";
 const secret = process.env.SECRET || "12345678901234567890-1234567890234546786y5643";
+
+Schedule();
 
 const fastify = Fastify({
     ignoreTrailingSlash: true,
