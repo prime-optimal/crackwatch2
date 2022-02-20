@@ -2,12 +2,11 @@ import cron from "node-cron";
 import nodemailer from "nodemailer";
 import pLimit from "p-limit";
 
-import { accountModel } from "@mongo";
+import { accountModel, userModel } from "@mongo";
 
 import tryToCatch from "@utils/catch";
 import SearchCrack from "@utils/searchers";
 
-// at most send 1 emails at once
 const limit = pLimit(1);
 
 export default function Schedule() {
@@ -26,16 +25,19 @@ export default function Schedule() {
 
             const accounts = await accountModel.find();
 
-            const fetch = async (queries: string[], providers: string[]) => {
+            const fetch = async (queries: string[], providers: string[], userId: string) => {
                 const promises = queries.map(async query => {
+                    const user = await userModel.findById(userId);
+                    if (!user) return;
+
                     const [result] = await tryToCatch(() => SearchCrack(query, providers));
 
-                    if (!result) return;
+                    // if (!result) return;
 
                     await transporter
                         .sendMail({
-                            to: "donatas@tronikel.com",
-                            text: `${query} has been cracked`,
+                            to: user.email,
+                            text: `${query} - ${result ? "Cracked" : "Not cracked"}`,
                         })
                         .then(info => {
                             console.log(nodemailer.getTestMessageUrl(info));
@@ -47,11 +49,12 @@ export default function Schedule() {
 
             const inputs = accounts
                 .filter(({ watching }) => watching.length > 0)
-                .map(({ watching, providers }) =>
+                .map(({ watching, providers, userId }) =>
                     limit(() =>
                         fetch(
                             watching.map(x => x.item),
-                            providers
+                            providers,
+                            userId
                         )
                     )
                 );
