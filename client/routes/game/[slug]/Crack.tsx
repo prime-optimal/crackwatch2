@@ -48,7 +48,7 @@ const Notifications = () => {
     const { data: user, mutate } = useUser();
 
     const active = useMemo(() => {
-        return !!user?.watching.find(game => game.slug === data?.slug);
+        return !!user?.watching?.find(game => game.slug === data?.slug);
     }, [data?.slug, user?.watching]);
 
     const onClick = () => {
