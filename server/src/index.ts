@@ -11,7 +11,7 @@ import path from "path";
 
 import { getMongoClient } from "@mongo";
 
-import Schedule from "@jobs/crackwatch";
+import Schedule from "@jobs/email";
 
 dotenv.config({ path: path.resolve("../.env") });
 
