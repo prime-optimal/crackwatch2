@@ -21,6 +21,7 @@ import IconTypography from "@components/IconTypography";
 
 import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
+import useLoggedIn from "@hooks/useLoggedIn";
 
 import { useGame } from "./hooks";
 
@@ -44,6 +45,7 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 const WatchingIcon = () => {
     const { data } = useGame();
     const { addWatching, removeWatching, watching } = useWatchingMutation();
+    const loggedIn = useLoggedIn();
 
     const active = useMemo(() => {
         return !!watching?.find(game => game.slug === data?.slug);
@@ -62,9 +64,11 @@ const WatchingIcon = () => {
 
     return (
         <Tooltip title={`Get${active ? "ting" : ""} crack updates`}>
-            <IconButton disabled={!watching} onClick={onClick}>
-                {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
-            </IconButton>
+            <span>
+                <IconButton disabled={!loggedIn} onClick={onClick}>
+                    {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
+                </IconButton>
+            </span>
         </Tooltip>
     );
 };
