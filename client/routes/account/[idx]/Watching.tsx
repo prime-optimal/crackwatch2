@@ -9,19 +9,16 @@ import {
     ListItemText,
     Typography,
 } from "@mui/material";
-import { dequal } from "dequal";
 import NextLink from "next/link";
 import { memo, useMemo } from "react";
-import axios from "redaxios";
 import useSWR from "swr/immutable";
-import urlCat from "urlcat";
 
 import { AxiosGame } from "@types";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
+import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
-import useUser from "@hooks/useUser";
 
 interface GameItemProps {
     slug: string;
@@ -32,7 +29,7 @@ const GameItem = ({ slug, started }: GameItemProps) => {
     const { data: game } = useSWR<AxiosGame>(slug && `/game/${slug}`);
 
     const { cracked } = useCrack(game?.name || null);
-    const { mutate, isValidating } = useUser();
+    const { removeWatching } = useWatchingMutation();
 
     const days = useMemo(() => {
         const ms = new Date().getTime() - new Date(started).getTime();
@@ -41,26 +38,7 @@ const GameItem = ({ slug, started }: GameItemProps) => {
 
     const onDelete = (e: MouseEvent) => {
         e.preventDefault();
-
-        mutate(user => {
-            if (!user?.nickname) return;
-
-            return {
-                ...user,
-                watching: user.watching.filter(game => game.slug !== slug),
-            } as any;
-        }, false);
-
-        mutate(async user => {
-            if (!user?.nickname) return;
-
-            const { data: watching } = await axios.delete(
-                urlCat("/account/watching", {
-                    slug,
-                })
-            );
-            return { ...user, watching } as any;
-        }, false);
+        removeWatching(slug);
     };
 
     return (
@@ -68,7 +46,7 @@ const GameItem = ({ slug, started }: GameItemProps) => {
             <ListItem
                 disablePadding
                 secondaryAction={
-                    <IconButton disabled={isValidating} onClick={onDelete as any}>
+                    <IconButton onClick={onDelete as any}>
                         <ClearIcon />
                     </IconButton>
                 }
@@ -101,15 +79,15 @@ const GameItem = ({ slug, started }: GameItemProps) => {
 };
 
 function Watching() {
-    const { data: user } = useUser();
+    const { watching } = useWatchingMutation();
 
     return (
         <List>
-            {user?.watching.map(({ started, slug }) => (
+            {watching?.map(({ started, slug }) => (
                 <GameItem key={slug} started={started} slug={slug} />
             ))}
         </List>
     );
 }
 
-export default memo(Watching, dequal);
+export default memo(Watching);

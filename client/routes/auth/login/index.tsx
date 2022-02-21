@@ -12,13 +12,12 @@ import {
 import NextLink from "next/link";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
-import axios from "redaxios";
 
-import useUser from "@hooks/useUser";
+import useUserMutation from "@hooks/mutations/useUserMutation";
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
-interface LoginArgs {
+export interface LoginArgs {
     email: string;
     password: string;
 }
@@ -30,14 +29,10 @@ export default function Login() {
         formState: { errors, isSubmitting },
     } = useForm<LoginArgs>();
 
-    const { mutate } = useUser();
+    const { login } = useUserMutation();
 
     const onSubmit = async (data: LoginArgs) => {
-        await mutate(async user => {
-            await axios.post("/auth/login", data);
-            return user;
-        });
-
+        await login(data);
         Router.replace("/");
     };
 

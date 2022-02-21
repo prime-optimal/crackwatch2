@@ -11,6 +11,8 @@ import path from "path";
 
 import { getMongoClient } from "@mongo";
 
+import Schedule from "@jobs/email";
+
 dotenv.config({ path: path.resolve("../.env") });
 
 const dev = process.env.NODE_ENV !== "production";
@@ -32,6 +34,8 @@ const fastify = Fastify({
     },
     trustProxy: !dev,
 });
+
+Schedule(fastify);
 
 fastify.register(fastifyRateLimit, {
     max: 200,

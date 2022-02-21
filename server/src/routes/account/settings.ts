@@ -6,38 +6,36 @@ import { authenticate } from "@hooks/authenticate";
 
 import { getAccount } from "@utils/mongo";
 
+const handlerGet: any = async (req: Req) => {
+    const account = await getAccount(req);
+    return account.settings;
+};
+
 const bodyPut = Type.Object(
     {
-        providers: Type.Array(Type.String({ maxLength: 100 }), { default: [] }),
+        notifications: Type.Boolean(),
     },
     { additionalProperties: false }
 );
 type BodyPut = Static<typeof bodyPut>;
 
 const handlerPut: any = async (req: Req<{ Body: BodyPut }>) => {
-    const { providers } = req.body;
-
     const account = await getAccount(req);
 
-    account.providers = providers as any;
+    account.settings = req.body;
     await account.save();
 
-    return account.providers;
-};
-
-const handlerGet: any = async (req: Req) => {
-    const account = await getAccount(req);
-    return account.providers;
+    return account.settings;
 };
 
 export default (): Resource => ({
+    get: {
+        handler: handlerGet,
+        onRequest: authenticate,
+    },
     put: {
         handler: handlerPut,
         schema: { body: bodyPut },
-        onRequest: authenticate,
-    },
-    get: {
-        handler: handlerGet,
         onRequest: authenticate,
     },
 });

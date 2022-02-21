@@ -16,13 +16,11 @@ import {
     Typography,
 } from "@mui/material";
 import { useMemo, useState } from "react";
-import axios from "redaxios";
-import urlCat from "urlcat";
 
 import IconTypography from "@components/IconTypography";
 
+import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
-import useUser from "@hooks/useUser";
 
 import { useGame } from "./hooks";
 
@@ -43,51 +41,28 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
     );
 };
 
-const Notifications = () => {
+const WatchingIcon = () => {
     const { data } = useGame();
-    const { data: user, mutate } = useUser();
+    const { addWatching, removeWatching, watching } = useWatchingMutation();
 
     const active = useMemo(() => {
-        return !!user?.watching.find(game => game.slug === data?.slug);
-    }, [data?.slug, user?.watching]);
+        return !!watching?.find(game => game.slug === data?.slug);
+    }, [data?.slug, watching]);
 
     const onClick = () => {
-        if (!user?.nickname) return;
+        if (!data) return;
 
         if (active) {
-            const fresh = user.watching.filter(game => game.slug !== data?.slug);
-
-            mutate(user => ({ ...user, watching: fresh } as any), false);
-            mutate(async user => {
-                const { data: watching } = await axios.delete(
-                    urlCat("/account/watching", {
-                        slug: data?.slug,
-                    })
-                );
-                return { ...user, watching } as any;
-            }, false);
-
+            removeWatching(data.slug);
             return;
         }
 
-        const fresh = [
-            ...user.watching,
-            { slug: data?.slug, item: data?.name, started: new Date().toUTCString() },
-        ];
-
-        mutate(user => ({ ...user, watching: fresh } as any), false);
-        mutate(async user => {
-            const { data: watching } = await axios.put(`/account/watching`, {
-                slug: data?.slug,
-                item: data?.name,
-            });
-            return { ...user, watching } as any;
-        }, false);
+        addWatching(data.name, data.slug);
     };
 
     return (
         <Tooltip title={`Get${active ? "ting" : ""} crack updates`}>
-            <IconButton disabled={!user?.nickname} onClick={onClick}>
+            <IconButton disabled={!watching} onClick={onClick}>
                 {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
             </IconButton>
         </Tooltip>
@@ -113,7 +88,7 @@ export default function Crack() {
                     Crack info
                 </IconTypography>
 
-                {!cracked && !loading && <Notifications />}
+                {!cracked && !loading && <WatchingIcon />}
             </Stack>
 
             <Typography>

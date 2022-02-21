@@ -3,10 +3,10 @@ import useSWR from "swr/immutable";
 
 import { AxiosCrackSearch, Provider } from "@types";
 
-import useUser from "@hooks/useUser";
+import useProvidersMutation from "@hooks/mutations/useProvidersMutation";
 
 // My recommended tier 1 default providers
-const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
+export const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
 
 interface FetcherProps {
     query: string;
@@ -23,19 +23,17 @@ const fetcher = async ({ query, providers = defaultProviders }: FetcherProps) =>
 
 // pass a query and providers and this hook will return whether the game has been cracked
 export default function useCrack(query: string | null) {
-    const { data: user } = useUser();
+    const { providers = defaultProviders } = useProvidersMutation();
 
-    const { data = null, error } = useSWR(
-        query && user ? { query, providers: user.providers } : null,
-        fetcher,
-        { shouldRetryOnError: false }
-    );
+    const { data, error } = useSWR(query && providers ? { query, providers } : null, fetcher, {
+        shouldRetryOnError: false,
+    });
 
     return {
-        providers: user?.providers || defaultProviders,
+        providers: providers || defaultProviders,
         data,
         error: error?.data || error,
-        cracked: !error,
-        loading: data === null && !error,
+        cracked: data && data.result.length > 0,
+        loading: !data && !error,
     };
 }

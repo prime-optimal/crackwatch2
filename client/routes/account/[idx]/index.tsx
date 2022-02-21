@@ -12,30 +12,23 @@ import {
 import Head from "next/head";
 import { useState } from "react";
 
-import useUser from "@hooks/useUser";
+import useUserMutation from "@hooks/mutations/useUserMutation";
 
 import Providers from "./Providers";
+import Settings from "./Settings";
 import Watching from "./Watching";
 
-const items = [Watching, Providers].map((Item, index) => ({ Item, index }));
+const items = [Watching, Providers, Settings].map((Item, index) => ({ Item, index }));
 
 export default function Account() {
-    const { data: user } = useUser();
+    const { user } = useUserMutation();
 
     const [value, setValue] = useState(0);
-
-    if (!user?.nickname) {
-        return (
-            <Typography align="center" variant="h3" mt={3}>
-                Not logged in
-            </Typography>
-        );
-    }
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <Head>
-                <title>{`${user.nickname}'s account`}</title>
+                <title>{`${user?.nickname}'s account`}</title>
             </Head>
             <Box component={Paper} p={2}>
                 <Stack
@@ -44,10 +37,10 @@ export default function Account() {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <Avatar src={user.avatar} sx={{ width: 100, height: 100 }} />
+                    <Avatar src={user?.avatar} sx={{ width: 100, height: 100 }} />
                     <Typography ml={1} variant="h3">
-                        {user.nickname}
-                        <Typography color="text.secondary">{user.email}</Typography>
+                        {user?.nickname}
+                        <Typography color="text.secondary">{user?.email}</Typography>
                     </Typography>
                 </Stack>
 
@@ -56,6 +49,7 @@ export default function Account() {
                 <Tabs centered value={value} onChange={(_, value) => setValue(value)}>
                     <Tab label="Watching" value={0} />
                     <Tab label="Providers" value={1} />
+                    <Tab label="Settings" value={2} />
                 </Tabs>
 
                 {items.map(({ index, Item }) => (

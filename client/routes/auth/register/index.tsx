@@ -12,14 +12,13 @@ import {
 import NextLink from "next/link";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
-import axios from "redaxios";
 
-import tryToCatch from "@utils/catch";
+import useUserMutation from "@hooks/mutations/useUserMutation";
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const nicknameRegex = /^[a-zA-Z]\w*$/g;
 
-interface RegisterArgs {
+export interface RegisterArgs {
     nickname: string;
     email: string;
     password: string;
@@ -32,26 +31,11 @@ export default function Login() {
         formState: { errors, isSubmitting },
     } = useForm<RegisterArgs>();
 
+    const { validateNickname, register: signup } = useUserMutation();
+
     const onSubmit = async (data: RegisterArgs) => {
-        const [result, error] = await tryToCatch(() => axios.post("/auth/register", data));
-        if (!result) {
-            alert(`There was an error ${JSON.stringify(error)}`);
-            return;
-        }
-
+        await signup(data);
         Router.push("/auth/login");
-        return result;
-    };
-
-    const validateNickname = async (nickname: string) => {
-        const [result] = await tryToCatch(() =>
-            axios.post<boolean>("/validate/nickname", { nickname })
-        );
-        if (!result) {
-            return "There was an error validating nickname";
-        }
-
-        return result.data || "This nickname is already taken, sorry";
     };
 
     return (

@@ -1,11 +1,11 @@
 import { Box, Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
-import { dequal } from "dequal";
 import { memo } from "react";
-import axios from "redaxios";
 
 import { Provider } from "@types";
 
-import useUser from "@hooks/useUser";
+import useProvidersMutation from "@hooks/mutations/useProvidersMutation";
+import { defaultProviders } from "@hooks/useCrack";
+import useLoggedIn from "@hooks/useLoggedIn";
 
 const ProviderTiers = {
     s: ["gamestatus", "steamcrackedgames"] as Provider[],
@@ -20,36 +20,21 @@ const tierMap = {
 };
 
 function Providers() {
-    const { data: user, mutate } = useUser();
+    const {
+        addProvider,
+        removeProvider,
+        providers = defaultProviders,
+    } = useProvidersMutation();
 
-    const onChange = (provider: Provider, checked: boolean) => {
-        if (!user?.nickname) return;
+    const loggedIn = useLoggedIn();
 
-        if (checked) {
-            const fresh = [...user.providers, provider];
-            mutate(user => ({ ...user, providers: fresh } as any), false);
-
-            mutate(async user => {
-                const { data: providers } = await axios.put("/account/providers", {
-                    providers: fresh,
-                });
-
-                return { ...user, providers } as any;
-            }, false);
-
+    const onChange = (provider: Provider, willChecked: boolean) => {
+        if (willChecked) {
+            addProvider(provider);
             return;
         }
 
-        const fresh = user.providers.filter(x => x !== provider);
-        mutate(user => ({ ...user, providers: fresh } as any), false);
-
-        mutate(async user => {
-            const { data: providers } = await axios.put("/account/providers", {
-                providers: fresh,
-            });
-
-            return { ...user, providers } as any;
-        }, false);
+        removeProvider(provider);
     };
 
     return (
@@ -69,8 +54,9 @@ function Providers() {
                             label={<Typography variant="button">{provider}</Typography>}
                             control={
                                 <Checkbox
+                                    checked={providers.includes(provider)}
                                     onChange={(_, checked) => onChange(provider, checked)}
-                                    checked={user?.providers.includes(provider)}
+                                    disabled={!loggedIn}
                                 />
                             }
                         />
@@ -81,4 +67,4 @@ function Providers() {
     );
 }
 
-export default memo(Providers, dequal);
+export default memo(Providers);

@@ -2,9 +2,10 @@ import { Static, Type } from "@sinclair/typebox";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 
-import { accountModel } from "@mongo";
-
 import { authenticate } from "@hooks/authenticate";
+
+import ErrorBuilder from "@utils/errorBuilder";
+import { getAccount } from "@utils/mongo";
 
 const bodyPut = Type.Object(
     {
@@ -18,19 +19,10 @@ type BodyPut = Static<typeof bodyPut>;
 const handlerPut: any = async (req: Req<{ Body: BodyPut }>) => {
     const { item, slug } = req.body;
 
-    const account = await accountModel.findOne({ userId: req.session.user?.id || null });
-    if (!account) {
-        throw {
-            statusCode: 401,
-            message: "Unexpected user not found",
-        };
-    }
+    const account = await getAccount(req);
 
     if (account.watching.find(game => game.slug === slug)) {
-        throw {
-            statusCode: 400,
-            message: "You are already watching this game!",
-        };
+        throw new ErrorBuilder().status(400).msg("You are already watching this game");
     }
 
     account.watching.push({ item, slug, started: new Date() });
@@ -50,13 +42,7 @@ type QueryDelete = Static<typeof queryDelete>;
 const handlerDelete: any = async (req: Req<{ Querystring: QueryDelete }>) => {
     const { slug } = req.query;
 
-    const account = await accountModel.findOne({ userId: req.session.user?.id || null });
-    if (!account) {
-        throw {
-            statusCode: 401,
-            message: "Unexpected user not found",
-        };
-    }
+    const account = await getAccount(req);
 
     for (const [i, game] of account.watching.entries()) {
         if (game.slug === slug) {
@@ -70,7 +56,16 @@ const handlerDelete: any = async (req: Req<{ Querystring: QueryDelete }>) => {
     return account.watching;
 };
 
+const handlerGet: any = async (req: Req) => {
+    const account = await getAccount(req);
+    return account.watching;
+};
+
 export default (): Resource => ({
+    get: {
+        handler: handlerGet,
+        onRequest: authenticate,
+    },
     put: {
         handler: handlerPut,
         schema: { body: bodyPut },
