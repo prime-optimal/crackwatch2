@@ -15,17 +15,14 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
-import { merge } from "merge-anything";
 import { useMemo, useState } from "react";
-import axios from "redaxios";
-import urlCat from "urlcat";
 
 import IconTypography from "@components/IconTypography";
 
 import useCrack from "@hooks/useCrack";
-import useUser from "@hooks/useUser";
 
-import { useGame } from "./hooks";
+import { useGame } from "../hooks";
+import useNotificationMutation from "./useNotificationMutation";
 
 interface ProviderInfoProps {
     open: boolean;
@@ -46,51 +43,26 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 
 const Notifications = () => {
     const { data } = useGame();
-    const { data: user, mutate } = useUser();
+    const { addWatching, removeWatching, watching } = useNotificationMutation();
 
     const active = useMemo(() => {
-        return !!user?.watching?.items.find(game => game.slug === data?.slug);
-    }, [data?.slug, user?.watching]);
+        return !!watching?.items.find(game => game.slug === data?.slug);
+    }, [data?.slug, watching?.items]);
 
     const onClick = () => {
-        if (!user?.nickname) return;
+        if (!data) return;
 
         if (active) {
-            const items = user.watching.items.filter(game => game.slug !== data?.slug);
-
-            mutate(user => merge(user || {}, { watching: { items } }), false);
-            mutate(async user => {
-                const { data: watching } = await axios.delete(
-                    urlCat("/account/watching", {
-                        slug: data?.slug,
-                    })
-                );
-
-                return merge(user || {}, { watching }) as any;
-            }, false);
-
+            removeWatching(data.slug);
             return;
         }
 
-        const items = [
-            ...user.watching.items,
-            { slug: data?.slug, item: data?.name, started: new Date().toUTCString() },
-        ];
-
-        mutate(user => merge(user || {}, { watching: { items } }), false);
-        mutate(async user => {
-            const { data: watching } = await axios.put(`/account/watching`, {
-                slug: data?.slug,
-                item: data?.name,
-            });
-
-            return merge(user || {}, { watching }) as any;
-        }, false);
+        addWatching(data.name, data.slug);
     };
 
     return (
         <Tooltip title={`Get${active ? "ting" : ""} crack updates`}>
-            <IconButton disabled={!user?.nickname} onClick={onClick}>
+            <IconButton disabled={!watching} onClick={onClick}>
                 {active ? <NotificationsActiveIcon /> : <NotificationsOffIcon />}
             </IconButton>
         </Tooltip>

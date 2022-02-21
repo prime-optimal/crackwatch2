@@ -1,11 +1,10 @@
 import { Box, Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
 import { dequal } from "dequal";
 import { memo } from "react";
-import axios from "redaxios";
 
 import { Provider } from "@types";
 
-import useUser from "@hooks/useUser";
+import useProvidersMutation from "./useProvidersMutation";
 
 const ProviderTiers = {
     s: ["gamestatus", "steamcrackedgames"] as Provider[],
@@ -20,36 +19,15 @@ const tierMap = {
 };
 
 function Providers() {
-    const { data: user, mutate } = useUser();
+    const { addProvider, removeProvider, providers } = useProvidersMutation();
 
-    const onChange = (provider: Provider, checked: boolean) => {
-        if (!user?.nickname) return;
-
-        if (checked) {
-            const fresh = [...user.providers, provider];
-            mutate(user => ({ ...user, providers: fresh } as any), false);
-
-            mutate(async user => {
-                const { data: providers } = await axios.put("/account/providers", {
-                    providers: fresh,
-                });
-
-                return { ...user, providers } as any;
-            }, false);
-
+    const onChange = (provider: Provider, willChecked: boolean) => {
+        if (willChecked) {
+            addProvider(provider);
             return;
         }
 
-        const fresh = user.providers.filter(x => x !== provider);
-        mutate(user => ({ ...user, providers: fresh } as any), false);
-
-        mutate(async user => {
-            const { data: providers } = await axios.put("/account/providers", {
-                providers: fresh,
-            });
-
-            return { ...user, providers } as any;
-        }, false);
+        removeProvider(provider);
     };
 
     return (
@@ -70,7 +48,7 @@ function Providers() {
                             control={
                                 <Checkbox
                                     onChange={(_, checked) => onChange(provider, checked)}
-                                    checked={user?.providers.includes(provider)}
+                                    checked={providers?.includes(provider)}
                                 />
                             }
                         />
