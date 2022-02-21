@@ -13,9 +13,8 @@ import {
     Switch,
     Typography,
 } from "@mui/material";
-import { dequal } from "dequal";
 import NextLink from "next/link";
-import { memo, useMemo } from "react";
+import { ChangeEvent, memo, useMemo } from "react";
 import useSWR from "swr/immutable";
 
 import { AxiosGame } from "@types";
@@ -44,7 +43,6 @@ const GameItem = ({ slug, started }: GameItemProps) => {
 
     const onDelete = (e: MouseEvent) => {
         e.preventDefault();
-
         deleteWatching(slug);
     };
 
@@ -86,14 +84,18 @@ const GameItem = ({ slug, started }: GameItemProps) => {
 };
 
 const Notifications = () => {
-    const { watching } = useWatchingMutation();
+    const { watching, toggleNotifications } = useWatchingMutation();
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>, willChecked: boolean) => {
+        toggleNotifications(willChecked);
+    };
 
     return (
         <Box>
             <FormControlLabel
                 labelPlacement="start"
                 label="Notifications"
-                control={<Switch checked={watching?.notifications} />}
+                control={<Switch checked={watching?.notifications} onChange={onChange} />}
             />
         </Box>
     );
@@ -115,4 +117,4 @@ function Watching() {
     );
 }
 
-export default memo(Watching, dequal);
+export default memo(Watching);

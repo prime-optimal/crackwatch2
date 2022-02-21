@@ -70,6 +70,31 @@ const handlerDelete: any = async (req: Req<{ Querystring: QueryDelete }>) => {
     return account.watching;
 };
 
+const queryOptions = Type.Object(
+    {
+        notifications: Type.Boolean(),
+    },
+    { additionalProperties: false }
+);
+type QueryOptions = Static<typeof queryOptions>;
+
+const handlerOptions: any = async (req: Req<{ Querystring: QueryOptions }>) => {
+    const { notifications } = req.query;
+
+    const account = await accountModel.findOne({ userId: req.session.user?.id || null });
+    if (!account) {
+        throw {
+            statusCode: 401,
+            message: "Account unexpectedly not found",
+        };
+    }
+
+    account.watching.notifications = notifications;
+    await account.save();
+
+    return account.watching;
+};
+
 export default (): Resource => ({
     put: {
         handler: handlerPut,
@@ -79,6 +104,11 @@ export default (): Resource => ({
     delete: {
         handler: handlerDelete,
         schema: { querystring: queryDelete },
+        onRequest: authenticate,
+    },
+    options: {
+        handler: handlerOptions,
+        schema: { querystring: queryOptions },
         onRequest: authenticate,
     },
 });

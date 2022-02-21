@@ -9,6 +9,7 @@ import {
     Tabs,
     Typography,
 } from "@mui/material";
+import { dequal } from "dequal";
 import Head from "next/head";
 import { useState } from "react";
 
@@ -20,11 +21,13 @@ import Watching from "./Watching";
 const items = [Watching, Providers].map((Item, index) => ({ Item, index }));
 
 export default function Account() {
-    const { data: user } = useUser();
+    const { data } = useUser({
+        compare: (a, b) => dequal(a?.user, b?.user),
+    });
 
     const [value, setValue] = useState(0);
 
-    if (!user?.nickname) {
+    if (!data?.user.nickname) {
         return (
             <Typography align="center" variant="h3" mt={3}>
                 Not logged in
@@ -35,7 +38,7 @@ export default function Account() {
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
             <Head>
-                <title>{`${user.nickname}'s account`}</title>
+                <title>{`${data.user.nickname}'s account`}</title>
             </Head>
             <Box component={Paper} p={2}>
                 <Stack
@@ -44,10 +47,10 @@ export default function Account() {
                     alignItems="center"
                     justifyContent="center"
                 >
-                    <Avatar src={user.avatar} sx={{ width: 100, height: 100 }} />
+                    <Avatar src={data.user.avatar} sx={{ width: 100, height: 100 }} />
                     <Typography ml={1} variant="h3">
-                        {user.nickname}
-                        <Typography color="text.secondary">{user.email}</Typography>
+                        {data.user.nickname}
+                        <Typography color="text.secondary">{data.user.email}</Typography>
                     </Typography>
                 </Stack>
 

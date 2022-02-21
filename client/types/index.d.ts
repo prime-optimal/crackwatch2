@@ -21,10 +21,12 @@ interface Watching {
 }
 
 export interface User {
-    nickname: string;
-    email: string;
-    avatar: string;
-    createdAt: string;
+    user: {
+        nickname: string;
+        email: string;
+        avatar: string;
+        createdAt: string;
+    };
     providers: Provider[];
     watching: {
         notifications: boolean;

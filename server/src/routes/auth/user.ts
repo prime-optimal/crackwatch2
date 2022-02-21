@@ -18,7 +18,16 @@ const handler: any = async (req: Req) => {
 
     const { nickname, createdAt, avatar, email } = user;
     const { providers, watching } = account;
-    return { nickname, email, createdAt, avatar, providers, watching };
+    return {
+        user: {
+            nickname,
+            createdAt,
+            avatar,
+            email,
+        },
+        providers,
+        watching,
+    };
 };
 
 export default (): Resource => ({

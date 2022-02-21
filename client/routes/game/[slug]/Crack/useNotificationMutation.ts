@@ -5,13 +5,13 @@ import urlCat from "urlcat";
 import useUser from "@hooks/useUser";
 
 export default function useWatchingMutation() {
-    const { data, mutate } = useUser();
+    const { data: user, mutate } = useUser();
 
     const addWatching = (item: string, slug: string) => {
-        if (!data?.nickname) return;
+        if (!user?.user.nickname) return;
 
         const items = [
-            ...data.watching.items,
+            ...user.watching.items,
             { slug, item, started: new Date().toUTCString() },
         ];
 
@@ -22,14 +22,14 @@ export default function useWatchingMutation() {
                 item,
             });
 
-            return merge(user || {}, { watching }) as any;
+            return merge(user || {}, { watching });
         }, false);
     };
 
     const removeWatching = (slug: string) => {
-        if (!data?.nickname) return;
+        if (!user?.user.nickname) return;
 
-        const items = data.watching.items.filter(game => game.slug !== slug);
+        const items = user.watching.items.filter(game => game.slug !== slug);
 
         mutate(user => merge(user || {}, { watching: { items } }), false);
         mutate(async user => {
@@ -39,9 +39,9 @@ export default function useWatchingMutation() {
                 })
             );
 
-            return merge(user || {}, { watching }) as any;
+            return merge(user || {}, { watching });
         }, false);
     };
 
-    return { addWatching, removeWatching, watching: data?.watching };
+    return { addWatching, removeWatching, watching: user?.watching };
 }
