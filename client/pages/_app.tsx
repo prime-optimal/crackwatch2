@@ -65,10 +65,6 @@ export default function MyApp(props: MyAppProps) {
                     value={{
                         fetcher,
                         compare: dequal,
-                        onError: (error: any) => {
-                            if (error.status === 404) return;
-                            alert(error.data?.message || error.message || error);
-                        },
                     }}
                 >
                     <CssBaseline />

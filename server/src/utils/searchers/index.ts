@@ -43,9 +43,9 @@ export default async function SearchCrack(query: string, providers: string[]) {
     const [result, error] = await tryToCatch(() => Promise.any(promises));
 
     if (!result) {
-        throw {
-            statusCode: 404,
-            message: (error as AggregateError).errors.join(" - "),
+        return {
+            provider: (error as AggregateError).errors.join(" - "),
+            result: [],
         };
     }
 

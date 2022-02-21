@@ -1,29 +1,24 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import {
     Avatar,
-    Box,
-    FormControlLabel,
     IconButton,
     List,
     ListItem,
     ListItemAvatar,
     ListItemButton,
     ListItemText,
-    Stack,
-    Switch,
     Typography,
 } from "@mui/material";
 import NextLink from "next/link";
-import { ChangeEvent, memo, useMemo } from "react";
+import { memo, useMemo } from "react";
 import useSWR from "swr/immutable";
 
 import { AxiosGame } from "@types";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
+import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
-
-import useWatchingMutation from "./useWatchingMutation";
 
 interface GameItemProps {
     slug: string;
@@ -34,7 +29,7 @@ const GameItem = ({ slug, started }: GameItemProps) => {
     const { data: game } = useSWR<AxiosGame>(slug && `/game/${slug}`);
 
     const { cracked } = useCrack(game?.name || null);
-    const { deleteWatching } = useWatchingMutation();
+    const { removeWatching } = useWatchingMutation();
 
     const days = useMemo(() => {
         const ms = new Date().getTime() - new Date(started).getTime();
@@ -43,7 +38,7 @@ const GameItem = ({ slug, started }: GameItemProps) => {
 
     const onDelete = (e: MouseEvent) => {
         e.preventDefault();
-        deleteWatching(slug);
+        removeWatching(slug);
     };
 
     return (
@@ -83,37 +78,15 @@ const GameItem = ({ slug, started }: GameItemProps) => {
     );
 };
 
-const Notifications = () => {
-    const { watching, toggleNotifications } = useWatchingMutation();
-
-    const onChange = (e: ChangeEvent<HTMLInputElement>, willChecked: boolean) => {
-        toggleNotifications(willChecked);
-    };
-
-    return (
-        <Box>
-            <FormControlLabel
-                labelPlacement="start"
-                label="Notifications"
-                control={<Switch checked={watching?.notifications} onChange={onChange} />}
-            />
-        </Box>
-    );
-};
-
 function Watching() {
     const { watching } = useWatchingMutation();
 
     return (
-        <Stack>
-            <Notifications />
-
-            <List>
-                {watching?.items.map(({ started, slug }) => (
-                    <GameItem key={slug} started={started} slug={slug} />
-                ))}
-            </List>
-        </Stack>
+        <List>
+            {watching?.map(({ started, slug }) => (
+                <GameItem key={slug} started={started} slug={slug} />
+            ))}
+        </List>
     );
 }
 

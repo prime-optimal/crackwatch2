@@ -14,21 +14,16 @@ import {
 } from "@mui/material";
 import Router from "next/router";
 import { useState } from "react";
-import axios from "redaxios";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
-import useUser from "@hooks/useUser";
+import useUserMutation from "@hooks/mutations/useUserMutation";
 
 const UserMenu = (props: MenuProps) => {
-    const { data: user, mutate, isValidating } = useUser();
+    const { logout, user } = useUserMutation();
 
     const onLogout = async () => {
-        await mutate(async () => {
-            await axios.post("/auth/logout");
-            return {};
-        });
-
+        await logout();
         Router.push("/auth/login");
     };
 
@@ -44,7 +39,7 @@ const UserMenu = (props: MenuProps) => {
             <Typography align="center">{user?.nickname || "Logged out"}</Typography>
             <Divider sx={{ my: 1 }} />
 
-            <MenuItem disabled={!user?.nickname} onClick={onAccount}>
+            <MenuItem onClick={onAccount}>
                 <ListItemIcon>
                     <ManageAccountsIcon />
                 </ListItemIcon>
@@ -59,7 +54,7 @@ const UserMenu = (props: MenuProps) => {
                     Logout
                 </MenuItem>
             ) : (
-                <MenuItem onClick={onLogin} disabled={isValidating}>
+                <MenuItem onClick={onLogin}>
                     <ListItemIcon>
                         <LockOpenIcon />
                     </ListItemIcon>
@@ -71,7 +66,7 @@ const UserMenu = (props: MenuProps) => {
 };
 
 export default function User() {
-    const { data: user } = useUser();
+    const { user } = useUserMutation();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = !!anchorEl;

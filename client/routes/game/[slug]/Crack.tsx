@@ -19,10 +19,10 @@ import { useMemo, useState } from "react";
 
 import IconTypography from "@components/IconTypography";
 
+import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
 
-import { useGame } from "../hooks";
-import useNotificationMutation from "./useNotificationMutation";
+import { useGame } from "./hooks";
 
 interface ProviderInfoProps {
     open: boolean;
@@ -41,13 +41,13 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
     );
 };
 
-const Notifications = () => {
+const WatchingIcon = () => {
     const { data } = useGame();
-    const { addWatching, removeWatching, watching } = useNotificationMutation();
+    const { addWatching, removeWatching, watching } = useWatchingMutation();
 
     const active = useMemo(() => {
-        return !!watching?.items.find(game => game.slug === data?.slug);
-    }, [data?.slug, watching?.items]);
+        return !!watching?.find(game => game.slug === data?.slug);
+    }, [data?.slug, watching]);
 
     const onClick = () => {
         if (!data) return;
@@ -88,7 +88,7 @@ export default function Crack() {
                     Crack info
                 </IconTypography>
 
-                {!cracked && !loading && <Notifications />}
+                {!cracked && !loading && <WatchingIcon />}
             </Stack>
 
             <Typography>

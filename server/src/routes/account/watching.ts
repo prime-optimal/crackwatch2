@@ -2,9 +2,10 @@ import { Static, Type } from "@sinclair/typebox";
 import { FastifyRequest as Req } from "fastify";
 import { Resource } from "fastify-autoroutes";
 
-import { accountModel } from "@mongo";
-
 import { authenticate } from "@hooks/authenticate";
+
+import ErrorBuilder from "@utils/errorBuilder";
+import { getAccount } from "@utils/mongo";
 
 const bodyPut = Type.Object(
     {
@@ -18,22 +19,13 @@ type BodyPut = Static<typeof bodyPut>;
 const handlerPut: any = async (req: Req<{ Body: BodyPut }>) => {
     const { item, slug } = req.body;
 
-    const account = await accountModel.findOne({ userId: req.session.user?.id || null });
-    if (!account) {
-        throw {
-            statusCode: 401,
-            message: "Unexpected user not found",
-        };
+    const account = await getAccount(req);
+
+    if (account.watching.find(game => game.slug === slug)) {
+        throw new ErrorBuilder().status(400).msg("You are already watching this game");
     }
 
-    if (account.watching.items.find(game => game.slug === slug)) {
-        throw {
-            statusCode: 400,
-            message: "You are already watching this game!",
-        };
-    }
-
-    account.watching.items.push({ item, slug, started: new Date() });
+    account.watching.push({ item, slug, started: new Date() });
     await account.save();
 
     return account.watching;
@@ -50,17 +42,11 @@ type QueryDelete = Static<typeof queryDelete>;
 const handlerDelete: any = async (req: Req<{ Querystring: QueryDelete }>) => {
     const { slug } = req.query;
 
-    const account = await accountModel.findOne({ userId: req.session.user?.id || null });
-    if (!account) {
-        throw {
-            statusCode: 401,
-            message: "Unexpected user not found",
-        };
-    }
+    const account = await getAccount(req);
 
-    for (const [i, game] of account.watching.items.entries()) {
+    for (const [i, game] of account.watching.entries()) {
         if (game.slug === slug) {
-            account.watching.items.splice(i, 1);
+            account.watching.splice(i, 1);
             break;
         }
     }
@@ -70,32 +56,16 @@ const handlerDelete: any = async (req: Req<{ Querystring: QueryDelete }>) => {
     return account.watching;
 };
 
-const queryOptions = Type.Object(
-    {
-        notifications: Type.Boolean(),
-    },
-    { additionalProperties: false }
-);
-type QueryOptions = Static<typeof queryOptions>;
-
-const handlerOptions: any = async (req: Req<{ Querystring: QueryOptions }>) => {
-    const { notifications } = req.query;
-
-    const account = await accountModel.findOne({ userId: req.session.user?.id || null });
-    if (!account) {
-        throw {
-            statusCode: 401,
-            message: "Account unexpectedly not found",
-        };
-    }
-
-    account.watching.notifications = notifications;
-    await account.save();
-
+const handlerGet: any = async (req: Req) => {
+    const account = await getAccount(req);
     return account.watching;
 };
 
 export default (): Resource => ({
+    get: {
+        handler: handlerGet,
+        onRequest: authenticate,
+    },
     put: {
         handler: handlerPut,
         schema: { body: bodyPut },
@@ -104,11 +74,6 @@ export default (): Resource => ({
     delete: {
         handler: handlerDelete,
         schema: { querystring: queryDelete },
-        onRequest: authenticate,
-    },
-    options: {
-        handler: handlerOptions,
-        schema: { querystring: queryOptions },
         onRequest: authenticate,
     },
 });

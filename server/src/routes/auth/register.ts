@@ -6,6 +6,8 @@ import { promisify } from "util";
 
 import { accountModel, userModel } from "@mongo";
 
+import ErrorBuilder from "@utils/errorBuilder";
+
 const body = Type.Object(
     {
         nickname: Type.String({ minLength: 4, maxLength: 20 }),
@@ -23,10 +25,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     const { email, nickname, password } = req.body;
 
     if (await userModel.findOne({ $or: [{ email }, { nickname }] })) {
-        throw {
-            statusCode: 400,
-            message: "User already exists",
-        };
+        throw new ErrorBuilder().status(400).msg("User already exists");
     }
 
     const salt = (await randomBytesPromise(16)).toString("base64");

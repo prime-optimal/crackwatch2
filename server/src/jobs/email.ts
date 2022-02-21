@@ -49,11 +49,13 @@ export default function Schedule(fastify: FastifyInstance) {
             };
 
             const inputs = accounts
-                .filter(({ watching }) => watching.notifications && watching.items.length > 0)
+                .filter(
+                    ({ settings, watching }) => settings.notifications && watching.length > 0
+                )
                 .map(({ watching, providers, userId }) =>
                     limit(() =>
                         fetch(
-                            watching.items.map(x => x.item),
+                            watching.map(x => x.item),
                             providers,
                             userId
                         )

@@ -6,6 +6,8 @@ import { promisify } from "util";
 
 import { userModel } from "@mongo";
 
+import ErrorBuilder from "@utils/errorBuilder";
+
 const body = Type.Object(
     {
         password: Type.String({ minLength: 6, maxLength: 100 }),
@@ -22,27 +24,21 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
 
     const user = await userModel.findOne({ email });
     if (!user) {
-        throw {
-            statusCode: 404,
-            message: "User does not exist",
-        };
+        throw new ErrorBuilder().status(404).msg("User does not exist");
     }
 
     const [salt, key] = user.password.split(":");
     const hashed = (await scryptPromise(password, salt, 64)) as Buffer;
 
     if (!timingSafeEqual(hashed, Buffer.from(key, "base64"))) {
-        throw {
-            statusCode: 400,
-            message: "Email and/or password is incorrect",
-        };
+        throw new ErrorBuilder().status(400).msg("Email and/or password is incorrect");
     }
 
     req.session.user = {
         id: user.id,
     };
 
-    return "OK";
+    return { ...user.toJSON(), password: undefined };
 };
 
 export default (): Resource => ({

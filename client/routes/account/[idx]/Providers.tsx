@@ -1,10 +1,11 @@
 import { Box, Checkbox, FormControlLabel, Stack, Typography } from "@mui/material";
-import { dequal } from "dequal";
 import { memo } from "react";
 
 import { Provider } from "@types";
 
-import useProvidersMutation from "./useProvidersMutation";
+import useProvidersMutation from "@hooks/mutations/useProvidersMutation";
+import { defaultProviders } from "@hooks/useCrack";
+import useLoggedIn from "@hooks/useLoggedIn";
 
 const ProviderTiers = {
     s: ["gamestatus", "steamcrackedgames"] as Provider[],
@@ -19,7 +20,13 @@ const tierMap = {
 };
 
 function Providers() {
-    const { addProvider, removeProvider, providers } = useProvidersMutation();
+    const {
+        addProvider,
+        removeProvider,
+        providers = defaultProviders,
+    } = useProvidersMutation();
+
+    const loggedIn = useLoggedIn();
 
     const onChange = (provider: Provider, willChecked: boolean) => {
         if (willChecked) {
@@ -47,8 +54,9 @@ function Providers() {
                             label={<Typography variant="button">{provider}</Typography>}
                             control={
                                 <Checkbox
+                                    checked={providers.includes(provider)}
                                     onChange={(_, checked) => onChange(provider, checked)}
-                                    checked={providers?.includes(provider)}
+                                    disabled={!loggedIn}
                                 />
                             }
                         />
@@ -59,4 +67,4 @@ function Providers() {
     );
 }
 
-export default memo(Providers, dequal);
+export default memo(Providers);
