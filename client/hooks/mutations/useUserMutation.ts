@@ -23,7 +23,7 @@ export default function useUserMutation() {
 
     const login = (data: LoginArgs) => {
         return mutate(
-            axios.post<any>("/auth/login", data).then(x => x.data),
+            axios.post("/auth/login", data).then(x => x.data),
             false
         );
     };

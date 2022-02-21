@@ -10,12 +10,15 @@ export default function useSettingsMutation() {
 
     const setNotifications = (notifications: boolean) => {
         mutate(data => ({ ...data, notifications }), false);
-        mutate(async () => {
-            const { data } = await axios.put("/account/settings", {
-                notifications,
-            });
-            return data;
-        }, false);
+        mutate(
+            axios
+                .put("/account/settings", {
+                    notifications,
+                })
+                .then(x => x.data),
+
+            false
+        );
     };
 
     return { setNotifications, settings: data };

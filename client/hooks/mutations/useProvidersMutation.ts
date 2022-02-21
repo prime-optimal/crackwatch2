@@ -13,12 +13,14 @@ export default function useProvidersMutation() {
 
     const sendProviders = (providers?: Provider[]) => {
         mutate(providers, false);
-        mutate(async () => {
-            const { data } = await axios.put("/account/providers", {
-                providers,
-            });
-            return data;
-        }, false);
+        mutate(
+            axios
+                .put("/account/providers", {
+                    providers,
+                })
+                .then(x => x.data),
+            false
+        );
     };
 
     const addProvider = (provider: Provider) => {

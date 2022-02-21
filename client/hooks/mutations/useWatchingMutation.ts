@@ -16,27 +16,33 @@ export default function useWatchingMutation() {
         const watching = data?.filter(game => game.slug !== slug);
 
         mutate(watching, false);
-        mutate(async () => {
-            const { data: watching } = await axios.delete(
-                urlCat("/account/watching", {
-                    slug,
-                })
-            );
-            return watching;
-        }, false);
+        mutate(
+            axios
+                .delete(
+                    urlCat("/account/watching", {
+                        slug,
+                    })
+                )
+                .then(x => x.data),
+
+            false
+        );
     };
 
     const addWatching = (item: string, slug: string) => {
         const items = data?.concat({ slug, item, started: new Date().toUTCString() });
 
         mutate(items, false);
-        mutate(async () => {
-            const { data } = await axios.put(`/account/watching`, {
-                slug,
-                item,
-            });
-            return data;
-        }, false);
+        mutate(
+            axios
+                .put(`/account/watching`, {
+                    slug,
+                    item,
+                })
+                .then(x => x.data),
+
+            false
+        );
     };
 
     return { removeWatching, addWatching, watching: data };
