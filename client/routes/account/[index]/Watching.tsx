@@ -14,6 +14,7 @@ import {
     Typography,
 } from "@mui/material";
 import { dequal } from "dequal";
+import { merge } from "merge-anything";
 import NextLink from "next/link";
 import { memo, useMemo } from "react";
 import axios from "redaxios";
@@ -49,10 +50,9 @@ const GameItem = ({ slug, started }: GameItemProps) => {
         mutate(user => {
             if (!user?.nickname) return;
 
-            return {
-                ...user,
-                watching: user.watching.filter(game => game.slug !== slug),
-            } as any;
+            return merge(user || {}, {
+                watching: { items: user?.watching.items.filter(game => game.slug !== slug) },
+            });
         }, false);
 
         mutate(async user => {
@@ -63,7 +63,7 @@ const GameItem = ({ slug, started }: GameItemProps) => {
                     slug,
                 })
             );
-            return { ...user, watching } as any;
+            return merge(user || {}, { watching }) as any;
         }, false);
     };
 
@@ -104,21 +104,29 @@ const GameItem = ({ slug, started }: GameItemProps) => {
     );
 };
 
+const Notifications = () => {
+    const { data: user } = useUser();
+
+    return (
+        <Box>
+            <FormControlLabel
+                labelPlacement="start"
+                label="Notifications"
+                control={<Switch checked={user?.watching.notifications} />}
+            />
+        </Box>
+    );
+};
+
 function Watching() {
     const { data: user } = useUser();
 
     return (
         <Stack>
-            <Box>
-                <FormControlLabel
-                    labelPlacement="start"
-                    label="Notifications"
-                    control={<Switch />}
-                />
-            </Box>
+            <Notifications />
 
             <List>
-                {user?.watching.map(({ started, slug }) => (
+                {user?.watching.items.map(({ started, slug }) => (
                     <GameItem key={slug} started={started} slug={slug} />
                 ))}
             </List>

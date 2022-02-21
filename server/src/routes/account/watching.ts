@@ -26,14 +26,14 @@ const handlerPut: any = async (req: Req<{ Body: BodyPut }>) => {
         };
     }
 
-    if (account.watching.find(game => game.slug === slug)) {
+    if (account.watching.items.find(game => game.slug === slug)) {
         throw {
             statusCode: 400,
             message: "You are already watching this game!",
         };
     }
 
-    account.watching.push({ item, slug, started: new Date() });
+    account.watching.items.push({ item, slug, started: new Date() });
     await account.save();
 
     return account.watching;
@@ -58,9 +58,9 @@ const handlerDelete: any = async (req: Req<{ Querystring: QueryDelete }>) => {
         };
     }
 
-    for (const [i, game] of account.watching.entries()) {
+    for (const [i, game] of account.watching.items.entries()) {
         if (game.slug === slug) {
-            account.watching.splice(i, 1);
+            account.watching.items.splice(i, 1);
             break;
         }
     }

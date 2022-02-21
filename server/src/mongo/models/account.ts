@@ -5,10 +5,15 @@ import { Provider } from "@types";
 export interface Account {
     userId: string;
     providers: Provider[];
-    watching: Watching[];
+    watching: Watching;
 }
 
 interface Watching {
+    notifications: boolean;
+    items: Item[];
+}
+
+interface Item {
     cracked?: boolean;
     item: string;
     slug: string;
@@ -20,17 +25,23 @@ const accountSchema = new Schema<Account>({
     userId: { type: String, required: true },
     watching: {
         validate: [
-            (value: any[]) => value.length < 20,
+            (value: any) => value.items.length < 20,
             "Exceeded maximum watching limit (20)",
         ],
-        type: [
-            new Schema<Watching>({
-                cracked: { type: Boolean, default: false },
-                item: { type: String, required: true },
-                started: { type: Date, required: true },
-                slug: { type: String, required: true },
-            }),
-        ],
+        type: new Schema({
+            notifications: { type: Boolean, default: false },
+            items: {
+                type: [
+                    new Schema<Item>({
+                        cracked: { type: Boolean, default: false },
+                        item: { type: String, required: true },
+                        started: { type: Date, required: true },
+                        slug: { type: String, required: true },
+                    }),
+                ],
+            },
+        }),
+        default: { notifications: false, items: [] },
     },
 });
 

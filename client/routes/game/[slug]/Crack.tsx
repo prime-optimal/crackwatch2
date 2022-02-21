@@ -15,6 +15,7 @@ import {
     Tooltip,
     Typography,
 } from "@mui/material";
+import { merge } from "merge-anything";
 import { useMemo, useState } from "react";
 import axios from "redaxios";
 import urlCat from "urlcat";
@@ -48,40 +49,42 @@ const Notifications = () => {
     const { data: user, mutate } = useUser();
 
     const active = useMemo(() => {
-        return !!user?.watching?.find(game => game.slug === data?.slug);
+        return !!user?.watching?.items.find(game => game.slug === data?.slug);
     }, [data?.slug, user?.watching]);
 
     const onClick = () => {
         if (!user?.nickname) return;
 
         if (active) {
-            const fresh = user.watching.filter(game => game.slug !== data?.slug);
+            const items = user.watching.items.filter(game => game.slug !== data?.slug);
 
-            mutate(user => ({ ...user, watching: fresh } as any), false);
+            mutate(user => merge(user || {}, { watching: { items } }), false);
             mutate(async user => {
                 const { data: watching } = await axios.delete(
                     urlCat("/account/watching", {
                         slug: data?.slug,
                     })
                 );
-                return { ...user, watching } as any;
+
+                return merge(user || {}, { watching }) as any;
             }, false);
 
             return;
         }
 
-        const fresh = [
-            ...user.watching,
+        const items = [
+            ...user.watching.items,
             { slug: data?.slug, item: data?.name, started: new Date().toUTCString() },
         ];
 
-        mutate(user => ({ ...user, watching: fresh } as any), false);
+        mutate(user => merge(user || {}, { watching: { items } }), false);
         mutate(async user => {
             const { data: watching } = await axios.put(`/account/watching`, {
                 slug: data?.slug,
                 item: data?.name,
             });
-            return { ...user, watching } as any;
+
+            return merge(user || {}, { watching }) as any;
         }, false);
     };
 
