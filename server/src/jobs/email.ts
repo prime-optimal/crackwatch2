@@ -12,7 +12,7 @@ import SearchCrack from "@utils/searchers";
 const limit = pLimit(2);
 
 export default function Schedule(fastify: FastifyInstance) {
-    cron.schedule("* * * * *", () => {
+    cron.schedule("0 0 * * *", () => {
         nodemailer.createTestAccount(async (err, account) => {
             // create reusable transporter object using the default SMTP transport
             const transporter = nodemailer.createTransport({

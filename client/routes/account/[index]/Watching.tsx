@@ -1,12 +1,16 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import {
     Avatar,
+    Box,
+    FormControlLabel,
     IconButton,
     List,
     ListItem,
     ListItemAvatar,
     ListItemButton,
     ListItemText,
+    Stack,
+    Switch,
     Typography,
 } from "@mui/material";
 import { dequal } from "dequal";
@@ -104,11 +108,21 @@ function Watching() {
     const { data: user } = useUser();
 
     return (
-        <List>
-            {user?.watching.map(({ started, slug }) => (
-                <GameItem key={slug} started={started} slug={slug} />
-            ))}
-        </List>
+        <Stack>
+            <Box>
+                <FormControlLabel
+                    labelPlacement="start"
+                    label="Notifications"
+                    control={<Switch />}
+                />
+            </Box>
+
+            <List>
+                {user?.watching.map(({ started, slug }) => (
+                    <GameItem key={slug} started={started} slug={slug} />
+                ))}
+            </List>
+        </Stack>
     );
 }
 
