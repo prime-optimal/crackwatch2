@@ -1,6 +1,7 @@
 import produce, { Draft } from "immer";
 import { pipe } from "pipe-ts";
 import create, { GetState, SetState, State, StateCreator, StoreApi } from "zustand";
+import { persist } from "zustand/middleware";
 
 const immer =
     <
@@ -40,7 +41,12 @@ interface IndexStore {
     };
 }
 
-const createStore = pipe(immer, create) as typeof create;
+const createStore = pipe(
+    // persist in local-storage
+    // (...args) => (persist as any)(...args, { name: "store" }),
+    immer,
+    create
+) as typeof create;
 
 export const useStore = createStore<IndexStore>(set => ({
     state: {
