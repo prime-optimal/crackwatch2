@@ -1,9 +1,10 @@
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { CircularProgress, Container, Grid, Stack } from "@mui/material";
 import Head from "next/head";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWRInfinite from "swr/infinite";
+import urlCat from "urlcat";
 
 import { AxiosGames } from "@types";
 
@@ -13,6 +14,7 @@ import GameCard from "@components/GameCard";
 import IconTypography from "@components/IconTypography";
 
 import BackToTop from "./BackToTop";
+import { useStore } from "./store";
 
 const Title = () => {
     return (
@@ -29,12 +31,14 @@ const Title = () => {
 };
 
 export default function Index() {
+    const filters = useStore(store => store.state.filters);
+
     const { data, setSize } = useSWRInfinite<AxiosGames>((index, previous) => {
         if (previous && !previous.next) return null;
-
-        const page = encodeURIComponent(index + 1);
-        return `/games?page=${page}`;
+        return urlCat("/games", { ...filters, page: index + 1 });
     }, SWRImmutable);
+
+    console.log({ data });
 
     const { ref, inView } = useInView();
 
