@@ -13,7 +13,7 @@ interface Settings {
     notifications: boolean;
 }
 
-interface Item {
+export interface Item {
     cracked?: boolean;
     item: string;
     slug: string;

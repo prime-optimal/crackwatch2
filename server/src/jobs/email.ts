@@ -3,7 +3,7 @@ import cron from "node-cron";
 import nodemailer from "nodemailer";
 import pLimit from "p-limit";
 
-import { accountModel, userModel } from "@mongo";
+import { Item, accountModel, userModel } from "@mongo";
 
 import tryToCatch from "@utils/catch";
 import SearchCrack from "@utils/searchers";
@@ -33,18 +33,22 @@ export default function Schedule(fastify: FastifyInstance) {
             });
 
             // call this for every user
-            const fetch = async (queries: string[], providers: string[], userId: string) => {
+            const fetch = async (queries: Item[], providers: string[], userId: string) => {
                 const promises = queries.map(async query => {
                     const user = await userModel.findById(userId);
                     if (!user) return;
 
-                    const [result] = await tryToCatch(() => SearchCrack(query, providers));
+                    if (query.cracked) return;
+
+                    const [result] = await tryToCatch(() =>
+                        SearchCrack(query.item, providers)
+                    );
 
                     if (!result) return;
 
                     const info = await transporter.sendMail({
                         to: user.email,
-                        text: `Great news! "${query}" has been cracked`,
+                        text: `Great news! "${query.item}" has been cracked`,
                     });
 
                     fastify.log.info(nodemailer.getTestMessageUrl(info));
@@ -54,13 +58,7 @@ export default function Schedule(fastify: FastifyInstance) {
             };
 
             const inputs = accounts.map(({ watching, providers, userId }) =>
-                limit(() =>
-                    fetch(
-                        watching.map(x => x.item),
-                        providers,
-                        userId
-                    )
-                )
+                limit(() => fetch(watching, providers, userId))
             );
 
             Promise.all(inputs);
