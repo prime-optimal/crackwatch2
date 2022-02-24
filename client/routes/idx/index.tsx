@@ -20,7 +20,7 @@ export default function Index() {
             </Head>
 
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6} lg={4} xl={3}>
+                <Grid item xs={12} md={4} xl={3}>
                     <Filters />
                 </Grid>
 

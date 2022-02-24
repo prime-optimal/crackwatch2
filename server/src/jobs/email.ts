@@ -25,6 +25,7 @@ export default function Schedule() {
                     user: account.user, // generated ethereal user
                     pass: account.pass, // generated ethereal password
                 },
+                pool: true,
             });
 
             const accounts = await accountModel.find({

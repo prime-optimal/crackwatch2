@@ -25,6 +25,7 @@
         "nodemailer": "^6.7.2",
         "p-limit": "3.x.x",
         "pino": "^7.8.0",
+        "under-pressure": "^5.8.0",
         "urlcat": "^2.0.4"
     },
     "devDependencies": {
