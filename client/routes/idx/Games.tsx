@@ -1,4 +1,3 @@
-import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { CircularProgress, Grid, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -10,7 +9,6 @@ import { AxiosGames } from "@types";
 import { SWRImmutable } from "@config";
 
 import GameCard from "@components/GameCard";
-import IconTypography from "@components/IconTypography";
 
 import { useStore } from "./store";
 
@@ -31,16 +29,6 @@ export default function Index() {
 
     return (
         <Stack flex={1}>
-            <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
-                <IconTypography
-                    sx={{ mb: 2 }}
-                    props={{ variant: "h4" }}
-                    icon={<WhatshotIcon fontSize="large" />}
-                >
-                    Popular
-                </IconTypography>
-            </Stack>
-
             <Grid container spacing={3}>
                 {data?.map(({ results }) =>
                     results.map(({ id, name, background_image, clip, genres, slug }) => (

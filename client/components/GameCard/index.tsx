@@ -1,9 +1,10 @@
 import { Card } from "@mui/material";
 import { dequal } from "dequal";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import { useInView } from "react-intersection-observer";
 
 import useCrack from "@hooks/useCrack";
+import useIsReleased from "@hooks/useIsReleased";
 
 import Content from "./Content";
 import Media from "./Media";
@@ -32,15 +33,7 @@ const GameCard = memo(
     }: GameCardProps) => {
         const { ref, inView } = useInView({ delay: 150 });
 
-        const isReleased = useMemo(() => {
-            const current = new Date().getTime();
-            const release = new Date(released || new Date()).getTime();
-
-            if (current >= release) {
-                return true;
-            }
-            return false;
-        }, [released]);
+        const isReleased = useIsReleased(released);
 
         const { cracked, loading } = useCrack(inView && isReleased ? name : null);
 

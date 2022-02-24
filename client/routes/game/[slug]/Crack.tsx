@@ -21,6 +21,7 @@ import IconTypography from "@components/IconTypography";
 
 import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
+import useIsReleased from "@hooks/useIsReleased";
 import useLoggedIn from "@hooks/useLoggedIn";
 
 import { useGame } from "./hooks";
@@ -78,15 +79,7 @@ const WatchingIcon = () => {
 export default function Crack() {
     const { data } = useGame();
 
-    const isReleased = useMemo(() => {
-        const current = new Date().getTime();
-        const release = new Date(data?.released || new Date()).getTime();
-
-        if (current >= release) {
-            return true;
-        }
-        return false;
-    }, [data?.released]);
+    const isReleased = useIsReleased(data?.released);
 
     const {
         cracked,

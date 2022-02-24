@@ -9,5 +9,9 @@ export const getMongoClient = async () => {
     return mongoose.connection.getClient();
 };
 
+mongoose.connect(DATABASE_URL, error => {
+    if (error) throw error;
+});
+
 export * from "./models/user";
 export * from "./models/account";
