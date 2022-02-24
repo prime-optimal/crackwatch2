@@ -13,11 +13,11 @@ import GameCard from "@components/GameCard";
 import { useStore } from "./store";
 
 export default function Index() {
-    const filters = useStore(store => store.state.filters);
+    const query = useStore(store => store.state.filters.query);
 
     const { data, setSize } = useSWRInfinite<AxiosGames>((index, previous) => {
         if (previous && !previous.next) return null;
-        return urlCat("/games", { ...filters, page: index + 1 });
+        return urlCat("/games", { ...query, page: index + 1 });
     }, SWRImmutable);
 
     const { ref, inView } = useInView();
@@ -31,18 +31,21 @@ export default function Index() {
         <Stack flex={1}>
             <Grid container spacing={3}>
                 {data?.map(({ results }) =>
-                    results.map(({ id, name, background_image, clip, genres, slug }) => (
-                        <Grid item xs={12} md={6} lg={4} xl={3} key={id}>
-                            <GameCard
-                                genres={genres.map(x => x.name)}
-                                video={clip?.clip}
-                                img={background_image}
-                                name={name}
-                                slug={slug}
-                                animations
-                            />
-                        </Grid>
-                    ))
+                    results.map(
+                        ({ id, name, background_image, clip, genres, slug, released }) => (
+                            <Grid item xs={12} md={6} lg={4} xl={3} key={id}>
+                                <GameCard
+                                    genres={genres.map(x => x.name)}
+                                    video={clip?.clip}
+                                    img={background_image}
+                                    name={name}
+                                    slug={slug}
+                                    animations
+                                    released={released}
+                                />
+                            </Grid>
+                        )
+                    )
                 )}
             </Grid>
 

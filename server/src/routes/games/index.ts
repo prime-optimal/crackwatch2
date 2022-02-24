@@ -35,7 +35,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         urlCat("/games", {
             key: process.env.RAWG_KEY,
             platforms: "4",
-            page_size: 10,
+            page_size: 8,
             ordering,
             dates,
             page,

@@ -33,12 +33,16 @@ const immer =
 interface IndexStore {
     state: {
         filters: {
-            dates: string;
-            ordering: string;
+            query: {
+                dates: string;
+                ordering: string;
+            };
+            active: string;
         };
     };
     actions: {
         setAnticipatedGames: () => void;
+        setPopularGames: () => void;
     };
 }
 
@@ -51,7 +55,7 @@ const createStore = pipe(
 
 const filterMap = {
     popular: {
-        dates: "-6,0",
+        dates: "-8,0",
         ordering: "-added",
     },
     anticipated: {
@@ -62,16 +66,21 @@ const filterMap = {
 
 export const useStore = createStore<IndexStore>(set => ({
     state: {
-        filters: filterMap.popular,
+        filters: {
+            query: filterMap.popular,
+            active: "Popular",
+        },
     },
     actions: {
         setAnticipatedGames: () =>
             set(store => {
-                store.state.filters = filterMap.anticipated;
+                store.state.filters.query = filterMap.anticipated;
+                store.state.filters.active = "Anticipated";
             }),
         setPopularGames: () =>
             set(store => {
-                store.state.filters = filterMap.popular;
+                store.state.filters.query = filterMap.popular;
+                store.state.filters.active = "Popular";
             }),
     },
 }));
