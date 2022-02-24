@@ -1,18 +1,20 @@
-import { FastifyInstance } from "fastify";
 import cron from "node-cron";
 import nodemailer from "nodemailer";
 import pLimit from "p-limit";
+import pino from "pino";
 
 import { Item, accountModel, userModel } from "@mongo";
 
 import tryToCatch from "@utils/catch";
 import SearchCrack from "@utils/searchers";
 
+const logger = pino();
+
 // send at most 2 emails at once
 const limit = pLimit(2);
 
-export default function Schedule(fastify: FastifyInstance) {
-    cron.schedule("0 0 * * *", () => {
+export default function Schedule() {
+    cron.schedule("* * * * *", () => {
         nodemailer.createTestAccount(async (err, account) => {
             // create reusable transporter object using the default SMTP transport
             const transporter = nodemailer.createTransport({
@@ -47,7 +49,7 @@ export default function Schedule(fastify: FastifyInstance) {
                         SearchCrack(query.item, providers)
                     );
 
-                    if (!result) return;
+                    if (!result || (result && result.result.length < 1)) return;
 
                     const info = await transporter.sendMail({
                         to: user.email,
@@ -61,7 +63,7 @@ export default function Schedule(fastify: FastifyInstance) {
                         }
                     }
 
-                    fastify.log.info(nodemailer.getTestMessageUrl(info));
+                    logger.info(`${query.item} has been cracked and sent to ${user.email}`);
                 });
 
                 await Promise.all(promises);

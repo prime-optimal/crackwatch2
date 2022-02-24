@@ -5,13 +5,17 @@ const DATABASE_URL = process.env.DATABASE_URL || "mongodb://localhost:27017/crac
 mongoose.plugin(require("@meanie/mongoose-to-json"));
 
 export const getMongoClient = async () => {
-    await mongoose.connect(DATABASE_URL);
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(DATABASE_URL);
+    }
     return mongoose.connection.getClient();
 };
 
-mongoose.connect(DATABASE_URL, error => {
-    if (error) throw error;
-});
+if (mongoose.connection.readyState === 0) {
+    mongoose.connect(DATABASE_URL, error => {
+        if (error) throw error;
+    });
+}
 
 export * from "./models/user";
 export * from "./models/account";

@@ -9,8 +9,9 @@
         "build:client": "cd client && npm run build",
         "build:server": "cd server && npm run build",
         "build": "npm run build:server && npm run build:client",
-        "dev": "nodemon --exec \"npm run build:server && npm run prod\"",
-        "prod": "cd server/dist && node .",
+        "dev": "nodemon --exec \"npm run build:server && npm run web\"",
+        "web": "cd server/dist && node .",
+        "worker": "cd server/dist/jobs && node .",
         "lint": "eslint . -c ./.eslintrc.json"
     },
     "devDependencies": {

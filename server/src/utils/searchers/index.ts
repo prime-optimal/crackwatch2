@@ -16,6 +16,11 @@ const Providers: CrackProvider[] = [
     SteamCrackedGames,
 ];
 
+interface SearchResults {
+    provider: string;
+    result: any[];
+}
+
 export default async function SearchCrack(query: string, providers: string[]) {
     // filter out the needed providers
     const filtered = Providers.filter(({ provider }) => providers.includes(provider));
@@ -49,5 +54,5 @@ export default async function SearchCrack(query: string, providers: string[]) {
         };
     }
 
-    return result;
+    return result as SearchResults;
 }
