@@ -33,10 +33,12 @@ interface ProviderInfoProps {
 
 const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="md">
+        <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
             <DialogTitle>Provider results</DialogTitle>
             <DialogContent>
-                <Typography component="code">{JSON.stringify(data, null, 2)}</Typography>
+                <Typography sx={{ whiteSpace: "pre-wrap" }} component="pre">
+                    {JSON.stringify(data, null, 2)}
+                </Typography>
             </DialogContent>
         </Dialog>
     );

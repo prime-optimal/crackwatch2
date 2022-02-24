@@ -25,7 +25,12 @@ export default function Schedule(fastify: FastifyInstance) {
                 },
             });
 
-            const accounts = await accountModel.find();
+            const accounts = await accountModel.find({
+                "settings.notifications": true,
+                "watching.0": {
+                    $exists: true,
+                },
+            });
 
             // call this for every user
             const fetch = async (queries: string[], providers: string[], userId: string) => {
@@ -48,19 +53,15 @@ export default function Schedule(fastify: FastifyInstance) {
                 await Promise.all(promises);
             };
 
-            const inputs = accounts
-                .filter(
-                    ({ settings, watching }) => settings.notifications && watching.length > 0
-                )
-                .map(({ watching, providers, userId }) =>
-                    limit(() =>
-                        fetch(
-                            watching.map(x => x.item),
-                            providers,
-                            userId
-                        )
+            const inputs = accounts.map(({ watching, providers, userId }) =>
+                limit(() =>
+                    fetch(
+                        watching.map(x => x.item),
+                        providers,
+                        userId
                     )
-                );
+                )
+            );
 
             Promise.all(inputs);
         });

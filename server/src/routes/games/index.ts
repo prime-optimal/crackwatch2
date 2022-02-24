@@ -11,7 +11,8 @@ import { minifyImageSrc } from "@utils/minify";
 const querystring = Type.Object(
     {
         page: Type.Number({ default: 1, minimum: 1 }),
-        period: Type.String({ default: "-6,0" }),
+        dates: Type.String({ default: "-6,0" }),
+        ordering: Type.String({ default: "-added" }),
     },
     { additionalProperties: false }
 );
@@ -21,7 +22,7 @@ const setMonth = (date: Date, by: number) =>
     new Date(date.setMonth(new Date(date).getMonth() + by));
 
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
-    const { page, period } = req.query;
+    const { page, dates: period, ordering } = req.query;
 
     const [from, to] = period.split(",");
 
@@ -34,8 +35,8 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         urlCat("/games", {
             key: process.env.RAWG_KEY,
             platforms: "4",
-            page_size: 30,
-            ordering: "-added",
+            page_size: 10,
+            ordering,
             dates,
             page,
         })

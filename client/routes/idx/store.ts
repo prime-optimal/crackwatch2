@@ -33,7 +33,8 @@ const immer =
 interface IndexStore {
     state: {
         filters: {
-            released: string;
+            dates: string;
+            ordering: string;
         };
     };
     actions: {
@@ -48,18 +49,29 @@ const createStore = pipe(
     create
 ) as typeof create;
 
+const filterMap = {
+    popular: {
+        dates: "-6,0",
+        ordering: "-added",
+    },
+    anticipated: {
+        dates: "0,24",
+        ordering: "-added",
+    },
+};
+
 export const useStore = createStore<IndexStore>(set => ({
     state: {
-        filters: {
-            released: "-6,0",
-        },
+        filters: filterMap.popular,
     },
     actions: {
         setAnticipatedGames: () =>
             set(store => {
-                store.state.filters = {
-                    released: "0,24",
-                };
+                store.state.filters = filterMap.anticipated;
+            }),
+        setPopularGames: () =>
+            set(store => {
+                store.state.filters = filterMap.popular;
             }),
     },
 }));
