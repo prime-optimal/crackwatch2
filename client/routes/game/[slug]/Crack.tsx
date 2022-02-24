@@ -78,7 +78,23 @@ const WatchingIcon = () => {
 export default function Crack() {
     const { data } = useGame();
 
-    const { cracked, providers, data: crack, error, loading } = useCrack(data?.name || null);
+    const isReleased = useMemo(() => {
+        const current = new Date().getTime();
+        const release = new Date(data?.released || new Date()).getTime();
+
+        if (current >= release) {
+            return true;
+        }
+        return false;
+    }, [data?.released]);
+
+    const {
+        cracked,
+        providers,
+        data: crack,
+        error,
+        loading,
+    } = useCrack(data?.name && isReleased ? data.name : null);
 
     const [open, setOpen] = useState(false);
 

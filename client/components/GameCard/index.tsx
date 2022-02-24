@@ -1,6 +1,6 @@
 import { Card } from "@mui/material";
 import { dequal } from "dequal";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 
 import useCrack from "@hooks/useCrack";
@@ -16,13 +16,33 @@ interface GameCardProps {
     slug: string;
     variant?: "elevation" | "outlined";
     animations?: true;
+    released?: string;
 }
 
 const GameCard = memo(
-    ({ img, name, video, genres, slug, variant = "elevation", animations }: GameCardProps) => {
+    ({
+        img,
+        name,
+        video,
+        genres,
+        slug,
+        variant = "elevation",
+        animations,
+        released,
+    }: GameCardProps) => {
         const { ref, inView } = useInView({ delay: 150 });
 
-        const { cracked, loading } = useCrack(inView ? name : null);
+        const isReleased = useMemo(() => {
+            const current = new Date().getTime();
+            const release = new Date(released || new Date()).getTime();
+
+            if (current >= release) {
+                return true;
+            }
+            return false;
+        }, [released]);
+
+        const { cracked, loading } = useCrack(inView && isReleased ? name : null);
 
         return (
             <Card
