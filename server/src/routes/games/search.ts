@@ -7,6 +7,7 @@ import { AxiosGames } from "@types";
 
 import { rawgClient } from "@utils/axios";
 import { minifyImageSrc } from "@utils/minify";
+import pick from "@utils/pick";
 
 const querystring = Type.Object(
     {
@@ -35,7 +36,13 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         ...rest,
     }));
 
-    return { ...data, results, next: !!data.next, previous: !!data.previous };
+    const picked = pick(results, ["name", "released", "background_image"]);
+
+    return {
+        results: picked,
+        next: !!data.next,
+        previous: !!data.previous,
+    };
 };
 
 export default (): Resource => ({
