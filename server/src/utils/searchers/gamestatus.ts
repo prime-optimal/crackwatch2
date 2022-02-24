@@ -19,7 +19,7 @@ const search = async (query: string) => {
         .filter(({ crack_date }) => !!crack_date)
         .map(({ title }) => title);
 
-    return Fuzzy(titles, query);
+    return Fuzzy(titles, query, { threshold: -5 });
 };
 
 export default { provider, search };

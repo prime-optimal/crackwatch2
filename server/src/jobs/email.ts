@@ -34,6 +34,9 @@ export default function Schedule(fastify: FastifyInstance) {
 
             // call this for every user
             const fetch = async (queries: Item[], providers: string[], userId: string) => {
+                const account = await accountModel.findOne({ userId });
+                if (!account?.watching) return;
+
                 const promises = queries.map(async query => {
                     const user = await userModel.findById(userId);
                     if (!user) return;
@@ -51,10 +54,18 @@ export default function Schedule(fastify: FastifyInstance) {
                         text: `Great news! "${query.item}" has been cracked`,
                     });
 
+                    for (const [index, item] of account.watching.entries()) {
+                        if (item.slug === query.slug) {
+                            account.watching[index].cracked = true;
+                            break;
+                        }
+                    }
+
                     fastify.log.info(nodemailer.getTestMessageUrl(info));
                 });
 
                 await Promise.all(promises);
+                await account.save();
             };
 
             const inputs = accounts.map(({ watching, providers, userId }) =>
