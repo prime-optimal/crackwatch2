@@ -1,9 +1,10 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Stack } from "@mui/material";
 import Head from "next/head";
 
 import BackToTop from "./BackToTop";
 import Filters from "./Filters";
 import Games from "./Games";
+import TopReddit from "./TopReddit";
 
 export default function Index() {
     return (
@@ -19,9 +20,12 @@ export default function Index() {
                 />
             </Head>
 
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
                 <Grid item xs={12} md={4} xl={3}>
-                    <Filters />
+                    <Stack spacing={3} position="sticky" top={theme => theme.spacing(3)}>
+                        <Filters />
+                        <TopReddit />
+                    </Stack>
                 </Grid>
 
                 <Grid item xs>

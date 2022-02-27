@@ -42,7 +42,7 @@ export default function Filters() {
     };
 
     return (
-        <Box component={Paper} position="sticky" top={theme => theme.spacing(2)}>
+        <Box component={Paper}>
             <List>
                 {filters.map(({ icon, name, description }) => (
                     <ListItem key={name}>
