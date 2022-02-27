@@ -2,11 +2,13 @@
 
 ## Currently heavy WIP
 
-## Planned features
+## Planned things
 
+-   [x] Accounts
 -   [x] Crack status provider tier list
 -   [x] Game watch list
 -   [x] Send an email when a watched game has been cracked
+-   [ ] Upvote games, idk about this one
 -   [ ] A discord bot in the future ?
 
 ## Some screenshots
@@ -20,7 +22,5 @@
 ## Disclaimer
 
 -   All information related to video games (images, reviews, etc...) is provided by RAWG API [rawg.io](https://rawg.io/apidocs)
-
 -   This web app does not provide download links for copyrighted content, only tells if it exists
-
 -   All trademarks are property of their respective owners in the US and other countries
