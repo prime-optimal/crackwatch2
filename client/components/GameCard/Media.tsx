@@ -35,7 +35,7 @@ export default function Media({ img, video, loading }: MediaProps) {
             <video
                 hidden={!imageHidden}
                 muted
-                preload="auto"
+                preload="none"
                 src={video}
                 autoPlay
                 loop

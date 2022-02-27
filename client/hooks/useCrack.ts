@@ -34,6 +34,6 @@ export default function useCrack(query: string | null) {
         data,
         error: error?.data || error,
         cracked: data && data.result.length > 0,
-        loading: !data && !error,
+        loading: !!(!data && !error && query),
     };
 }

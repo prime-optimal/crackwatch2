@@ -6,7 +6,7 @@ import NextLink from "next/link";
 interface ContentProps {
     slug: string;
     name: string;
-    cracked: boolean | null;
+    cracked?: boolean;
     genres?: string[];
     loading: boolean;
 }

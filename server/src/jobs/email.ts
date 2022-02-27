@@ -1,17 +1,19 @@
-import { FastifyInstance } from "fastify";
 import cron from "node-cron";
 import nodemailer from "nodemailer";
 import pLimit from "p-limit";
+import pino from "pino";
 
-import { accountModel, userModel } from "@mongo";
+import { Item, accountModel, userModel } from "@mongo";
 
 import tryToCatch from "@utils/catch";
 import SearchCrack from "@utils/searchers";
 
+const logger = pino();
+
 // send at most 2 emails at once
 const limit = pLimit(2);
 
-export default function Schedule(fastify: FastifyInstance) {
+export default function Schedule() {
     cron.schedule("0 0 * * *", () => {
         nodemailer.createTestAccount(async (err, account) => {
             // create reusable transporter object using the default SMTP transport
@@ -23,44 +25,55 @@ export default function Schedule(fastify: FastifyInstance) {
                     user: account.user, // generated ethereal user
                     pass: account.pass, // generated ethereal password
                 },
+                pool: true,
             });
 
-            const accounts = await accountModel.find();
+            const accounts = await accountModel.find({
+                "settings.notifications": true,
+                "watching.0": {
+                    $exists: true,
+                },
+            });
 
             // call this for every user
-            const fetch = async (queries: string[], providers: string[], userId: string) => {
+            const fetch = async (queries: Item[], providers: string[], userId: string) => {
+                const account = await accountModel.findOne({ userId });
+                if (!account?.watching) return;
+
                 const promises = queries.map(async query => {
                     const user = await userModel.findById(userId);
                     if (!user) return;
 
-                    const [result] = await tryToCatch(() => SearchCrack(query, providers));
+                    if (query.cracked) return;
 
-                    if (!result) return;
+                    const [result] = await tryToCatch(() =>
+                        SearchCrack(query.item, providers)
+                    );
+
+                    if (!result || (result && result.result.length < 1)) return;
 
                     const info = await transporter.sendMail({
                         to: user.email,
-                        text: `Great news! "${query}" has been cracked`,
+                        text: `Great news! "${query.item}" has been cracked`,
                     });
 
-                    fastify.log.info(nodemailer.getTestMessageUrl(info));
+                    for (const [index, item] of account.watching.entries()) {
+                        if (item.slug === query.slug) {
+                            account.watching[index].cracked = true;
+                            break;
+                        }
+                    }
+
+                    logger.info(`${query.item} has been cracked and sent to ${user.email}`);
                 });
 
                 await Promise.all(promises);
+                await account.save();
             };
 
-            const inputs = accounts
-                .filter(
-                    ({ settings, watching }) => settings.notifications && watching.length > 0
-                )
-                .map(({ watching, providers, userId }) =>
-                    limit(() =>
-                        fetch(
-                            watching.map(x => x.item),
-                            providers,
-                            userId
-                        )
-                    )
-                );
+            const inputs = accounts.map(({ watching, providers, userId }) =>
+                limit(() => fetch(watching, providers, userId))
+            );
 
             Promise.all(inputs);
         });

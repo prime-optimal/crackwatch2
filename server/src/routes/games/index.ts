@@ -7,11 +7,13 @@ import { AxiosGames } from "@types";
 
 import { rawgClient } from "@utils/axios";
 import { minifyImageSrc } from "@utils/minify";
+import pick from "@utils/pick";
 
 const querystring = Type.Object(
     {
         page: Type.Number({ default: 1, minimum: 1 }),
-        period: Type.String({ default: "-6,0" }),
+        dates: Type.String({ default: "-6,0" }),
+        ordering: Type.String({ default: "-added" }),
     },
     { additionalProperties: false }
 );
@@ -21,7 +23,7 @@ const setMonth = (date: Date, by: number) =>
     new Date(date.setMonth(new Date(date).getMonth() + by));
 
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
-    const { page, period } = req.query;
+    const { page, dates: period, ordering } = req.query;
 
     const [from, to] = period.split(",");
 
@@ -34,8 +36,8 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         urlCat("/games", {
             key: process.env.RAWG_KEY,
             platforms: "4",
-            page_size: 30,
-            ordering: "-added",
+            page_size: 8,
+            ordering,
             dates,
             page,
         })
@@ -47,7 +49,21 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         ...rest,
     }));
 
-    return { ...data, results, next: !!data.next, previous: !!data.previous };
+    const picked = pick(results, [
+        "id",
+        "name",
+        "background_image",
+        "clip",
+        "genres",
+        "slug",
+        "released",
+    ]);
+
+    return {
+        results: picked,
+        next: !!data.next,
+        previous: !!data.previous,
+    };
 };
 
 export default (): Resource => ({

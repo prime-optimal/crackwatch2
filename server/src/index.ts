@@ -8,10 +8,9 @@ import fastifyHelmet from "fastify-helmet";
 import fastifyNext from "fastify-nextjs";
 import fastifyRateLimit from "fastify-rate-limit";
 import path from "path";
+import underPressure from "under-pressure";
 
 import { getMongoClient } from "@mongo";
-
-import Schedule from "@jobs/email";
 
 dotenv.config({ path: path.resolve("../.env") });
 
@@ -24,7 +23,6 @@ const fastify = Fastify({
         level: "info",
         serializers: {
             req: req => ({
-                remoteAddress: dev ? req.ip : String(req.headers["cf-connecting-ip"]),
                 url: req.url,
                 hostname: req.hostname,
                 method: req.method,
@@ -34,8 +32,6 @@ const fastify = Fastify({
     },
     trustProxy: !dev,
 });
-
-Schedule(fastify);
 
 fastify.register(fastifyRateLimit, {
     max: 200,
@@ -73,20 +69,35 @@ fastify.register(fastifySession, {
     },
 });
 
-fastify.register(fastifyNext, { dev, dir: path.resolve("../../client") }).after(() => {
-    fastify.next("/");
-    fastify.next("/game/:id");
-    fastify.next("/auth/login");
-    fastify.next("/auth/register");
-    fastify.next("/account");
-});
+const underPressureSettings = {
+    maxEventLoopDelay: 1000,
+    maxEventLoopUtilization: 0.95,
+};
+
+fastify
+    .register(fastifyNext, {
+        dev,
+        dir: path.resolve("../../client"),
+        underPressure: underPressureSettings,
+    })
+    .after(() => {
+        fastify.next("/");
+        fastify.next("/game/:id");
+        fastify.next("/auth/login");
+        fastify.next("/auth/register");
+        fastify.next("/account");
+    });
 
 fastify.register(
     (fastify, opts, done) => {
+        fastify.register(underPressure, underPressureSettings);
+
         fastify.register(fastifyHelmet);
+
         fastify.register(fastifyAutoRoutes, {
             dir: path.resolve("./routes"),
         });
+
         done();
     },
     { prefix: "/api" }

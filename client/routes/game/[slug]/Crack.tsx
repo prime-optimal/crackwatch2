@@ -21,6 +21,7 @@ import IconTypography from "@components/IconTypography";
 
 import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
+import useIsReleased from "@hooks/useIsReleased";
 import useLoggedIn from "@hooks/useLoggedIn";
 
 import { useGame } from "./hooks";
@@ -33,10 +34,12 @@ interface ProviderInfoProps {
 
 const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
     return (
-        <Dialog open={open} onClose={onClose} maxWidth="md">
+        <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
             <DialogTitle>Provider results</DialogTitle>
             <DialogContent>
-                <Typography component="code">{JSON.stringify(data, null, 2)}</Typography>
+                <Typography sx={{ whiteSpace: "pre-wrap" }} component="pre">
+                    {JSON.stringify(data, null, 2)}
+                </Typography>
             </DialogContent>
         </Dialog>
     );
@@ -76,7 +79,15 @@ const WatchingIcon = () => {
 export default function Crack() {
     const { data } = useGame();
 
-    const { cracked, providers, data: crack, error, loading } = useCrack(data?.name || null);
+    const isReleased = useIsReleased(data?.released);
+
+    const {
+        cracked,
+        providers,
+        data: crack,
+        error,
+        loading,
+    } = useCrack(data?.name && isReleased ? data.name : null);
 
     const [open, setOpen] = useState(false);
 

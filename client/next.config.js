@@ -7,6 +7,7 @@ module.exports = {
             "avatars.dicebear.com",
             "cdn.discordapp.com",
             "placehold.jp",
+            "i.redd.it",
         ],
     },
 };

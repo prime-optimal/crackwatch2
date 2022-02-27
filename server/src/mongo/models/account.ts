@@ -13,7 +13,7 @@ interface Settings {
     notifications: boolean;
 }
 
-interface Item {
+export interface Item {
     cracked?: boolean;
     item: string;
     slug: string;
@@ -25,8 +25,8 @@ const accountSchema = new Schema<Account>({
     userId: { type: String, required: true },
     watching: {
         validate: [
-            (value: any[]) => value.length < 20,
-            "Exceeded maximum watching limit (20)",
+            (value: any[]) => value.length < 40,
+            "Exceeded maximum watching limit (40)",
         ],
         type: [
             new Schema<Item>({

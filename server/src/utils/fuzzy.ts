@@ -1,25 +1,22 @@
-import Fuse from "fuse.js";
+import fuzzy from "fuzzysort";
+
+import type { fuzzysort } from "@types";
 
 const flags = {
     skip: ["uncracked", "unlocked"],
 };
 
-// play around with settings to have a nice matching algo
-// in sequel cases eg. 'Prototype' and 'Prototype 2' this algo is bad
-const defaultOptions: Fuse.IFuseOptions<string> = {
-    includeScore: true,
-    threshold: 0.1,
-    isCaseSensitive: false,
-    distance: 15,
-    shouldSort: false,
+// play around with these settings
+const defaultOptions: fuzzysort.Options = {
+    allowTypo: false,
+    limit: 5,
+    threshold: -12,
 };
 
 export default async function Fuzzy(list: string[], query: string, options = defaultOptions) {
-    const fuse = new Fuse(list, { ...defaultOptions, ...options });
+    const items = list.filter(item => !flags.skip.some(flag => item.includes(flag)));
 
-    // skip items with flags
-    fuse.remove(item => flags.skip.some(flag => item.toLowerCase().includes(flag)));
-    const data = fuse.search(query);
+    const result = await fuzzy.goAsync(query, items, { ...defaultOptions, ...options });
 
-    return data;
+    return result;
 }

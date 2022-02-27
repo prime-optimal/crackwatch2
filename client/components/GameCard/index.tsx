@@ -4,6 +4,7 @@ import { memo } from "react";
 import { useInView } from "react-intersection-observer";
 
 import useCrack from "@hooks/useCrack";
+import useIsReleased from "@hooks/useIsReleased";
 
 import Content from "./Content";
 import Media from "./Media";
@@ -16,13 +17,25 @@ interface GameCardProps {
     slug: string;
     variant?: "elevation" | "outlined";
     animations?: true;
+    released?: string;
 }
 
 const GameCard = memo(
-    ({ img, name, video, genres, slug, variant = "elevation", animations }: GameCardProps) => {
+    ({
+        img,
+        name,
+        video,
+        genres,
+        slug,
+        variant = "elevation",
+        animations,
+        released,
+    }: GameCardProps) => {
         const { ref, inView } = useInView({ delay: 150 });
 
-        const { cracked, loading } = useCrack(inView ? name : null);
+        const isReleased = useIsReleased(released);
+
+        const { cracked, loading } = useCrack(inView && isReleased ? name : null);
 
         return (
             <Card
