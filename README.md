@@ -4,10 +4,10 @@
 
 ## Planned features
 
--   Crack status provider tier list - [ X ]
--   Game watch list - [ X ]
--   Send an email when a watched game has been cracked [ ]
--   A discord bot in the future ?
+-   [x] Crack status provider tier list
+-   [x] Game watch list
+-   [x] Send an email when a watched game has been cracked
+-   [ ] A discord bot in the future ?
 
 ## Some screenshots
 
