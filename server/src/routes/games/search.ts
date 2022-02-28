@@ -36,7 +36,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         ...rest,
     }));
 
-    const picked = pick(results, ["name", "released", "background_image"]);
+    const picked = pick(results, ["name", "released", "background_image", "slug"]);
 
     return {
         results: picked,
