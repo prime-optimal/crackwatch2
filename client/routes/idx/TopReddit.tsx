@@ -2,8 +2,8 @@ import {
     Card,
     CardActionArea,
     CardContent,
-    CardHeader,
     CardMedia,
+    Chip,
     Stack,
     Typography,
 } from "@mui/material";
@@ -45,24 +45,25 @@ export default function TopReddit() {
                     href={`${BASE_URL}${result?.permalink}`}
                     target="_blank"
                 >
-                    <CardHeader
-                        title={
-                            <Typography>
-                                {result?.link_flair_richtext[0].t ||
-                                    result?.author_flair_richtext[0].t}
-                            </Typography>
-                        }
-                    />
-
-                    <CardMedia sx={{ height: 250 }}>
-                        <ResponsiveImage
-                            image={{ objectFit: "contain" } as any}
-                            src={result?.url}
-                        />
-                    </CardMedia>
+                    {result?.url.includes("i.redd.it") && (
+                        <CardMedia sx={{ height: 280 }}>
+                            <ResponsiveImage
+                                image={{ objectFit: "contain" } as any}
+                                src={result.url}
+                            />
+                        </CardMedia>
+                    )}
 
                     <CardContent>
-                        <Typography>{result?.title}</Typography>
+                        <Stack flexDirection="row" justifyContent="center" alignItems="center">
+                            <Chip
+                                label={
+                                    result?.link_flair_richtext[0].t ||
+                                    result?.author_flair_richtext[0].t
+                                }
+                            />
+                            <Typography ml={1}>{result?.title}</Typography>
+                        </Stack>
                     </CardContent>
                 </CardActionArea>
             </Card>
