@@ -7,6 +7,7 @@ import {
     Stack,
     Typography,
 } from "@mui/material";
+import { useMemo } from "react";
 import axios from "redaxios";
 import useSWR from "swr/immutable";
 import urlCat from "urlcat";
@@ -18,7 +19,7 @@ import ResponsiveImage from "@components/ResponsiveImage";
 const BASE_URL = "https://www.reddit.com";
 
 const url = urlCat(BASE_URL, "/r/crackwatch/top.json", {
-    limit: 1,
+    limit: 10,
     t: "day",
 });
 
@@ -32,7 +33,10 @@ const fetcher = (url: string) =>
 export default function TopReddit() {
     const { data } = useSWR<AxiosRedditTop>(url, fetcher);
 
-    const result = data?.data.children[0].data;
+    const result = useMemo(() => {
+        const length = data?.data.children.length || 0;
+        return data?.data.children[Math.floor(Math.random() * length)].data;
+    }, [data?.data.children]);
 
     return (
         <Stack>
@@ -47,7 +51,7 @@ export default function TopReddit() {
                 >
                     {result?.url.includes("i.redd.it") && (
                         <CardMedia sx={{ height: 280 }}>
-                            <ResponsiveImage objectFit="contain" src={result.url} />
+                            <ResponsiveImage variant="cors" src={result.url} />
                         </CardMedia>
                     )}
 
