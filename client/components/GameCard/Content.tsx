@@ -29,6 +29,7 @@ export default function Content({ name, slug, cracked, genres = [], loading }: C
                             underline="none"
                             mr={0.5}
                             sx={{
+                                overflowWrap: "anywhere",
                                 "&:hover": {
                                     cursor: "pointer",
                                     color: "text.secondary",

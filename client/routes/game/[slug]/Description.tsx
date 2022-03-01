@@ -22,7 +22,7 @@ export default function Description() {
 
     return (
         <Box component={Paper} p={2}>
-            <Typography variant="h2" mb={2} sx={{ wordBreak: "break-all" }}>
+            <Typography variant="h2" mb={2} sx={{ overflowWrap: "anywhere" }}>
                 {data?.name}
             </Typography>
 
