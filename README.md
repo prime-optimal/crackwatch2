@@ -1,23 +1,23 @@
 # Crackwatch 2
 
-## Currently heavy WIP
-
 ## Planned things
 
 -   [x] Accounts
+-   [x] Crack providers
 -   [x] Crack status provider tier list
 -   [x] Game watch list
 -   [x] Send an email when a watched game has been cracked
 -   [ ] Upvote games, idk about this one
 -   [ ] A discord bot in the future ?
+-   [ ] Some kind of logo
 
 ## Some screenshots
 
-![index page gif](https://i.imgur.com/asaBZzt.gif)
+![index page gif](https://i.imgur.com/BZdDl8M.gif)
 
 ![game page](https://i.imgur.com/3qqD3ba.png)
 
-![account page](https://i.imgur.com/qU8aEZl.png)
+![account page](https://i.imgur.com/wnSbChZ.png)
 
 ## Disclaimer
 
