@@ -13,7 +13,7 @@
 
 ## Some screenshots
 
-![index page gif](https://i.imgur.com/BZdDl8M.gif)
+![index page gif](https://i.imgur.com/flootDE.gif)
 
 ![game page](https://i.imgur.com/3qqD3ba.png)
 
