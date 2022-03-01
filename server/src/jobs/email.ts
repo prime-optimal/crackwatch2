@@ -37,7 +37,7 @@ export default function Schedule() {
     });
 
     cron.schedule("* * * * *", async () => {
-        logger.info(`Started a scheduled job, current time is ${new Date().toDateString()}`);
+        logger.info(`Started a scheduled job, current time is ${new Date().toTimeString()}`);
 
         const accounts = await accountModel.find({
             "settings.notifications": true,
@@ -65,8 +65,14 @@ export default function Schedule() {
 
                 try {
                     await transporter.sendMail({
+                        from: "info@crackwatch2.com",
+                        subject: "Crackwatch game update",
                         to: user.email,
-                        text: `Great news! "${query.item}" has been cracked`,
+                        text: `Great news! "${
+                            query.item
+                        }" has been cracked.\nYou started watching this game in ${new Date(
+                            query.started
+                        ).toDateString()}.\nFinally, the wait is over!!!`,
                     });
                 } catch (error) {
                     logger.error(error);
