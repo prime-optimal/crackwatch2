@@ -56,14 +56,14 @@ export default function TopReddit() {
                     )}
 
                     <CardContent>
-                        <Stack flexDirection="row" justifyContent="center" alignItems="center">
+                        <Stack>
                             <Chip
                                 label={
                                     result?.link_flair_richtext[0].t ||
                                     result?.author_flair_richtext[0].t
                                 }
                             />
-                            <Typography ml={1}>{result?.title}</Typography>
+                            <Typography mt={1}>{result?.title}</Typography>
                         </Stack>
                     </CardContent>
                 </CardActionArea>
