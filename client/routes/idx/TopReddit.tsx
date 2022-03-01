@@ -47,10 +47,7 @@ export default function TopReddit() {
                 >
                     {result?.url.includes("i.redd.it") && (
                         <CardMedia sx={{ height: 280 }}>
-                            <ResponsiveImage
-                                image={{ objectFit: "contain" } as any}
-                                src={result.url}
-                            />
+                            <ResponsiveImage objectFit="contain" src={result.url} />
                         </CardMedia>
                     )}
 

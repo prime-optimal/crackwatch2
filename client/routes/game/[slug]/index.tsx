@@ -32,7 +32,6 @@ export default function Game() {
 
             <ResponsiveImage
                 src={data?.background_image}
-                image={{ priority: true } as any}
                 props={{
                     sx: {
                         filter: "blur(10px)",

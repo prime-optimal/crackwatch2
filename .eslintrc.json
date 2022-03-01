@@ -32,7 +32,8 @@
             }
         ],
         "semi": ["error", "always"],
-        "eqeqeq": ["error", "smart"]
+        "eqeqeq": ["error", "smart"],
+        "@next/next/no-img-element": "off"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

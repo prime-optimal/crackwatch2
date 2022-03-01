@@ -1,25 +1,36 @@
 import { Box, BoxProps } from "@mui/material";
-import Image, { ImageProps } from "next/image";
+import { memo } from "react";
 
 interface ResponsiveImageProps {
     src: string | null | undefined;
     props?: BoxProps;
-    image?: ImageProps;
+    objectFit?: "fill" | "contain" | "cover" | "none" | "scale-down";
 }
 
-export default function ResponsiveImage({ src, props = {}, image }: ResponsiveImageProps) {
+function ResponsiveImage({ src, props = {}, objectFit = "cover" }: ResponsiveImageProps) {
     return (
         <Box overflow="hidden" position="relative" width="100%" height="100%" {...props}>
             {src && (
-                <Image
-                    decoding="auto"
+                <Box
+                    component="img"
+                    loading="lazy"
+                    alt="Probably loading..."
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
                     src={src}
-                    alt="Probably Loading..."
-                    layout="fill"
-                    objectFit="cover"
-                    {...image}
+                    sx={{
+                        position: "absolute",
+                        objectFit,
+                        width: "100%",
+                        height: "100%",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                    }}
                 />
             )}
         </Box>
     );
 }
+
+export default memo(ResponsiveImage);
