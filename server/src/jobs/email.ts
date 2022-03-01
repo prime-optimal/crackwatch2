@@ -36,7 +36,7 @@ export default function Schedule() {
         logger.info("Email server is ready");
     });
 
-    cron.schedule("0 0 * * *", async () => {
+    cron.schedule("0 */6 * * *", async () => {
         logger.info(`Started a scheduled job, current time is ${new Date().toDateString()}`);
 
         const accounts = await accountModel.find({
