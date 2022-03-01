@@ -115,7 +115,10 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
                         damping: 20,
                     }}
                 >
-                    <ResponsiveImage src={image} />
+                    <ResponsiveImage
+                        image={{ priority: active === index } as any}
+                        src={image}
+                    />
                 </Box>
             ))}
         </Box>
