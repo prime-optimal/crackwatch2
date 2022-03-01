@@ -68,6 +68,9 @@ export default function MyApp(props: MyAppProps) {
                     value={{
                         fetcher,
                         compare: dequal,
+                        onError: error => {
+                            console.log({ error });
+                        },
                     }}
                 >
                     <CssBaseline />

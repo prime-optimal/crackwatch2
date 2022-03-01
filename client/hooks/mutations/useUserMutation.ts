@@ -28,11 +28,8 @@ export default function useUserMutation() {
         );
     };
 
-    const register = async (data: RegisterArgs) => {
-        const [result, error] = await tryToCatch(() => axios.post("/auth/register", data));
-        if (!result) {
-            alert(`There was an error ${JSON.stringify(error)}`);
-        }
+    const register = (data: RegisterArgs) => {
+        return axios.post("/auth/register", data);
     };
 
     const validateNickname = async (nickname: string) => {

@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
 
+import tryToCatch from "@utils/catch";
+
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const nicknameRegex = /^[a-zA-Z]\w*$/g;
 
@@ -34,7 +36,12 @@ export default function Login() {
     const { validateNickname, register: signup } = useUserMutation();
 
     const onSubmit = async (data: RegisterArgs) => {
-        await signup(data);
+        const [result, error] = await tryToCatch(() => signup(data));
+        if (!result) {
+            alert((error as any)?.data.message || (error as any)?.data || error);
+            return;
+        }
+
         Router.push("/auth/login");
     };
 
