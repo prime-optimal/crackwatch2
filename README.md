@@ -10,6 +10,7 @@
 -   [ ] Upvote games, idk about this one
 -   [ ] A discord bot in the future ?
 -   [ ] Some kind of logo
+-   [ ] Recently cracked games, idk which provider
 
 ## Some screenshots
 
