@@ -25,13 +25,28 @@ const transporter = nodemailer.createTransport({
 });
 
 export default function Schedule() {
+    logger.info("A scheduled job has been assigned");
+
+    transporter.verify(error => {
+        if (error) {
+            logger.error(error);
+            return;
+        }
+
+        logger.info("Email server is ready");
+    });
+
     cron.schedule("0 0 * * *", async () => {
+        logger.info(`Started a scheduled job, current time is ${new Date().toDateString()}`);
+
         const accounts = await accountModel.find({
             "settings.notifications": true,
             "watching.0": {
                 $exists: true,
             },
         });
+
+        logger.info(`Found ${accounts.length} accounts with notifications on`);
 
         // call this for every user
         const fetch = async (queries: Item[], providers: string[], userId: string) => {
@@ -48,7 +63,7 @@ export default function Schedule() {
 
                 if (!result || (result && result.result.length < 1)) return;
 
-                const info = await transporter.sendMail({
+                await transporter.sendMail({
                     to: user.email,
                     text: `Great news! "${query.item}" has been cracked`,
                 });
