@@ -36,7 +36,7 @@ export default function Schedule() {
         logger.info("Email server is ready");
     });
 
-    cron.schedule("0 */6 * * *", async () => {
+    cron.schedule("* * * * *", async () => {
         logger.info(`Started a scheduled job, current time is ${new Date().toDateString()}`);
 
         const accounts = await accountModel.find({
@@ -51,7 +51,7 @@ export default function Schedule() {
         // call this for every user
         const fetch = async (queries: Item[], providers: string[], userId: string) => {
             const account = await accountModel.findOne({ userId });
-            if (!account?.watching) return;
+            if (!account) return;
 
             const promises = queries.map(async query => {
                 const user = await userModel.findById(userId);
@@ -63,10 +63,15 @@ export default function Schedule() {
 
                 if (!result || (result && result.result.length < 1)) return;
 
-                await transporter.sendMail({
-                    to: user.email,
-                    text: `Great news! "${query.item}" has been cracked`,
-                });
+                try {
+                    await transporter.sendMail({
+                        to: user.email,
+                        text: `Great news! "${query.item}" has been cracked`,
+                    });
+                } catch (error) {
+                    logger.error(error);
+                    return;
+                }
 
                 for (const [index, item] of account.watching.entries()) {
                     if (item.slug === query.slug) {
