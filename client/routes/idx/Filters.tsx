@@ -42,7 +42,7 @@ export default function Filters() {
     };
 
     return (
-        <Box component={Paper}>
+        <Box component={Paper} variant="outlined">
             <List>
                 {filters.map(({ icon, name, description }) => (
                     <ListItem key={name}>

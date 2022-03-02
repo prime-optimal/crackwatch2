@@ -43,7 +43,7 @@ export default function TopReddit() {
             <Typography variant="h6" gutterBottom>
                 Today in {result?.subreddit_name_prefixed}
             </Typography>
-            <Card>
+            <Card variant="outlined">
                 <CardActionArea
                     LinkComponent="a"
                     href={`${BASE_URL}${result?.permalink}`}
