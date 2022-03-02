@@ -1,7 +1,7 @@
-import { AppBar, Container, Link as MuiLink, Stack } from "@mui/material";
+import { AppBar, Container, Stack } from "@mui/material";
 import dynamic from "next/dynamic";
-import NextLink from "next/link";
 
+import Links from "./Links";
 import User from "./User";
 
 const Search = dynamic(() => import("./Search"));
@@ -16,16 +16,12 @@ export default function NavBar() {
                     justifyContent="space-between"
                     alignItems="center"
                 >
-                    <Stack flexDirection="row" justifyContent="center" alignItems="center">
-                        <NextLink href="/" passHref>
-                            <MuiLink underline="none" color="inherit">
-                                CW 2
-                            </MuiLink>
-                        </NextLink>
-                    </Stack>
+                    <Links />
 
-                    <Search />
-                    <User />
+                    <Stack flexDirection="row">
+                        <Search />
+                        <User />
+                    </Stack>
                 </Stack>
             </Container>
         </AppBar>

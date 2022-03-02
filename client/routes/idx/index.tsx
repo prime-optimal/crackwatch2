@@ -22,7 +22,13 @@ export default function Index() {
 
             <Grid container spacing={3}>
                 <Grid item xs={12} md={4} xl={3}>
-                    <Stack spacing={3} position="sticky" top={theme => theme.spacing(3)}>
+                    <Stack
+                        spacing={3}
+                        overflow="auto"
+                        height="100vh"
+                        position="sticky"
+                        top={theme => theme.spacing(3)}
+                    >
                         <Filters />
                         <TopReddit />
                     </Stack>
