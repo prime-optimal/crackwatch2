@@ -8,7 +8,6 @@ import {
     Typography,
 } from "@mui/material";
 import { useMemo } from "react";
-import axios from "redaxios";
 import useSWR from "swr/immutable";
 import urlCat from "urlcat";
 
@@ -23,15 +22,8 @@ const url = urlCat(BASE_URL, "/r/crackwatch/top.json", {
     t: "day",
 });
 
-const fetcher = (url: string) =>
-    axios
-        .get(url, {
-            withCredentials: false,
-        })
-        .then(x => x.data);
-
 export default function TopReddit() {
-    const { data } = useSWR<AxiosRedditTop>(url, fetcher);
+    const { data } = useSWR<AxiosRedditTop>(url);
 
     const result = useMemo(() => {
         const length = data?.data.children.length || 0;
@@ -43,7 +35,7 @@ export default function TopReddit() {
             <Typography variant="h6" gutterBottom>
                 Today in {result?.subreddit_name_prefixed}
             </Typography>
-            <Card>
+            <Card variant="outlined">
                 <CardActionArea
                     LinkComponent="a"
                     href={`${BASE_URL}${result?.permalink}`}

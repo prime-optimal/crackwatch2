@@ -55,7 +55,7 @@ export default function Search() {
     const loading = !!(!data && inputValue);
 
     return (
-        <Box minWidth={200} flex={1} maxWidth={800} px={2}>
+        <Box flex={1} maxWidth={600} px={2}>
             <Autocomplete
                 loading={loading}
                 inputValue={inputValue}
@@ -74,6 +74,7 @@ export default function Search() {
                     <TextField
                         {...props}
                         label="Search"
+                        variant="standard"
                         InputProps={{
                             ...props.InputProps,
                             endAdornment: (

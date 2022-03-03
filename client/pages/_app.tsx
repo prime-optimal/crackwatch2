@@ -21,13 +21,38 @@ const fetcher = (url: string) => axios.get(url).then(x => x.data);
 const theme = createTheme({
     palette: {
         mode: "dark",
+        primary: {
+            main: "#88c0d0",
+        },
+        secondary: {
+            main: "#5e81ac",
+        },
+        background: {
+            default: "#242933",
+            paper: "#2e3440",
+        },
+        warning: {
+            main: "#d08770",
+        },
+        success: {
+            main: "#a3be8c",
+        },
+        error: {
+            main: "#bf616a",
+        },
+        divider: "#4c566a",
+        text: {
+            primary: "#eceff4",
+            secondary: "#d8dee9",
+        },
     },
     shape: {
         borderRadius: 10,
     },
     typography: {
         fontFamily: [
-            "Inter",
+            "Rubik",
+            "Roboto",
             "-apple-system",
             "system-ui",
             "BlinkMacSystemFont",
@@ -43,7 +68,7 @@ const clientSideEmotionCache = createCache({ key: "css", prepend: true });
 
 const progress = new Progress({
     size: 3,
-    color: "#fff",
+    color: "#81a1c1",
     delay: 40,
 });
 
@@ -61,6 +86,11 @@ export default function MyApp(props: MyAppProps) {
         <CacheProvider value={emotionCache}>
             <Head>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
+                <link
+                    rel="icon"
+                    type="image/x-icon"
+                    href="https://user-images.githubusercontent.com/56039679/156577740-44a1a812-4d7e-4002-8dc5-59ad8ede7d3d.svg"
+                />
             </Head>
 
             <ThemeProvider theme={theme}>

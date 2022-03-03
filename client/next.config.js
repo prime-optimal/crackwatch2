@@ -8,6 +8,8 @@ module.exports = {
             "cdn.discordapp.com",
             "placehold.jp",
             "i.redd.it",
+            "f000.backblazeb2.com",
+            "b2.crackwatch.com",
         ],
     },
 };
