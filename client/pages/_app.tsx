@@ -86,6 +86,11 @@ export default function MyApp(props: MyAppProps) {
         <CacheProvider value={emotionCache}>
             <Head>
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
+                <link
+                    rel="icon"
+                    type="image/x-icon"
+                    href="https://user-images.githubusercontent.com/56039679/156577740-44a1a812-4d7e-4002-8dc5-59ad8ede7d3d.svg"
+                />
             </Head>
 
             <ThemeProvider theme={theme}>

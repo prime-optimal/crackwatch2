@@ -1,6 +1,6 @@
 import { Resource } from "fastify-autoroutes";
 
-import { AxiosGameStatusLast, AxiosSteamCrackedGamesLast } from "@types";
+import { AxiosSteamCrackedGamesLast } from "@types";
 
 import { crackClient } from "@utils/axios";
 
@@ -12,7 +12,6 @@ interface CrackedItem {
 }
 
 const steamCrackedGamesUrl = "https://steamcrackedgames.com/api/games/page/1/order/2";
-const gameStatusUrl = "https://gamestatus.info/back/api/gameinfo/game/lastcrackedgames/";
 
 const genStatus = (first: string, second: string) => {
     const day = 1000 * 60 * 60 * 24;

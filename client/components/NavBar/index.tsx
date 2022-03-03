@@ -18,7 +18,7 @@ export default function NavBar() {
                 >
                     <Links />
 
-                    <Stack flexDirection="row">
+                    <Stack flexDirection="row" flex={1} justifyContent="flex-end">
                         <Search />
                         <User />
                     </Stack>
