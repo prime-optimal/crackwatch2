@@ -1,7 +1,6 @@
 import { Card } from "@mui/material";
 import { dequal } from "dequal";
 import { memo } from "react";
-import { useInView } from "react-intersection-observer";
 
 import useCrack from "@hooks/useCrack";
 import useIsReleased from "@hooks/useIsReleased";
@@ -31,16 +30,13 @@ const GameCard = memo(
         animations,
         released,
     }: GameCardProps) => {
-        const { ref, inView } = useInView({ delay: 150 });
-
         const isReleased = useIsReleased(released);
 
-        const { cracked, loading } = useCrack(inView && isReleased ? name : null);
+        const { cracked, loading } = useCrack(isReleased ? name : null);
 
         return (
             <Card
                 variant={variant}
-                ref={ref}
                 sx={
                     animations && {
                         transition: ({ transitions }) =>

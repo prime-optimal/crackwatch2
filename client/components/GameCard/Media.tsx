@@ -32,20 +32,21 @@ export default function Media({ img, video, loading }: MediaProps) {
                 />
             )}
 
-            <video
-                hidden={!imageHidden}
-                muted
-                preload="none"
-                src={video}
-                autoPlay
-                loop
-                style={{
-                    position: "absolute",
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                }}
-            />
+            {hovering && (
+                <video
+                    muted
+                    preload="none"
+                    src={video}
+                    autoPlay
+                    loop
+                    style={{
+                        position: "absolute",
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                    }}
+                />
+            )}
 
             <ResponsiveImage
                 props={{
