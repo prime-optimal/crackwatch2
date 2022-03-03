@@ -27,27 +27,14 @@ const handler: any = () => {
         .get<AxiosSteamCrackedGamesLast>(steamCrackedGamesUrl)
         .then(({ data }) =>
             data.games.map(({ cracked_date_1, release_date, name, header_image }) => ({
-                date: cracked_date_1,
+                date: release_date,
                 title: name,
                 img: header_image,
                 status: `Cracked in ${genStatus(cracked_date_1, release_date)} days`,
             }))
         );
 
-    const gameStatus: Promise<CrackedItem[]> = crackClient
-        .get<AxiosGameStatusLast>(gameStatusUrl)
-        .then(({ data }) =>
-            data.list_crack_games.map(
-                ({ readable_status, short_image, title, release_date }) => ({
-                    date: release_date,
-                    title,
-                    img: short_image,
-                    status: readable_status,
-                })
-            )
-        );
-
-    return Promise.any([steamCrackedGames, gameStatus]);
+    return steamCrackedGames;
 };
 
 export default (): Resource => ({

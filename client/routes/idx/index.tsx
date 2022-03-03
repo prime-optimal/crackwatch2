@@ -1,10 +1,29 @@
 import { Container, Grid, Stack } from "@mui/material";
 import Head from "next/head";
 
+import useBreakpoint from "@hooks/useBreakpoint";
+
 import BackToTop from "./BackToTop";
 import Filters from "./Filters";
 import Games from "./Games";
 import TopReddit from "./TopReddit";
+
+const Side = () => {
+    const mobile = useBreakpoint("md");
+
+    return (
+        <Stack
+            spacing={3}
+            overflow="auto"
+            height={mobile ? "auto" : "100vh"}
+            position="sticky"
+            top={theme => theme.spacing(3)}
+        >
+            <Filters />
+            <TopReddit />
+        </Stack>
+    );
+};
 
 export default function Index() {
     return (
@@ -22,16 +41,7 @@ export default function Index() {
 
             <Grid container spacing={3}>
                 <Grid item xs={12} md={4} xl={3}>
-                    <Stack
-                        spacing={3}
-                        overflow="auto"
-                        height="100vh"
-                        position="sticky"
-                        top={theme => theme.spacing(3)}
-                    >
-                        <Filters />
-                        <TopReddit />
-                    </Stack>
+                    <Side />
                 </Grid>
 
                 <Grid item xs>
