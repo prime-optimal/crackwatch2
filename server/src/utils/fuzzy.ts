@@ -1,13 +1,11 @@
 import fuzzy from "fuzzysort";
 
-import type { fuzzysort } from "@types";
-
 const flags = {
     skip: ["uncracked", "unlocked"],
 };
 
 // play around with these settings
-const defaultOptions: fuzzysort.Options = {
+const defaultOptions: Fuzzysort.Options = {
     allowTypo: false,
     limit: 5,
     threshold: -12,
