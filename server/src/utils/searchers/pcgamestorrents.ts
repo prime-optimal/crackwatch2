@@ -1,4 +1,4 @@
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import urlCat from "urlcat";
 
 import { Provider } from "@types";
