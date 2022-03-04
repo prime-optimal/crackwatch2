@@ -87,6 +87,7 @@ fastify
         fastify.next("/auth/register");
         fastify.next("/account");
         fastify.next("/recently");
+        fastify.next("/denuvo");
     });
 
 fastify.register(
