@@ -55,7 +55,7 @@ const createStore = pipe(
 
 const filterMap = {
     popular: {
-        dates: "-8,0",
+        dates: "-4,0",
         ordering: "-added",
     },
     anticipated: {
