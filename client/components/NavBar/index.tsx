@@ -1,12 +1,13 @@
 import { AppBar, Container, Stack } from "@mui/material";
 import dynamic from "next/dynamic";
+import { memo } from "react";
 
 import Links from "./Links";
 import User from "./User";
 
 const Search = dynamic(() => import("./Search"));
 
-export default function NavBar() {
+function NavBar() {
     return (
         <AppBar position="relative">
             <Container maxWidth="xl">
@@ -27,3 +28,5 @@ export default function NavBar() {
         </AppBar>
     );
 }
+
+export default memo(NavBar);

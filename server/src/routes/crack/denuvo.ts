@@ -10,7 +10,7 @@ const querystring = Type.Object(
         // 0 - not cracked
         // 1 - cracked
         // 2 - all
-        type: Type.Integer({ default: 0 }),
+        type: Type.Integer({ default: 0, minimum: 0, maximum: 2 }),
     },
     { additionalProperties: false }
 );
@@ -38,11 +38,16 @@ const handler: any = async (req: FastifyRequest<{ Querystring: Querystring }>) =
             return;
         }
 
+        const title = element.find("a").eq(1).text().trim();
+        const released = element.find("td").eq(1).text().trim();
+        const cracked = element.find("td").eq(2).text().trim();
+        const img = element.find("img").attr("data-src");
+
         items.push({
-            title: element.find("a").eq(1).text().trim(),
-            released: element.find("td").eq(1).text() || null,
-            cracked: element.find("td").eq(2).text() || null,
-            img: element.find("img").attr("data-src"),
+            title,
+            released: released !== "TBA" ? released : null,
+            cracked: cracked !== "TBA" ? cracked : null,
+            img,
         });
     });
 
