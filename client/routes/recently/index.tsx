@@ -1,61 +1,40 @@
-import {
-    Box,
-    Container,
-    List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
-    Paper,
-    Typography,
-} from "@mui/material";
-import useSWR from "swr/immutable";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, Button, Container, Paper, Stack, Typography } from "@mui/material";
+import useSWRInfinite from "swr/infinite";
+import urlCat from "urlcat";
 
 import { AxiosCrackRecently } from "@types";
 
-import ResponsiveImage from "@components/ResponsiveImage";
-
-import useBreakpoint from "@hooks/useBreakpoint";
+import GameTable from "./GameTable";
 
 export default function Recently() {
-    const { data } = useSWR<AxiosCrackRecently[]>("/crack/recently");
-
-    const mobile = useBreakpoint("sm");
+    const { data, setSize, isValidating } = useSWRInfinite<AxiosCrackRecently>(
+        (index, prev) => {
+            if (prev && !prev.next) return null;
+            return urlCat("/crack/recently", { page: index + 1 });
+        }
+    );
 
     return (
         <Container maxWidth="xl">
-            <Typography mt={3} align="center" gutterBottom variant="h3">
+            <Typography mt={3} align="center" gutterBottom variant="h4">
                 Recently cracked
             </Typography>
-            <Box component={Paper} p={1}>
-                <List>
-                    {data?.map(({ date, img, status, title }) => (
-                        <ListItem key={title + img}>
-                            <ListItemAvatar>
-                                <Box
-                                    height={100}
-                                    overflow="hidden"
-                                    width={mobile ? 100 : 300}
-                                    borderRadius={({ shape }) => `${shape.borderRadius}px`}
-                                >
-                                    <ResponsiveImage src={img} />
-                                </Box>
-                            </ListItemAvatar>
 
-                            <ListItemText
-                                sx={{ ml: 2 }}
-                                primary={<Typography variant="h6">{title}</Typography>}
-                                secondary={
-                                    <Typography color="text.secondary">
-                                        {date}
-                                        {" - "}
-                                        {status}
-                                    </Typography>
-                                }
-                            />
-                        </ListItem>
-                    ))}
-                </List>
-            </Box>
+            <Stack component={Paper} p={1} justifyContent="center" alignItems="center">
+                <GameTable data={data} />
+
+                <Box my={3} mb={1}>
+                    <Button
+                        endIcon={<ExpandMoreIcon />}
+                        variant="contained"
+                        onClick={() => setSize(size => size + 1)}
+                        disabled={isValidating}
+                    >
+                        Load more
+                    </Button>
+                </Box>
+            </Stack>
         </Container>
     );
 }

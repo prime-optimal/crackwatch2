@@ -1,3 +1,4 @@
+import DangerousIcon from "@mui/icons-material/Dangerous";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
@@ -41,6 +42,11 @@ const links = [
         href: "/recently",
         icon: <TimelapseIcon />,
     },
+    {
+        name: "Denuvo",
+        href: "/denuvo",
+        icon: <DangerousIcon />,
+    },
 ];
 
 const SideDrawer = memo(({ onClose, open }: DrawerProps) => {
@@ -69,7 +75,7 @@ const SideDrawer = memo(({ onClose, open }: DrawerProps) => {
 });
 
 export default function Links() {
-    const mobile = useBreakpoint("sm");
+    const mobile = useBreakpoint("md");
 
     const [open, setOpen] = useState(false);
 
