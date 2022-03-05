@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { dequal } from "dequal";
 import { memo } from "react";
-import useSWR from "swr";
+import useSWR from "swr/immutable";
 
 import { AxiosCrackDenuvo } from "@types";
 

@@ -5,6 +5,8 @@ import urlCat from "urlcat";
 
 import { AxiosCrackRecently } from "@types";
 
+import { SWRImmutable } from "@config";
+
 import GameTable from "./GameTable";
 
 export default function Recently() {
@@ -12,7 +14,8 @@ export default function Recently() {
         (index, prev) => {
             if (prev && !prev.next) return null;
             return urlCat("/crack/recently", { page: index + 1 });
-        }
+        },
+        SWRImmutable
     );
 
     return (
