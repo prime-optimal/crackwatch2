@@ -20,7 +20,7 @@ interface GameTableProps {
 const GameRow = memo(({ date, img, status, title }: ItemRecently) => {
     return (
         <TableRow>
-            <TableCell sx={{ height: 100, width: 200 }}>
+            <TableCell sx={{ height: 100, width: 200, minWidth: 150 }}>
                 <ResponsiveImage
                     src={img}
                     variant="cors"

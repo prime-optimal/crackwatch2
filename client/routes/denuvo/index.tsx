@@ -6,6 +6,7 @@ import {
     Select,
     Typography,
 } from "@mui/material";
+import Head from "next/head";
 import { useState } from "react";
 
 import GameTable from "./GameTable";
@@ -15,6 +16,9 @@ export default function Denuvo() {
 
     return (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
+            <Head>
+                <title>Denuvo games</title>
+            </Head>
             <Typography align="center" gutterBottom variant="h4">
                 Denuvo games
             </Typography>

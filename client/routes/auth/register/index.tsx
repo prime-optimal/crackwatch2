@@ -9,6 +9,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import Head from "next/head";
 import NextLink from "next/link";
 import Router from "next/router";
 import { useForm } from "react-hook-form";
@@ -47,6 +48,9 @@ export default function Login() {
 
     return (
         <Container maxWidth="sm" sx={{ mt: 4 }}>
+            <Head>
+                <title>Register to crackwatch2</title>
+            </Head>
             <Paper component="form" sx={{ px: 4, py: 2 }} onSubmit={handleSubmit(onSubmit)}>
                 <Typography variant="h5" align="center" gutterBottom>
                     Register

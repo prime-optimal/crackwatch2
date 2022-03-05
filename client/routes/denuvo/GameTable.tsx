@@ -22,7 +22,7 @@ interface GameTableProps {
 const GameRow = memo(({ cracked, img, released, title }: AxiosCrackDenuvo) => {
     return (
         <TableRow>
-            <TableCell sx={{ height: 100, width: 200 }}>
+            <TableCell sx={{ height: 100, width: 200, minWidth: 150 }}>
                 <ResponsiveImage
                     src={img}
                     variant="cors"
