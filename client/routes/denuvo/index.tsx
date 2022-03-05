@@ -24,9 +24,9 @@ export default function Denuvo() {
             </Typography>
 
             <FormControl sx={{ mb: 2 }}>
-                <InputLabel>Games</InputLabel>
+                <InputLabel>Type</InputLabel>
                 <Select
-                    label="Games"
+                    label="Type"
                     value={value}
                     onChange={e => setValue(Number(e.target.value))}
                     fullWidth
