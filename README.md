@@ -11,6 +11,7 @@
 -   [ ] A discord bot in the future ?
 -   [ ] Some kind of logo
 -   [x] Recently cracked games
+-   [x] Denuvo games
 
 ## Some screenshots
 
@@ -18,7 +19,9 @@
 
 ![game page](https://user-images.githubusercontent.com/56039679/156760002-eb89dc52-fa04-4884-b7e8-942b4a21613e.png)
 
-![recently page](https://user-images.githubusercontent.com/56039679/156760156-8abf91e6-0db2-40ac-9503-7866805b110c.png)
+![recently page](https://user-images.githubusercontent.com/56039679/156881101-1c9ede7f-7838-4ace-9cb8-73bc60d1d91e.png)
+
+![denuvo page](https://user-images.githubusercontent.com/56039679/156881126-25159ef2-a7d9-4ad2-bc5c-61133b8fcbe8.png)
 
 ![account page](https://user-images.githubusercontent.com/56039679/156760005-0e71244b-b13d-421c-80a8-7180e9dafbe1.png)
 
