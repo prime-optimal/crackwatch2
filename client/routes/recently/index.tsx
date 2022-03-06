@@ -1,5 +1,6 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Button, Container, Paper, Stack, Typography } from "@mui/material";
+import Head from "next/head";
 import useSWRInfinite from "swr/infinite";
 import urlCat from "urlcat";
 
@@ -20,6 +21,10 @@ export default function Recently() {
 
     return (
         <Container maxWidth="xl">
+            <Head>
+                <title>Recently cracked</title>
+            </Head>
+
             <Typography mt={3} align="center" gutterBottom variant="h4">
                 Recently cracked
             </Typography>
