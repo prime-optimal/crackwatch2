@@ -1,5 +1,7 @@
 # Crackwatch 2 - A Nord themed website to catch up on cracked games
 
+You can check out the website here [crackwatch2](https://crackwatch2.com/)
+
 ## Planned things
 
 -   [x] Accounts
