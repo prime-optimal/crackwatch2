@@ -85,6 +85,13 @@ export default function MyApp(props: MyAppProps) {
     return (
         <CacheProvider value={emotionCache}>
             <Head>
+                {/** trying analytics :P */}
+                <script
+                    defer
+                    data-domain="crackwatch2.com"
+                    src="https://plausible.io/js/plausible.js"
+                />
+
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
                 <link
                     rel="icon"
