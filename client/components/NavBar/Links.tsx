@@ -1,4 +1,5 @@
 import DangerousIcon from "@mui/icons-material/Dangerous";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import HomeIcon from "@mui/icons-material/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
@@ -46,6 +47,11 @@ const links = [
         name: "Denuvo",
         href: "/denuvo",
         icon: <DangerousIcon />,
+    },
+    {
+        name: "Github",
+        href: "https://github.com/Trunkelis/crackwatch2",
+        icon: <GitHubIcon />,
     },
 ];
 
