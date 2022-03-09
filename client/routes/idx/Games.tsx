@@ -1,6 +1,7 @@
 import { CircularProgress, Grid, Stack } from "@mui/material";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { useSWRConfig } from "swr";
 import useSWRInfinite from "swr/infinite";
 import urlCat from "urlcat";
 
@@ -15,10 +16,16 @@ import { useStore } from "./store";
 export default function Index() {
     const query = useStore(store => store.state.filters.query);
 
-    const { data, setSize } = useSWRInfinite<AxiosGames>((index, previous) => {
-        if (previous && !previous.next) return null;
-        return urlCat("/games", { ...query, page: index + 1 });
-    }, SWRImmutable);
+    const { fallback } = useSWRConfig();
+
+    // this hook doesn't pick up the fallback auto hmm...
+    const { data, setSize } = useSWRInfinite<AxiosGames>(
+        (index, previous) => {
+            if (previous && !previous.next) return null;
+            return urlCat("/games", { ...query, page: index + 1 });
+        },
+        { ...SWRImmutable, fallbackData: [fallback.games] }
+    );
 
     const { ref, inView } = useInView();
 
