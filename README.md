@@ -11,7 +11,7 @@ You can check out the website here [crackwatch2](https://crackwatch2.com/)
 -   [x] Send an email when a watched game has been cracked
 -   [ ] Upvote games, idk about this one
 -   [ ] A discord bot in the future ?
--   [ ] Some kind of logo
+-   [x] Some kind of logo
 -   [x] Recently cracked games
 -   [x] Denuvo games
 
