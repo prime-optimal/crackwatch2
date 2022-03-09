@@ -96,7 +96,7 @@ export default function MyApp(props: MyAppProps) {
                 <link
                     rel="icon"
                     type="image/x-icon"
-                    href="https://user-images.githubusercontent.com/56039679/157485091-af5a91e5-05ce-4f06-9406-e557c31e9bbd.jpg"
+                    href="https://user-images.githubusercontent.com/56039679/156577740-44a1a812-4d7e-4002-8dc5-59ad8ede7d3d.svg"
                 />
             </Head>
 
