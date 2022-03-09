@@ -15,6 +15,7 @@
         "^@utils(.*)$",
         "^@routes/(.*)$",
         "^@jobs/(.*)$",
+        "^@lib/(.*)$",
         "^[./]"
     ],
     "importOrderSeparation": true,
