@@ -56,7 +56,7 @@ const theme = createTheme({
     },
     typography: {
         fontFamily: [
-            "Rubik",
+            "Inter",
             "Roboto",
             "-apple-system",
             "system-ui",
