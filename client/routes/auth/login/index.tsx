@@ -15,8 +15,10 @@ import Router from "next/router";
 import { useForm } from "react-hook-form";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
+import { useNotistack } from "@hooks/useNotistack";
 
 import tryToCatch from "@utils/catch";
+import parseError from "@utils/parse-error";
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -32,12 +34,14 @@ export default function Login() {
         formState: { errors, isSubmitting },
     } = useForm<LoginArgs>();
 
+    const snack = useNotistack();
+
     const { login } = useUserMutation();
 
     const onSubmit = async (data: LoginArgs) => {
         const [result, error] = await tryToCatch(() => login(data));
         if (!result) {
-            alert((error as any)?.data.message || (error as any)?.data || error);
+            snack.error(parseError(error));
             return;
         }
 

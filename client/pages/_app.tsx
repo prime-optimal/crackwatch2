@@ -17,6 +17,8 @@ import NavBar from "@components/NavBar";
 
 import { SnackProvider, useNotistack } from "@hooks/useNotistack";
 
+import parseError from "@utils/parse-error";
+
 axios.defaults.baseURL = "/api";
 
 const fetcher = (url: string) => axios.get(url).then(x => x.data);
@@ -94,8 +96,8 @@ const App = (props: MyAppProps) => {
                 fetcher,
                 compare: dequal,
                 onError: error => {
-                    console.error({ error });
-                    error.status !== 401 && snack.error(String(error.data || error));
+                    console.error(error);
+                    error.status !== 401 && snack.error(parseError(error));
                 },
             }}
         >
