@@ -1,12 +1,7 @@
 import axios from "redaxios";
 import useSWR from "swr/immutable";
 
-export type Provider =
-    | "1337x"
-    | "gamestatus"
-    | "pcgamestorrents"
-    | "skidrow"
-    | "steamcrackedgames";
+import { Provider } from "@types";
 
 export default function useProvidersMutation() {
     const { data, mutate } = useSWR<Provider[]>("/account/providers");

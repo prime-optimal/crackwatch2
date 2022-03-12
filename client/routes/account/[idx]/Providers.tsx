@@ -8,7 +8,7 @@ import { defaultProviders } from "@hooks/useCrack";
 import useLoggedIn from "@hooks/useLoggedIn";
 
 const ProviderTiers = {
-    s: ["gamestatus", "steamcrackedgames"] as Provider[],
+    s: ["gamestatus", "steamcrackedgames", "predb"] as Provider[],
     b: ["pcgamestorrents", "skidrow"] as Provider[],
     c: ["1337x"] as Provider[],
 };

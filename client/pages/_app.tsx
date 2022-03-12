@@ -8,6 +8,7 @@ import { dequal } from "dequal";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import Script from "next/script";
 import axios from "redaxios";
 import { SWRConfig } from "swr";
 
@@ -85,13 +86,6 @@ export default function MyApp(props: MyAppProps) {
     return (
         <CacheProvider value={emotionCache}>
             <Head>
-                {/** trying analytics :P */}
-                <script
-                    defer
-                    data-domain="crackwatch2.com"
-                    src="https://plausible.io/js/plausible.js"
-                />
-
                 <meta name="viewport" content="initial-scale=1, width=device-width" />
                 <link
                     rel="icon"
@@ -99,6 +93,13 @@ export default function MyApp(props: MyAppProps) {
                     href="https://user-images.githubusercontent.com/56039679/156577740-44a1a812-4d7e-4002-8dc5-59ad8ede7d3d.svg"
                 />
             </Head>
+
+            {/** trying analytics :P */}
+            <Script
+                data-domain="crackwatch2.com"
+                src="https://plausible.io/js/plausible.js"
+                strategy="afterInteractive"
+            />
 
             <ThemeProvider theme={theme}>
                 <SWRConfig

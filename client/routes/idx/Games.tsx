@@ -7,8 +7,6 @@ import urlCat from "urlcat";
 
 import { AxiosGames } from "@types";
 
-import { SWRImmutable } from "@config";
-
 import GameCard from "@components/GameCard";
 
 import { useStore } from "./store";
@@ -24,7 +22,7 @@ export default function Index() {
             if (previous && !previous.next) return null;
             return urlCat("/games", { ...query, page: index + 1 });
         },
-        { ...SWRImmutable, fallbackData: [fallback.games] }
+        { fallbackData: [fallback.games] }
     );
 
     const { ref, inView } = useInView();

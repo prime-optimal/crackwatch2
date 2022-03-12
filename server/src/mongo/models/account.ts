@@ -21,7 +21,7 @@ export interface Item {
 }
 
 const accountSchema = new Schema<Account>({
-    providers: { type: [String], default: ["gamestatus", "steamcrackedgames"] },
+    providers: { type: [String], default: ["gamestatus", "steamcrackedgames", "predb"] },
     userId: { type: String, required: true },
     watching: {
         validate: [

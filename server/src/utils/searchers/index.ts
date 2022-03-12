@@ -5,6 +5,7 @@ import tryToCatch from "@utils/catch";
 import OneThreeThreeSeven from "./1337x";
 import GameStatus from "./gamestatus";
 import PcGamesTorrents from "./pcgamestorrents";
+import Predb from "./predb";
 import Skidrow from "./skidrow";
 import SteamCrackedGames from "./steamcrackedgames";
 
@@ -14,6 +15,7 @@ const Providers: CrackProvider[] = [
     PcGamesTorrents,
     Skidrow,
     SteamCrackedGames,
+    Predb,
 ];
 
 interface SearchResults {
