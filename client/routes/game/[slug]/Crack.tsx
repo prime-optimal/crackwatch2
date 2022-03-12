@@ -23,7 +23,7 @@ import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
 import useIsReleased from "@hooks/useIsReleased";
 import useLoggedIn from "@hooks/useLoggedIn";
-import { useNotistack } from "@hooks/useNotistack";
+import useNotistack from "@hooks/useNotistack";
 
 import { useGame } from "./hooks";
 

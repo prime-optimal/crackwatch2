@@ -9,13 +9,14 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import Router from "next/router";
 import Script from "next/script";
+import { SnackbarProvider } from "notistack";
 import axios from "redaxios";
 import { SWRConfig } from "swr";
 
 import Footer from "@components/Footer";
 import NavBar from "@components/NavBar";
 
-import { SnackProvider, useNotistack } from "@hooks/useNotistack";
+import useNotistack from "@hooks/useNotistack";
 
 import parseError from "@utils/parse-error";
 
@@ -131,9 +132,9 @@ export default function MyApp(props: MyAppProps) {
             />
 
             <ThemeProvider theme={theme}>
-                <SnackProvider maxSnack={2} preventDuplicate>
+                <SnackbarProvider maxSnack={2} preventDuplicate>
                     <App {...props} />
-                </SnackProvider>
+                </SnackbarProvider>
             </ThemeProvider>
         </CacheProvider>
     );

@@ -15,7 +15,7 @@ import Router from "next/router";
 import { useForm } from "react-hook-form";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
-import { useNotistack } from "@hooks/useNotistack";
+import useNotistack from "@hooks/useNotistack";
 
 import tryToCatch from "@utils/catch";
 import parseError from "@utils/parse-error";
