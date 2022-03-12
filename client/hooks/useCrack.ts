@@ -6,7 +6,7 @@ import { AxiosCrackSearch, Provider } from "@types";
 import useProvidersMutation from "@hooks/mutations/useProvidersMutation";
 
 // My recommended tier 1 default providers
-export const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames"];
+export const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames", "predb"];
 
 interface FetcherProps {
     query: string;
