@@ -9,6 +9,7 @@ const body = Type.Object(
         providers: Type.Array(Type.String({ minLength: 1, maxLength: 100 }), {
             minItems: 1,
             maxItems: 10,
+            default: ["gamestatus", "steamcrackedgames", "predb"],
         }),
         query: Type.String({ minLength: 1, maxLength: 250 }),
     },
