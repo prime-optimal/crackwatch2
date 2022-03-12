@@ -15,8 +15,10 @@ import Router from "next/router";
 import { useForm } from "react-hook-form";
 
 import useUserMutation from "@hooks/mutations/useUserMutation";
+import { useNotistack } from "@hooks/useNotistack";
 
 import tryToCatch from "@utils/catch";
+import parseError from "@utils/parse-error";
 
 const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 const nicknameRegex = /^[a-zA-Z]\w*$/g;
@@ -36,10 +38,12 @@ export default function Login() {
 
     const { validateNickname, register: signup } = useUserMutation();
 
+    const snack = useNotistack();
+
     const onSubmit = async (data: RegisterArgs) => {
         const [result, error] = await tryToCatch(() => signup(data));
         if (!result) {
-            alert((error as any)?.data.message || (error as any)?.data || error);
+            snack.error(parseError(error));
             return;
         }
 
