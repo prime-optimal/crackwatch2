@@ -23,6 +23,7 @@ import useWatchingMutation from "@hooks/mutations/useWatchingMutation";
 import useCrack from "@hooks/useCrack";
 import useIsReleased from "@hooks/useIsReleased";
 import useLoggedIn from "@hooks/useLoggedIn";
+import { useNotistack } from "@hooks/useNotistack";
 
 import { useGame } from "./hooks";
 
@@ -47,8 +48,11 @@ const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
 
 const WatchingIcon = () => {
     const { data } = useGame();
-    const { addWatching, removeWatching, watching } = useWatchingMutation();
     const loggedIn = useLoggedIn();
+
+    const { addWatching, removeWatching, watching } = useWatchingMutation();
+
+    const snack = useNotistack();
 
     const active = useMemo(() => {
         return !!watching?.find(game => game.slug === data?.slug);
@@ -59,10 +63,12 @@ const WatchingIcon = () => {
 
         if (active) {
             removeWatching(data.slug);
+            snack.normal(`No longer watching ${data.name}`);
             return;
         }
 
         addWatching(data.name, data.slug);
+        snack.normal(`Watching ${data.name}`);
     };
 
     return (

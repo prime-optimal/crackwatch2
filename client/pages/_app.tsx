@@ -15,6 +15,8 @@ import { SWRConfig } from "swr";
 import Footer from "@components/Footer";
 import NavBar from "@components/NavBar";
 
+import { SnackProvider, useNotistack } from "@hooks/useNotistack";
+
 axios.defaults.baseURL = "/api";
 
 const fetcher = (url: string) => axios.get(url).then(x => x.data);
@@ -81,8 +83,33 @@ interface MyAppProps extends AppProps {
     emotionCache?: EmotionCache;
 }
 
+const App = (props: MyAppProps) => {
+    const { Component, pageProps } = props;
+
+    const snack = useNotistack();
+
+    return (
+        <SWRConfig
+            value={{
+                fetcher,
+                compare: dequal,
+                onError: error => {
+                    console.error({ error });
+                    error.status !== 401 && snack.error(String(error.data || error));
+                },
+            }}
+        >
+            <CssBaseline />
+            <NavBar />
+            <Component {...pageProps} />
+            <Footer />
+        </SWRConfig>
+    );
+};
+
 export default function MyApp(props: MyAppProps) {
-    const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+    const { emotionCache = clientSideEmotionCache } = props;
+
     return (
         <CacheProvider value={emotionCache}>
             <Head>
@@ -102,20 +129,9 @@ export default function MyApp(props: MyAppProps) {
             />
 
             <ThemeProvider theme={theme}>
-                <SWRConfig
-                    value={{
-                        fetcher,
-                        compare: dequal,
-                        onError: error => {
-                            console.log({ error });
-                        },
-                    }}
-                >
-                    <CssBaseline />
-                    <NavBar />
-                    <Component {...pageProps} />
-                    <Footer />
-                </SWRConfig>
+                <SnackProvider maxSnack={2} preventDuplicate>
+                    <App {...props} />
+                </SnackProvider>
             </ThemeProvider>
         </CacheProvider>
     );
