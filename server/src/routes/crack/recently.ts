@@ -49,27 +49,33 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     let crackedItems: CrackedItem[] = [];
 
     if (steamCrackedGames.status === "fulfilled") {
-        const items: CrackedItem[] = steamCrackedGames.value.data.games.map(
-            ({ header_image, cracked_date_1, name, release_date }) => ({
-                date: cracked_date_1,
+        const items: CrackedItem[] = steamCrackedGames.value.data.games
+            // filter out incorrect values
+            .filter(
+                ({ release_date }) => new Date(release_date).getTime() < new Date().getTime()
+            )
+            .map(({ header_image, cracked_date_1, name, release_date }) => ({
+                date: release_date,
                 img: header_image,
                 title: name,
                 status: `Cracked in ${genStatus(cracked_date_1, release_date)} days`,
-            })
-        );
+            }));
 
         crackedItems = [...crackedItems, ...items];
     }
 
     if (gameStatus.status === "fulfilled") {
-        const items: CrackedItem[] = gameStatus.value.data.list_crack_games.map(
-            ({ readable_status, title, crack_date, short_image }) => ({
-                date: crack_date,
+        const items: CrackedItem[] = gameStatus.value.data.list_crack_games
+            // filter out incorrect values
+            .filter(
+                ({ release_date }) => new Date(release_date).getTime() < new Date().getTime()
+            )
+            .map(({ readable_status, title, release_date, short_image }) => ({
+                date: release_date,
                 img: short_image,
                 status: readable_status,
                 title,
-            })
-        );
+            }));
 
         crackedItems = [...crackedItems, ...items];
     }
