@@ -11,7 +11,8 @@ export type Provider =
     | "gamestatus"
     | "pcgamestorrents"
     | "skidrow"
-    | "steamcrackedgames";
+    | "steamcrackedgames"
+    | "predb";
 
 interface Watching {
     cracked: boolean;
