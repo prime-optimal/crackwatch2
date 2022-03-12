@@ -4,16 +4,31 @@ You can check out the website here [crackwatch2](https://crackwatch2.com/)
 
 ## Planned things
 
--   [x] Accounts
--   [x] Crack providers
--   [x] Crack status provider tier list
--   [x] Game watch list
--   [x] Send an email when a watched game has been cracked
--   [ ] Upvote games, idk about this one
--   [ ] A discord bot in the future ?
--   [x] Some kind of logo
--   [x] Recently cracked games
--   [x] Denuvo games
+- [x] Accounts
+- [x] Crack providers
+- [x] Crack status provider tier list
+- [x] Game watch list
+- [x] Send an email when a watched game has been cracked
+- [ ] Upvote games, idk about this one
+- [ ] A discord bot in the future ?
+- [x] Some kind of logo
+- [x] Recently cracked games
+- [x] Denuvo games
+
+## Providers
+
+Create an account to change these
+
+- gamestatus (default) - https://gamestatus.info/
+- steamcrackedgames (default) - https://steamcrackedgames.com/
+- predb (default) - https://predb.ovh/
+- pcgamestorrents - https://pcgamestorrents.com/
+- skidrow - https://www.skidrowreloaded.com/
+- 1337x - https://1337x.to/
+
+# Api
+
+*coming soon*
 
 ## Some screenshots
 
@@ -31,8 +46,8 @@ You can check out the website here [crackwatch2](https://crackwatch2.com/)
 
 ![settings page](https://user-images.githubusercontent.com/56039679/156760000-3758c5af-f1c1-493a-bc40-7ace606a5094.png)
 
-## Disclaimer
+# Disclaimer
 
--   All information related to video games (images, reviews, etc...) is provided by RAWG API [rawg.io](https://rawg.io/apidocs)
--   This web app does not provide download links for copyrighted content, only tells if it exists
--   All trademarks are property of their respective owners in the US and other countries
+- All information related to video games (images, reviews, etc...) is provided by RAWG API [rawg.io](https://rawg.io/apidocs)
+- This web app does not provide download links for copyrighted content, only tells if it exists
+- All trademarks are property of their respective owners in the US and other countries
