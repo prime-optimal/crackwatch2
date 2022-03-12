@@ -2,20 +2,20 @@
 
 You can check out the website here [crackwatch2](https://crackwatch2.com/)
 
-## Planned things
+## Features
 
 -   [x] Accounts
 -   [x] Crack providers
 -   [x] Crack status provider tier list
 -   [x] Game watch list
 -   [x] Send an email when a watched game has been cracked
--   [ ] Upvote games, idk about this one
--   [ ] A discord bot in the future ?
 -   [x] Some kind of logo
 -   [x] Recently cracked games
 -   [x] Denuvo games
+-   [ ] Upvote games, idk about this one
+-   [ ] A discord bot in the future ?
 
-## Features
+## Providers
 
 Create an account to change these
 
