@@ -39,8 +39,10 @@ export default function Account() {
                 >
                     <Avatar src={user?.avatar} sx={{ width: 100, height: 100 }} />
                     <Typography ml={1} variant="h3">
-                        {user?.nickname}
-                        <Typography color="text.secondary">{user?.email}</Typography>
+                        {user?.nickname || "Logged out"}
+                        <Typography color="text.secondary">
+                            {user?.email || "Login to start watching games"}
+                        </Typography>
                     </Typography>
                 </Stack>
 
