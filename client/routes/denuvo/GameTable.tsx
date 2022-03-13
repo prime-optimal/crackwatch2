@@ -50,7 +50,7 @@ export default function GameTable({ type }: GameTableProps) {
                         <TableCell>#</TableCell>
                         <TableCell>Title</TableCell>
                         <TableCell>Status</TableCell>
-                        <TableCell>Cracked date</TableCell>
+                        <TableCell>Crack date</TableCell>
                         <TableCell>Release date</TableCell>
                     </TableRow>
                 </TableHead>

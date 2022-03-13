@@ -52,10 +52,11 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         const items: CrackedItem[] = steamCrackedGames.value.data.games
             // filter out incorrect values
             .filter(
-                ({ release_date }) => new Date(release_date).getTime() < new Date().getTime()
+                ({ cracked_date_1 }) =>
+                    new Date(cracked_date_1).getTime() <= new Date().getTime()
             )
             .map(({ header_image, cracked_date_1, name, release_date }) => ({
-                date: release_date,
+                date: cracked_date_1,
                 img: header_image,
                 title: name,
                 status: `Cracked in ${genStatus(cracked_date_1, release_date)} days`,
@@ -67,11 +68,9 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
     if (gameStatus.status === "fulfilled") {
         const items: CrackedItem[] = gameStatus.value.data.list_crack_games
             // filter out incorrect values
-            .filter(
-                ({ release_date }) => new Date(release_date).getTime() < new Date().getTime()
-            )
-            .map(({ readable_status, title, release_date, short_image }) => ({
-                date: release_date,
+            .filter(({ crack_date }) => new Date(crack_date).getTime() <= new Date().getTime())
+            .map(({ readable_status, title, crack_date, short_image }) => ({
+                date: crack_date,
                 img: short_image,
                 status: readable_status,
                 title,
@@ -80,6 +79,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
         crackedItems = [...crackedItems, ...items];
     }
 
+    // rm duplicates
     for await (const [index, { title }] of crackedItems.entries()) {
         const cut = title.slice(0, title.length - 2);
         const results = await fuzzysort.goAsync(cut, crackedItems, {
