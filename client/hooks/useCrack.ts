@@ -5,6 +5,8 @@ import { AxiosCrackSearch, Provider } from "@types";
 
 import useProvidersMutation from "@hooks/mutations/useProvidersMutation";
 
+import parseError from "@utils/parse-error";
+
 // My recommended tier 1 default providers
 export const defaultProviders: Provider[] = ["gamestatus", "steamcrackedgames", "predb"];
 
@@ -32,7 +34,7 @@ export default function useCrack(query: string | null) {
     return {
         providers: providers || defaultProviders,
         data,
-        error: error?.data || error,
+        error: parseError(error),
         cracked: data && data.result.length > 0,
         loading: !!(!data && !error && query),
     };
