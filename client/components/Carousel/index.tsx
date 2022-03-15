@@ -109,11 +109,7 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
                         scale: active === index ? 1 : 0.3,
                         x: `${(index - active) * 100}%`,
                     }}
-                    transition={{
-                        type: "spring",
-                        stiffness: 260,
-                        damping: 20,
-                    }}
+                    transition={{ type: "tween" }}
                 >
                     <ResponsiveImage src={image} />
                 </Box>
