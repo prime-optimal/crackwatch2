@@ -53,10 +53,10 @@ export default function Schedule() {
             const account = await accountModel.findOne({ userId });
             if (!account) return;
 
-            const promises = queries.map(async query => {
-                const user = await userModel.findById(userId);
-                if (!user) return;
+            const user = await userModel.findById(userId);
+            if (!user) return;
 
+            const promises = queries.map(async query => {
                 if (query.cracked) return;
 
                 const [result] = await tryToCatch(() => SearchCrack(query.item, providers));
