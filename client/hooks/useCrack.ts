@@ -27,9 +27,13 @@ const fetcher = async ({ query, providers = defaultProviders }: FetcherProps) =>
 export default function useCrack(query: string | null) {
     const { providers = defaultProviders } = useProvidersMutation();
 
-    const { data, error } = useSWR(query && providers ? { query, providers } : null, fetcher, {
-        shouldRetryOnError: false,
-    });
+    const { data, error = "Not released" } = useSWR(
+        query && providers ? { query, providers } : null,
+        fetcher,
+        {
+            shouldRetryOnError: false,
+        }
+    );
 
     return {
         providers: providers || defaultProviders,
