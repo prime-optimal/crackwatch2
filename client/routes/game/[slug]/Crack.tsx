@@ -1,3 +1,4 @@
+import ClearIcon from "@mui/icons-material/Clear";
 import InfoIcon from "@mui/icons-material/Info";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import NotificationsOffIcon from "@mui/icons-material/NotificationsOff";
@@ -16,6 +17,7 @@ import {
     Typography,
 } from "@mui/material";
 import { useMemo, useState } from "react";
+import urlCat from "urlcat";
 
 import IconTypography from "@components/IconTypography";
 
@@ -30,7 +32,7 @@ import { useGame } from "./hooks";
 interface ProviderInfoProps {
     open: boolean;
     onClose: () => any;
-    data: ReturnType<typeof useCrack>["data"];
+    data: any;
 }
 
 const ProviderInfo = ({ onClose, open, data }: ProviderInfoProps) => {
@@ -82,6 +84,28 @@ const WatchingIcon = () => {
     );
 };
 
+interface SubmitIncorrectProps {
+    title: string;
+}
+
+const SubmitIncorrect = ({ title }: SubmitIncorrectProps) => {
+    const link = useMemo(
+        () =>
+            urlCat("https://github.com", "/Trunkelis/crackwatch2/issues/new", {
+                title,
+            }),
+        [title]
+    );
+
+    return (
+        <Tooltip title="Incorrect status?" placement="right">
+            <IconButton LinkComponent="a" href={link} target="_blank">
+                <ClearIcon />
+            </IconButton>
+        </Tooltip>
+    );
+};
+
 export default function Crack() {
     const { data } = useGame();
 
@@ -99,12 +123,7 @@ export default function Crack() {
 
     return (
         <Box component={Paper} p={2}>
-            <Stack
-                flexDirection="row"
-                mb={2}
-                justifyContent="space-between"
-                alignItems="center"
-            >
+            <Stack flexDirection="row" justifyContent="space-between" alignItems="center">
                 <IconTypography props={{ variant: "h5" }} icon={<InfoIcon fontSize="large" />}>
                     Crack info
                 </IconTypography>
@@ -112,8 +131,8 @@ export default function Crack() {
                 {!cracked && !loading && <WatchingIcon />}
             </Stack>
 
-            <Typography>
-                <Typography component="span" color="text.secondary">
+            <Stack flexDirection="row" alignItems="center">
+                <Typography component="pre" color="text.secondary">
                     Crack status:{" "}
                 </Typography>
                 <Typography
@@ -121,10 +140,13 @@ export default function Crack() {
                     color={({ palette }) =>
                         cracked ? palette.success.main : palette.warning.main
                     }
+                    mr={0.5}
                 >
                     {cracked ? "Cracked" : "Not cracked"}
                 </Typography>
-            </Typography>
+
+                <SubmitIncorrect title={data?.name || "Unknown game"} />
+            </Stack>
 
             <Divider sx={{ my: 1 }} />
 
