@@ -131,7 +131,7 @@ export default function Crack() {
                 {!cracked && !loading && <WatchingIcon />}
             </Stack>
 
-            <Stack flexDirection="row" alignItems="center" mt={1}>
+            <Stack flexDirection="row" alignItems="center" mt={1} flexWrap="wrap">
                 <Typography component="pre" color="text.secondary">
                     Crack status:{" "}
                 </Typography>
