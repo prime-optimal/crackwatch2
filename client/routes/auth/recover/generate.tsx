@@ -41,12 +41,12 @@ export default function Generate() {
     return (
         <Container maxWidth="sm" sx={{ mt: 4 }}>
             <Head>
-                <title>Reset password</title>
+                <title>Recover password</title>
             </Head>
 
             <Paper component="form" sx={{ px: 4, py: 2 }} onSubmit={handleSubmit(onSubmit)}>
                 <Typography variant="h5" align="center" gutterBottom>
-                    Reset password
+                    Recover password
                 </Typography>
 
                 <TextField
@@ -71,7 +71,7 @@ export default function Generate() {
                 <Stack alignItems="flex-end" mt={2}>
                     <Box>
                         <Button type="submit" disabled={isSubmitting} endIcon={<KeyIcon />}>
-                            Reset
+                            Recover
                         </Button>
                     </Box>
                 </Stack>
