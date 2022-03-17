@@ -62,7 +62,7 @@ fastify.register(fastifySession, {
         clientPromise: getMongoClient(),
     }),
     cookie: {
-        sameSite: "Lax",
+        sameSite: "lax",
         secure: !dev,
         // 1 week
         maxAge: 1000 * 60 * 60 * 24 * 7,
