@@ -1,3 +1,4 @@
+import KeyIcon from "@mui/icons-material/Key";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -29,6 +30,7 @@ const UserMenu = (props: MenuProps) => {
 
     const onLogin = () => Router.push("/auth/login");
     const onAccount = () => Router.push("/account");
+    const onRecover = () => Router.push("/auth/recover/generate");
 
     return (
         <Menu
@@ -44,6 +46,13 @@ const UserMenu = (props: MenuProps) => {
                     <ManageAccountsIcon />
                 </ListItemIcon>
                 Account
+            </MenuItem>
+
+            <MenuItem onClick={onRecover}>
+                <ListItemIcon>
+                    <KeyIcon />
+                </ListItemIcon>
+                Reset password
             </MenuItem>
 
             {user?.nickname ? (

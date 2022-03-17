@@ -35,7 +35,7 @@ export default function Index() {
                 <meta property="og:title" content="Crackwatch 2" />
                 <meta
                     property="og:description"
-                    content="Crackwatch 2 is a website that monitors cracks for video games and provides news and information on the status of the cracks."
+                    content="Crackwatch 2 is an open source website that monitors cracks for video games and provides news and information on the status of the cracks."
                 />
             </Head>
 

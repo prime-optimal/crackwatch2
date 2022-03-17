@@ -55,6 +55,7 @@ export default function Login() {
             <Head>
                 <title>Register to crackwatch2</title>
             </Head>
+
             <Paper component="form" sx={{ px: 4, py: 2 }} onSubmit={handleSubmit(onSubmit)}>
                 <Typography variant="h5" align="center" gutterBottom>
                     Register
@@ -132,7 +133,7 @@ export default function Login() {
                     mt={2}
                 >
                     <NextLink href="/auth/login" passHref>
-                        <MuiLink>Login</MuiLink>
+                        <MuiLink underline="hover">Login</MuiLink>
                     </NextLink>
                     <Box>
                         <Button type="submit" endIcon={<LockIcon />} loading={isSubmitting}>
