@@ -21,7 +21,10 @@ const search = async (query: string) => {
         name.replace(`-${team}`, "").replace(/(\.|_)/g, " ")
     );
 
-    return Fuzzy(items, query, { threshold: -20 });
+    // items with NSW in them don't seem to be cracked hmm
+    const filtered = items.filter(item => !item.toLowerCase().includes("nsw"));
+
+    return Fuzzy(filtered, query, { threshold: -18 });
 };
 
 export default { search, provider };
