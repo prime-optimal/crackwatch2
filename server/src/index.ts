@@ -83,11 +83,10 @@ fastify
     .after(() => {
         fastify.next("/");
         fastify.next("/game/:id");
-        fastify.next("/auth/login");
-        fastify.next("/auth/register");
         fastify.next("/account");
         fastify.next("/recently");
         fastify.next("/denuvo");
+        fastify.next("/auth/*");
     });
 
 fastify.register(
