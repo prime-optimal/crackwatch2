@@ -1,28 +1,17 @@
 import cron from "node-cron";
-import nodemailer from "nodemailer";
 import pLimit from "p-limit";
 import pino from "pino";
 
 import { Item, accountModel, userModel } from "@mongo";
 
 import tryToCatch from "@utils/catch";
+import { transporter } from "@utils/email";
 import SearchCrack from "@utils/searchers";
 
 const logger = pino();
 
 // send at most 1 emails at once
 const limit = pLimit(1);
-
-const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: 465,
-    secure: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-    pool: true,
-});
 
 export default function Schedule() {
     logger.info("A scheduled job has been assigned");
@@ -65,7 +54,7 @@ export default function Schedule() {
 
                 try {
                     await transporter.sendMail({
-                        from: "info@crackwatch2.com",
+                        from: process.env.EMAIL_USER,
                         subject: "Crackwatch game update",
                         to: user.email,
                         text: `Great news! "${
