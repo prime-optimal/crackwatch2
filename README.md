@@ -2,7 +2,7 @@
 
 You can check out the website here [crackwatch2](https://crackwatch2.com/)
 
-⭐ Thanks to everyone who starred the project, it means a lot to me!
+⭐ Thanks to everyone who starred the project, it means a lot
 
 ## Features
 
