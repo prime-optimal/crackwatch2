@@ -12,9 +12,9 @@ You can check out the website here [crackwatch2](https://crackwatch2.com/)
 -   [x] Some kind of logo
 -   [x] Recently cracked games
 -   [x] Denuvo games
+-   [x] Reset password
 -   [ ] Upvote games and comments
 -   [ ] A discord bot in the future ?
--   [ ] Reset password
 
 ## Providers
 
