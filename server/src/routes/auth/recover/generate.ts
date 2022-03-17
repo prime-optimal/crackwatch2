@@ -28,7 +28,7 @@ const handler: any = async (req: Req<{ Body: Body }>) => {
     const secret = user.password + process.env.SECRET;
     const key = jwt.sign({ id: user.id }, secret, { expiresIn: "15m" });
 
-    const link = urlCat(process.env.BASE_URL || "", "/auth/recover", {
+    const link = urlCat(process.env.BASE_URL || "", "/auth/recover/reset", {
         key,
     });
 
