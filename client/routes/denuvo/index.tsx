@@ -19,6 +19,7 @@ export default function Denuvo() {
             <Head>
                 <title>Denuvo games</title>
             </Head>
+
             <Typography align="center" gutterBottom variant="h4">
                 Denuvo games
             </Typography>

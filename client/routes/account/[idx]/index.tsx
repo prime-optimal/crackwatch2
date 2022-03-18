@@ -30,6 +30,7 @@ export default function Account() {
             <Head>
                 <title>{`${user?.nickname}'s account`}</title>
             </Head>
+
             <Box component={Paper} p={2}>
                 <Stack
                     flexDirection="row"
@@ -38,7 +39,7 @@ export default function Account() {
                     justifyContent="center"
                 >
                     <Avatar src={user?.avatar} sx={{ width: 100, height: 100 }} />
-                    <Typography ml={1} variant="h3">
+                    <Typography ml={1} variant="h3" sx={{ overflowWrap: "anywhere" }}>
                         {user?.nickname || "Logged out"}
                         <Typography color="text.secondary">
                             {user?.email || "Login to start watching games"}
