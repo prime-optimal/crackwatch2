@@ -15,6 +15,7 @@ You can check out the website here [crackwatch2](https://crackwatch2.com/)
 -   [x] Recently cracked games
 -   [x] Denuvo games
 -   [x] Reset password
+-   [ ] Cracked by _group_
 -   [ ] Upvote games and comments
 -   [ ] A discord bot in the future ?
 
