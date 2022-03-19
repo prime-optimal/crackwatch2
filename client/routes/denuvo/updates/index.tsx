@@ -93,7 +93,7 @@ export default function DenuvoUpdates() {
 
                 <Box>
                     <Button
-                        disabled={isValidating || !data}
+                        disabled={isValidating || !data?.[data?.length - 1].next}
                         onClick={onClick}
                         variant="contained"
                         endIcon={<ExpandMoreIcon />}
