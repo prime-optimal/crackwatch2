@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import onServer from "@utils/onServer";
 
 export default function useInterval(fn: () => void, ms = 200) {
-    const timeoutRef = useRef<number>();
+    const intervalRef = useRef<number>();
     const fnRef = useRef(fn);
 
     // always call the latest given function
@@ -13,15 +13,24 @@ export default function useInterval(fn: () => void, ms = 200) {
 
     useEffect(() => {
         if (onServer()) return;
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
 
-        const iteration = () => {
-            timeoutRef.current = setTimeout(() => {
-                fnRef.current();
-                iteration();
-            }, ms) as unknown as number;
-        };
-        iteration();
+        intervalRef.current = setInterval(() => {
+            fnRef.current();
+        }, ms) as any as number;
 
-        return () => clearTimeout(timeoutRef.current);
+        return () => clearInterval(intervalRef.current);
     }, [ms]);
+
+    const reset = () => {
+        clearInterval(intervalRef.current);
+
+        intervalRef.current = setInterval(() => {
+            fnRef.current();
+        }, ms) as any as number;
+    };
+
+    return { reset };
 }

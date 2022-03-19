@@ -151,7 +151,7 @@ export default function Crack() {
                     Group:{" "}
                 </Typography>
                 <Typography color="secondary.main" component="span">
-                    {crack?.result.group || "Unknown"}
+                    {crack?.result?.group || "Unknown"}
                 </Typography>
             </Typography>
 

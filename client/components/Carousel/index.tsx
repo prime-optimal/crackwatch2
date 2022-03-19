@@ -42,7 +42,7 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
         setActive(Math.floor(images.length / 2));
     }, [images]);
 
-    useInterval(() => {
+    const { reset } = useInterval(() => {
         autoRotate && swipeRight();
     }, autoRotate);
 
@@ -84,11 +84,23 @@ export default function Carousel({ images = [], autoRotate }: CarouselProps) {
                                 )}
                             </IconButton>
                         </Box>
-                        <IconButton onClick={swipeLeft} sx={{ zIndex: 1 }}>
+                        <IconButton
+                            onClick={() => {
+                                swipeLeft();
+                                reset();
+                            }}
+                            sx={{ zIndex: 1 }}
+                        >
                             <ChevronLeftIcon fontSize="large" />
                         </IconButton>
                     </Stack>
-                    <IconButton onClick={swipeRight} sx={{ zIndex: 1 }}>
+                    <IconButton
+                        onClick={() => {
+                            swipeRight();
+                            reset();
+                        }}
+                        sx={{ zIndex: 1 }}
+                    >
                         <ChevronRightIcon fontSize="large" />
                     </IconButton>
                 </Stack>
