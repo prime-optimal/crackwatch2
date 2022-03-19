@@ -104,9 +104,15 @@ export default function Login() {
                     flexDirection="row"
                     mt={2}
                 >
-                    <NextLink href="/auth/register" passHref>
-                        <MuiLink underline="hover">Register</MuiLink>
-                    </NextLink>
+                    <Stack>
+                        <NextLink href="/auth/register" passHref>
+                            <MuiLink underline="hover">Register</MuiLink>
+                        </NextLink>
+                        <NextLink href="/auth/recover/generate" passHref>
+                            <MuiLink underline="hover">Forgot password</MuiLink>
+                        </NextLink>
+                    </Stack>
+
                     <Box>
                         <Button
                             type="submit"
