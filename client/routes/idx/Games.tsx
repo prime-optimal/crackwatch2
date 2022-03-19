@@ -61,14 +61,10 @@ export default function Index() {
             )}
 
             {data?.[data.length - 1]?.next && (
-                <Stack
-                    p={3}
-                    justifyContent="center"
-                    alignItems="center"
-                    mt={1}
-                    ref={data ? ref : undefined}
-                >
-                    <CircularProgress />
+                <Stack p={3} justifyContent="center" alignItems="center" mt={1}>
+                    <div ref={data ? ref : undefined}>
+                        <CircularProgress />
+                    </div>
                 </Stack>
             )}
         </Stack>
