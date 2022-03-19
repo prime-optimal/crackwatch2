@@ -6,12 +6,14 @@ import { Provider } from "@types";
 import { crackClient } from "@utils/axios";
 import Fuzzy from "@utils/fuzzy";
 
+import { SearchResults } from ".";
+
 const BASE_URL = "https://steamcrackedgames.com";
 
 // Tier S provider
 const provider: Provider = "steamcrackedgames";
 
-const search = async (query: string) => {
+const search = async (query: string): Promise<SearchResults> => {
     const url = urlCat(BASE_URL, "/search", {
         q: query,
     });

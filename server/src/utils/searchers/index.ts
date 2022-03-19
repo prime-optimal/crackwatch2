@@ -18,7 +18,10 @@ const Providers = [
 
 export interface SearchResults {
     provider: string;
-    result: any;
+    result: {
+        title: string;
+        group: string | null;
+    } | null;
 }
 
 export default async function SearchCrack(query: string, providers: string[]) {

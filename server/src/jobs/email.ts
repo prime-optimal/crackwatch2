@@ -48,9 +48,9 @@ export default function Schedule() {
             const promises = queries.map(async query => {
                 if (query.cracked) return;
 
-                const [result] = await tryToCatch(() => SearchCrack(query.item, providers));
+                const [games] = await tryToCatch(() => SearchCrack(query.item, providers));
 
-                if (!result || (result && result.result.length < 1)) return;
+                if (!games || !games.result) return;
 
                 try {
                     await transporter.sendMail({
