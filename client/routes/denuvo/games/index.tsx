@@ -1,14 +1,30 @@
-import { FormControl, InputLabel, MenuItem, Paper, Select } from "@mui/material";
+import {
+    Container,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    Typography,
+} from "@mui/material";
+import Head from "next/head";
 import { useState } from "react";
 
 import GameTable from "./GameTable";
 
-export default function DenuvoGames() {
+export default function Denuvo() {
     const [value, setValue] = useState(0);
 
     return (
-        <Paper>
-            <FormControl sx={{ m: 2 }}>
+        <Container maxWidth="xl" sx={{ mt: 3 }}>
+            <Head>
+                <title>Denuvo games</title>
+            </Head>
+
+            <Typography align="center" gutterBottom variant="h4">
+                Denuvo games
+            </Typography>
+
+            <FormControl sx={{ mb: 2 }}>
                 <InputLabel>Type</InputLabel>
                 <Select
                     label="Type"
@@ -23,6 +39,6 @@ export default function DenuvoGames() {
             </FormControl>
 
             <GameTable type={value} />
-        </Paper>
+        </Container>
     );
 }

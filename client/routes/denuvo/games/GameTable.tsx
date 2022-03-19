@@ -43,7 +43,7 @@ export default function GameTable({ type }: GameTableProps) {
     const { data } = useSWR<AxiosCrackDenuvo[]>(`/crack/denuvo?type=${type}`);
 
     return (
-        <TableContainer>
+        <TableContainer component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>

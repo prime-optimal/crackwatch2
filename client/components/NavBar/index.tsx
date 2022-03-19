@@ -18,11 +18,8 @@ function NavBar() {
                     alignItems="center"
                 >
                     <Links />
-
-                    <Stack flexDirection="row" flex={1} justifyContent="flex-end">
-                        <Search />
-                        <User />
-                    </Stack>
+                    <Search />
+                    <User />
                 </Stack>
             </Container>
         </AppBar>
