@@ -62,11 +62,7 @@ const GameItem = ({ slug, started }: GameItemProps) => {
 
                     <ListItemText
                         primary={
-                            <Typography
-                                color={({ palette }) =>
-                                    cracked ? palette.success.main : palette.warning.main
-                                }
-                            >
+                            <Typography color={cracked ? "success.main" : "warning.main"}>
                                 {game?.name}
                             </Typography>
                         }

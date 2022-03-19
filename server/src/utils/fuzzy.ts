@@ -14,7 +14,7 @@ const defaultOptions: Fuzzysort.Options = {
 const clearRegex = /[^\w\s]/g;
 
 interface List {
-    group: string;
+    group: string | null;
     title: string;
 }
 

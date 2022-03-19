@@ -137,9 +137,7 @@ export default function Crack() {
                 </Typography>
                 <Typography
                     component="span"
-                    color={({ palette }) =>
-                        cracked ? palette.success.main : palette.warning.main
-                    }
+                    color={cracked ? "success.main" : "warning.main"}
                     mr={0.5}
                 >
                     {cracked ? "Cracked" : "Not cracked"}
@@ -147,6 +145,15 @@ export default function Crack() {
 
                 <SubmitIncorrect title={data?.name || "Unknown game"} />
             </Stack>
+
+            <Typography>
+                <Typography component="span" color="text.secondary">
+                    Group:{" "}
+                </Typography>
+                <Typography color="secondary.main" component="span">
+                    {crack?.result.group || "Unknown"}
+                </Typography>
+            </Typography>
 
             <Divider sx={{ my: 1 }} />
 

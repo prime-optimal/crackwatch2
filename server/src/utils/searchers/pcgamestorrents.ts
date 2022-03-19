@@ -31,7 +31,7 @@ const search = async (query: string): Promise<SearchResults> => {
     });
 
     const result = await Fuzzy(
-        titles.map(title => ({ title, group: "Unknown" })),
+        titles.map(title => ({ title, group: null })),
         query
     );
 
