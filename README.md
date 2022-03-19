@@ -30,6 +30,8 @@ Create an account to change these
 -   skidrow - https://www.skidrowreloaded.com/
 -   1337x - https://1337x.to/
 
+Provider [statuses](https://stats.uptimerobot.com/mXRPlipEkr)
+
 # API
 
 _coming soon_
