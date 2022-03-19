@@ -29,7 +29,7 @@ const search = async (query: string): Promise<SearchResults> => {
     const filtered = items
         .filter(({ title, cat }) => {
             const nsw = title.toLowerCase().includes("nsw");
-            const console = cat.toLowerCase().match(/ps4|xbox/g);
+            const console = cat.toLowerCase().match(/ps|xbox/g);
             return !nsw && !console;
         })
         .map(({ group, title }) => ({ group, title }));
