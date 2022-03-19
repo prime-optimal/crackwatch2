@@ -31,7 +31,12 @@ const search = async (query: string) => {
         title && cracked && titles.push(title);
     });
 
-    return Fuzzy(titles, query, { threshold: -4 });
+    const result = await Fuzzy(
+        titles.map(title => ({ title, group: "Unknown" })),
+        query
+    );
+
+    return { result, provider };
 };
 
 export default { provider, search };
