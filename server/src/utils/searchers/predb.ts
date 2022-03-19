@@ -19,13 +19,20 @@ const search = async (query: string): Promise<SearchResults> => {
         })
     );
 
-    const items = data.data.rows.map(({ name, team }) => ({
+    const items = data.data.rows.map(({ name, team, cat }) => ({
         title: name.replace(`-${team}`, "").replace(/(\.|_)/g, " "),
         group: team,
+        cat,
     }));
 
-    // items with NSW in them don't seem to be cracked hmm
-    const filtered = items.filter(({ title }) => !title.toLowerCase().includes("nsw"));
+    // filter out known bad keywords
+    const filtered = items
+        .filter(({ title, cat }) => {
+            const nsw = title.toLowerCase().includes("nsw");
+            const console = cat.toLowerCase().match(/ps4|xbox/g);
+            return !nsw && !console;
+        })
+        .map(({ group, title }) => ({ group, title }));
 
     const result = await Fuzzy(filtered, query);
 
