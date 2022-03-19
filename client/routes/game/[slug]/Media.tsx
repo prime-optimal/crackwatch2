@@ -17,7 +17,7 @@ export default function Media() {
             <Box position="absolute" top={0} left={0} width="100%" height="100%">
                 <Carousel
                     images={data?.results.map(screenshot => screenshot.image)}
-                    autoRotate={8000}
+                    autoRotate={6000}
                 />
             </Box>
         </Box>

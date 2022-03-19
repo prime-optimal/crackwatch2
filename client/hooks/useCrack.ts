@@ -35,7 +35,7 @@ export default function useCrack(query: string | null) {
         providers: providers || defaultProviders,
         data,
         error: parseError(error),
-        cracked: data && data.result.length > 0,
+        cracked: !!data?.result,
         loading: !!(!data && !error && query),
     };
 }

@@ -6,12 +6,14 @@ import { Provider } from "@types";
 import { crackClient } from "@utils/axios";
 import Fuzzy from "@utils/fuzzy";
 
+import { SearchResults } from ".";
+
 const BASE_URL = "https://1337x.to";
 
 // Tier C provider
 const provider: Provider = "1337x";
 
-const search = async (query: string) => {
+const search = async (query: string): Promise<SearchResults> => {
     const url = urlCat(BASE_URL, "/category-search/:query/Games/1/", {
         query,
     });
@@ -28,7 +30,12 @@ const search = async (query: string) => {
         title && titles.push(title);
     });
 
-    return Fuzzy(titles, query);
+    const result = await Fuzzy(
+        titles.map(title => ({ title, group: null })),
+        query
+    );
+
+    return { result, provider };
 };
 
 export default { provider, search };

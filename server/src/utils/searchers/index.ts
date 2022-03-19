@@ -1,5 +1,3 @@
-import { CrackProvider } from "@types";
-
 import tryToCatch from "@utils/catch";
 
 import OneThreeThreeSeven from "./1337x";
@@ -9,7 +7,7 @@ import Predb from "./predb";
 import Skidrow from "./skidrow";
 import SteamCrackedGames from "./steamcrackedgames";
 
-const Providers: CrackProvider[] = [
+const Providers = [
     OneThreeThreeSeven,
     GameStatus,
     PcGamesTorrents,
@@ -18,9 +16,9 @@ const Providers: CrackProvider[] = [
     Predb,
 ];
 
-interface SearchResults {
+export interface SearchResults {
     provider: string;
-    result: any[];
+    result: any;
 }
 
 export default async function SearchCrack(query: string, providers: string[]) {
@@ -39,8 +37,8 @@ export default async function SearchCrack(query: string, providers: string[]) {
         ({ search, provider }) =>
             new Promise((resolve, reject) => {
                 search(query)
-                    .then(result => {
-                        if (result.length < 1) reject(`${provider} does not have cracks`);
+                    .then(({ provider, result }) => {
+                        if (!result) reject(`${provider} does not have cracks`);
                         else resolve({ provider, result });
                     })
                     .catch(() => reject(`${provider} did not respond`));
@@ -52,7 +50,7 @@ export default async function SearchCrack(query: string, providers: string[]) {
     if (!result) {
         return {
             provider: (error as AggregateError).errors.join(" - "),
-            result: [],
+            result: null,
         };
     }
 
