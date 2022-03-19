@@ -37,7 +37,7 @@ export default function Recently() {
                         endIcon={<ExpandMoreIcon />}
                         variant="contained"
                         onClick={() => setSize(size => size + 1)}
-                        disabled={isValidating}
+                        disabled={isValidating || !data?.[data.length - 1].next}
                     >
                         Load more
                     </Button>

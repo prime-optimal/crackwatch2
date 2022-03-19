@@ -12,6 +12,7 @@ import {
     Typography,
 } from "@mui/material";
 import { dequal } from "dequal";
+import Head from "next/head";
 import { memo } from "react";
 import useSWRInfinite from "swr/infinite";
 import urlCat from "urlcat";
@@ -76,6 +77,10 @@ export default function DenuvoUpdates() {
 
     return (
         <Container maxWidth="xl">
+            <Head>
+                <title>Denuvo updates</title>
+            </Head>
+
             <Typography align="center" variant="h4" my={3}>
                 Denuvo updates
             </Typography>
@@ -93,7 +98,7 @@ export default function DenuvoUpdates() {
 
                 <Box>
                     <Button
-                        disabled={isValidating || !data?.[data?.length - 1].next}
+                        disabled={isValidating || !data?.[data.length - 1].next}
                         onClick={onClick}
                         variant="contained"
                         endIcon={<ExpandMoreIcon />}
