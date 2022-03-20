@@ -25,7 +25,7 @@ export default function Recently() {
                 <title>Recently cracked</title>
             </Head>
 
-            <Typography mt={3} align="center" gutterBottom variant="h4">
+            <Typography my={3} align="center" variant="h4">
                 Recently cracked
             </Typography>
 

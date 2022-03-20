@@ -1,3 +1,4 @@
+import CloseIcon from "@mui/icons-material/Close";
 import DangerousIcon from "@mui/icons-material/Dangerous";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -23,7 +24,7 @@ import {
 } from "@mui/material";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import ResponsiveImage from "@components/ResponsiveImage";
 
@@ -71,7 +72,13 @@ const links: Link[] = [
     },
 ];
 
-const LinkListItem = ({ href, icon, name, nested }: Link) => {
+const LinkListItem = ({
+    href,
+    icon,
+    name,
+    nested,
+    onClose,
+}: Link & { onClose: () => void }) => {
     const { route } = useRouter();
 
     const [open, setOpen] = useState(false);
@@ -83,7 +90,7 @@ const LinkListItem = ({ href, icon, name, nested }: Link) => {
     if (!nested) {
         return (
             <NextLink href={href} passHref>
-                <ListItemButton selected={href === route} LinkComponent="a" onClick={toggle}>
+                <ListItemButton onClick={onClose} selected={href === route} LinkComponent="a">
                     <ListItemIcon>{icon}</ListItemIcon>
                     <ListItemText primary={name} />
                 </ListItemButton>
@@ -105,6 +112,7 @@ const LinkListItem = ({ href, icon, name, nested }: Link) => {
                         <NextLink href={href} passHref key={href}>
                             <ListItemButton
                                 selected={href === route}
+                                onClick={onClose}
                                 LinkComponent="a"
                                 sx={{ pl: 4 }}
                             >
@@ -124,9 +132,9 @@ export default function Links() {
 
     const [open, setOpen] = useState(false);
 
-    const onClose = () => {
+    const onClose = useCallback(() => {
         setOpen(false);
-    };
+    }, []);
 
     return (
         <Stack flexDirection="row" justifyContent="center" alignItems="center">
@@ -141,15 +149,23 @@ export default function Links() {
             )}
 
             <Drawer anchor="left" open={open} onClose={onClose}>
-                <Typography align="center" my={1}>
-                    CrackWatch 2
-                </Typography>
+                <Stack flexDirection="row" my={1} alignItems="center" justifyContent="center">
+                    <Typography pl={5} flex={1} align="center">
+                        CrackWatch 2
+                    </Typography>
+
+                    <Stack alignItems="flex-end" mr={1}>
+                        <IconButton onClick={onClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
+                </Stack>
 
                 <Divider />
 
                 <List sx={{ width: mobile ? "60vw" : 250 }}>
                     {links.map(link => (
-                        <LinkListItem {...link} key={link.href} />
+                        <LinkListItem {...link} onClose={onClose} key={link.href} />
                     ))}
                     <Divider sx={{ my: 1 }} />
 

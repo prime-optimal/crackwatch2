@@ -11,6 +11,7 @@ import { crackClient } from "@utils/axios";
 const querystring = Type.Object(
     {
         page: Type.Integer({ default: 1, minimum: 1 }),
+        type: Type.Integer({ default: 0, maximum: 1, minimum: 0 }),
     },
     { additionalProperties: false }
 );
@@ -29,13 +30,28 @@ const BASE_URL =
     "https://store.steampowered.com/curator/26095454-Denuvo-Games/ajaxgetfilteredrecommendations/";
 
 const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
-    const { page } = req.query;
+    // type
+    // 0 - recent news
+    // 1 - new releases
+    // 2 - games that had denuvo removed
+
+    const { page, type } = req.query;
+
+    let sort = "";
+    switch (type) {
+        case 0:
+            sort = "recent";
+            break;
+        case 1:
+            sort = "newreleases";
+            break;
+    }
 
     const { data } = await crackClient.get<AxiosDenuvoUpdates>(
         urlCat(BASE_URL, {
             start: (page - 1) * 10,
             count: 10,
-            sort: "recent",
+            sort,
             reset: false,
         })
     );
