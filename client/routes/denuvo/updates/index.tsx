@@ -7,13 +7,16 @@ import {
     CardContent,
     CardMedia,
     Container,
+    Divider,
     Grid,
     Stack,
+    Tab,
+    Tabs,
     Typography,
 } from "@mui/material";
 import { dequal } from "dequal";
 import Head from "next/head";
-import { memo } from "react";
+import { memo, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import urlCat from "urlcat";
 
@@ -63,10 +66,12 @@ const Item = memo(({ date, img, price, status, steam }: AxiosDenuvoUpdates["item
 }, dequal);
 
 export default function DenuvoUpdates() {
+    const [type, setType] = useState(0);
+
     const { data, isValidating, setSize } = useSWRInfinite<AxiosDenuvoUpdates>(
         (index, prev) => {
             if (prev && !prev.next) return null;
-            return urlCat("/denuvo/updates", { page: index + 1 });
+            return urlCat("/denuvo/updates", { page: index + 1, type });
         },
         SWRImmutable
     );
@@ -84,6 +89,13 @@ export default function DenuvoUpdates() {
             <Typography align="center" variant="h4" my={3}>
                 Denuvo updates
             </Typography>
+
+            <Tabs centered value={type} onChange={(_, value) => setType(value)}>
+                <Tab label="Recent updates" value={0} />
+                <Tab label="New releases" value={1} />
+            </Tabs>
+
+            <Divider sx={{ mb: 3 }} />
 
             <Stack spacing={3} alignItems="center">
                 <Grid container spacing={3}>

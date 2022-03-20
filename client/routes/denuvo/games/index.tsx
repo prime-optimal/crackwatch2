@@ -1,44 +1,31 @@
-import {
-    Container,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    Typography,
-} from "@mui/material";
+import { Container, Divider, Tab, Tabs, Typography } from "@mui/material";
 import Head from "next/head";
 import { useState } from "react";
 
 import GameTable from "./GameTable";
 
 export default function Denuvo() {
-    const [value, setValue] = useState(0);
+    const [type, setType] = useState(0);
 
     return (
-        <Container maxWidth="xl" sx={{ mt: 3 }}>
+        <Container maxWidth="xl">
             <Head>
                 <title>Denuvo games</title>
             </Head>
 
-            <Typography align="center" gutterBottom variant="h4">
+            <Typography align="center" variant="h4" my={3}>
                 Denuvo games
             </Typography>
 
-            <FormControl sx={{ mb: 2 }}>
-                <InputLabel>Type</InputLabel>
-                <Select
-                    label="Type"
-                    value={value}
-                    onChange={e => setValue(Number(e.target.value))}
-                    fullWidth
-                >
-                    <MenuItem value={0}>Uncracked</MenuItem>
-                    <MenuItem value={1}>Cracked</MenuItem>
-                    <MenuItem value={2}>All</MenuItem>
-                </Select>
-            </FormControl>
+            <Tabs centered value={type} onChange={(_, value) => setType(value)}>
+                <Tab label="Not cracked" value={0} />
+                <Tab label="Cracked" value={1} />
+                <Tab label="All" value={2} />
+            </Tabs>
 
-            <GameTable type={value} />
+            <Divider sx={{ mb: 3 }} />
+
+            <GameTable type={type} />
         </Container>
     );
 }
