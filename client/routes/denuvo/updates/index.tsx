@@ -68,13 +68,15 @@ const Item = memo(({ date, img, price, status, steam }: AxiosDenuvoUpdates["item
 export default function DenuvoUpdates() {
     const [type, setType] = useState(0);
 
-    const { data, isValidating, setSize } = useSWRInfinite<AxiosDenuvoUpdates>(
+    const { data, setSize, error, isValidating } = useSWRInfinite<AxiosDenuvoUpdates>(
         (index, prev) => {
             if (prev && !prev.next) return null;
             return urlCat("/denuvo/updates", { page: index + 1, type });
         },
         SWRImmutable
     );
+
+    const loading = (!error && !data) || isValidating;
 
     const onClick = () => {
         setSize(x => x + 1);
@@ -110,7 +112,7 @@ export default function DenuvoUpdates() {
 
                 <Box>
                     <Button
-                        disabled={isValidating || !data?.[data.length - 1].next}
+                        disabled={loading || !data?.[data.length - 1].next}
                         onClick={onClick}
                         variant="contained"
                         endIcon={<ExpandMoreIcon />}
