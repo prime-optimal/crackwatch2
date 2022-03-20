@@ -58,6 +58,10 @@ _coming soon_
 
 ![settings page](https://user-images.githubusercontent.com/56039679/156760000-3758c5af-f1c1-493a-bc40-7ace606a5094.png)
 
+# Credits
+
+-   Thanks to [this](https://store.steampowered.com/curator/26095454-Denuvo-Games/) steam curator for posting updates about denuvo
+
 # Disclaimer
 
 -   All information related to video games (images, reviews, etc...) is provided by RAWG API [rawg.io](https://rawg.io/apidocs)
