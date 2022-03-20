@@ -18,6 +18,7 @@ const cache: IAxiosCacheAdapterOptions = {
     readOnError: (error: any) => {
         return error.response.status >= 400 && error.response.status < 600;
     },
+    limit: 10_000 * 5,
     clearOnStale: false,
     maxAge: 1000 * 60 * 60 * 24 * 2,
 };
