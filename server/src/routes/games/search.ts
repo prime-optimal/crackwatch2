@@ -26,8 +26,7 @@ const handler: any = async (req: Req<{ Querystring: Querystring }>) => {
             platforms: "4",
             search: q,
             page_size: 10,
-        }),
-        { ttl: 60 * 60 * 24 * 7 }
+        })
     );
 
     // minify images

@@ -1,5 +1,4 @@
-import axios from "axios";
-import cachios from "cachios";
+import { IAxiosCacheAdapterOptions, setup } from "axios-cache-adapter";
 
 const headers = {
     Host: "rawg.io",
@@ -11,23 +10,33 @@ const headers = {
     "X-API-Referer": "%2F",
 };
 
-const rawgClient = cachios.create(
-    axios.create({ baseURL: "https://api.rawg.io/api", headers }) as any,
-    {
-        stdTTL: 60 * 60 * 24,
-        checkperiod: 600,
-        useClones: true,
-    }
-);
+const cache: IAxiosCacheAdapterOptions = {
+    exclude: {
+        methods: [],
+        query: false,
+    },
+    readOnError: (error: any) => {
+        return error.response.status >= 400 && error.response.status < 600;
+    },
+    clearOnStale: false,
+    maxAge: 1000 * 60 * 60 * 24,
+};
 
-const crackClient = cachios.create(
-    axios.create({
-        timeout: 1000 * 6,
-        headers: {
-            "user-agent": headers["user-agent"],
-        },
-    }) as any,
-    { stdTTL: 60 * 60 * 2, checkperiod: 600, useClones: true }
-);
+const rawgClient = setup({
+    baseURL: "https://api.rawg.io/api",
+    headers,
+    cache,
+});
+
+const crackClient = setup({
+    timeout: 1000 * 6,
+    headers: {
+        "user-agent": headers["user-agent"],
+    },
+    cache: {
+        ...cache,
+        maxAge: 1000 * 60 * 60 * 2,
+    },
+});
 
 export { rawgClient, crackClient };
