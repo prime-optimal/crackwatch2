@@ -55,7 +55,7 @@ export default function Search() {
     const loading = !!(!data && inputValue);
 
     return (
-        <Box flex={1} maxWidth={650} px={2}>
+        <Box flex={1} maxWidth={550} px={2}>
             <Autocomplete
                 loading={loading}
                 inputValue={inputValue}
