@@ -19,7 +19,7 @@ const cache: IAxiosCacheAdapterOptions = {
         return error.response.status >= 400 && error.response.status < 600;
     },
     clearOnStale: false,
-    maxAge: 1000 * 60 * 60 * 24,
+    maxAge: 1000 * 60 * 60 * 24 * 2,
 };
 
 const rawgClient = setup({
