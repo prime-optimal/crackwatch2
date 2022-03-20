@@ -6,6 +6,7 @@ import {
     CardActionArea,
     CardContent,
     CardMedia,
+    CircularProgress,
     Container,
     Divider,
     Grid,
@@ -88,9 +89,12 @@ export default function DenuvoUpdates() {
                 <title>Denuvo updates</title>
             </Head>
 
-            <Typography align="center" variant="h4" my={3}>
-                Denuvo updates
-            </Typography>
+            <Stack flexDirection="row" alignItems="center" justifyContent="center" my={3}>
+                <Typography variant="h4" mr={2}>
+                    Denuvo updates
+                </Typography>
+                {loading && <CircularProgress />}
+            </Stack>
 
             <Tabs centered value={type} onChange={(_, value) => setType(value)}>
                 <Tab label="Recent updates" value={0} />
