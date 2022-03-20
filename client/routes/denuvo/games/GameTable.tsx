@@ -1,4 +1,5 @@
 import {
+    LinearProgress,
     Paper,
     Table,
     TableBody,
@@ -40,12 +41,14 @@ const GameRow = memo(({ cracked, img, released, title }: AxiosCrackDenuvo) => {
 }, dequal);
 
 export default function GameTable({ type }: GameTableProps) {
-    const { data } = useSWR<AxiosCrackDenuvo[]>(`/crack/denuvo?type=${type}`);
+    const { data, error } = useSWR<AxiosCrackDenuvo[]>(`/crack/denuvo?type=${type}`);
+
+    const loading = !error && !data;
 
     return (
         <TableContainer component={Paper}>
             <Table>
-                <TableHead>
+                <TableHead sx={{ position: "relative" }}>
                     <TableRow>
                         <TableCell>#</TableCell>
                         <TableCell>Title</TableCell>
@@ -53,6 +56,12 @@ export default function GameTable({ type }: GameTableProps) {
                         <TableCell>Crack date</TableCell>
                         <TableCell>Release date</TableCell>
                     </TableRow>
+                    {loading && (
+                        <LinearProgress
+                            variant="indeterminate"
+                            sx={{ position: "absolute", width: "100%", bottom: 0 }}
+                        />
+                    )}
                 </TableHead>
 
                 <TableBody>

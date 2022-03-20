@@ -26,7 +26,7 @@ const renderOption = (
         flexDirection="row"
         {...props}
     >
-        <Box height={60} flex="1 1 30px">
+        <Box height={60} flex="1 1 70px">
             <ResponsiveImage
                 props={{
                     borderRadius: ({ shape }) => `${shape.borderRadius}px`,
@@ -55,12 +55,12 @@ export default function Search() {
     const loading = !!(!data && inputValue);
 
     return (
-        <Box flex={1} maxWidth={450} px={2}>
+        <Box flex={1} maxWidth={550} px={2}>
             <Autocomplete
                 loading={loading}
                 inputValue={inputValue}
                 onInputChange={(_, value) => setInputValue(value)}
-                onChange={(event, value, reason) => {
+                onChange={(_, value, reason) => {
                     if (reason === "selectOption") {
                         Router.push(`/game/${value?.slug}`);
                     }

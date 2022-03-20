@@ -1,5 +1,11 @@
 # Crackwatch 2 - A Nord themed website to catch up on cracked games
 
+<div align="center">
+
+<img src="https://img.shields.io/github/stars/Trunkelis/crackwatch2?style=for-the-badge" /> <img src="https://img.shields.io/badge/unofficial-100%25-blue?style=for-the-badge" /> <img src="https://img.shields.io/uptimerobot/status/m790997737-7266ed58ec88497ab98dcbac?style=for-the-badge" />
+
+</div>
+
 You can check out the website here [crackwatch2](https://crackwatch2.com/)
 
 ⭐ Thanks to everyone who starred the project, it means a lot

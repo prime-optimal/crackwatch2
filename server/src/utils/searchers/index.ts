@@ -1,4 +1,5 @@
 import tryToCatch from "@utils/catch";
+import ErrorBuilder from "@utils/errorBuilder";
 
 import OneThreeThreeSeven from "./1337x";
 import GameStatus from "./gamestatus";
@@ -29,10 +30,7 @@ export default async function SearchCrack(query: string, providers: string[]) {
     const filtered = Providers.filter(({ provider }) => providers.includes(provider));
 
     if (filtered.length < 1) {
-        throw {
-            statusCode: 400,
-            message: "Unknown providers ¯\\_(ツ)_/¯",
-        };
+        throw new ErrorBuilder().msg("Unknown providers ¯\\_(ツ)_/¯").status(400);
     }
 
     // this only looks complex
